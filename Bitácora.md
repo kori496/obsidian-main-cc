@@ -7,6 +7,16 @@ actualizado: 2026-10-23
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
 
+## 2026-10-23 (alta de productos para Siigo)
+- Herramienta portable para dar de alta productos, reemplazo de la creación de productos de CRS: `Programacion\Alta de productos\productos.html`. Un solo archivo, sin instalación, guarda una base `.sqlite` y exporta CSV. Nota: [[Alta de productos - herramienta portable para Siigo]].
+- Revisada la guía de Siigo «Subir desde Excel Productos»: plantilla desde Configuración → Productos y servicios → Importación, máximo 500 registros, no modificar columnas. Falta la plantilla real para generar el Excel.
+
+## 2026-10-23 (alta de productos: reglas DIAN)
+- `productos.html`: precio con IVA incluido y desglose (base, IVA), tipos IVA 19%, 5%, exento, excluido y no gravado, unidad de medida, validación GS1 del código de barras y avisos de INC. Detalles y límites en [[Alta de productos - herramienta portable para Siigo]].
+
+## 2026-10-23 (alta de productos: plantillas y BarTender)
+- `Programacion\Alta de productos\productos.html`: botón Plantilla por producto, referencia en vez de código interno, grupo Confecciones con opción Otro, y etiqueta/impresión con BarTender vía CSV + .bat. Sin probar en el PC. Detalles en [[Alta de productos - herramienta portable para Siigo]].
+
 ## 2026-10-23 (descargador de redes)
 - Descargador Node (`Documentos\lagrima dlp`): código arreglado, carpeta `descargas/`, botón «Ver descarga», 6 motores con barra y redes por motor, diseño tipo Apple con paleta de tres azules y animaciones. Resuelto: decía «falló» aunque descargaba (la ruta que imprime yt-dlp no sirve con caracteres especiales; ahora se busca el archivo nuevo en `descargas/`).
 - Integrado en lagrim-stats como pestaña **Descargas** (`web/descargas.php`, `web/descargas_api.php`, `motores_descargas.py`) y enlace en el menú de las demás páginas. Sin probar en el PC. Notas: [[Descargador de redes - motores, diseño y panel]], [[Panel web lagrim-stats]], [[Descargador de YouTube con Node y yt-dlp]] (se agregó una actualización arriba y se marcó el Pendiente como resuelto).

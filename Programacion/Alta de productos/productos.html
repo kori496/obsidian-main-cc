@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Alta de productos</title>
 <style>
-  :root { --bg:#f5f6f8; --card:#fff; --ink:#1d2330; --muted:#6b7280; --line:#dde1e7; --accent:#2563eb; --danger:#dc2626; }
+  :root { --bg:#f5f6f8; --card:#fff; --ink:#1d2330; --muted:#6b7280; --line:#dde1e7; --accent:#2563eb; --danger:#dc2626; --ok:#15803d; --warn:#b45309; }
   * { box-sizing: border-box; }
   body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); }
   header { background:#111827; color:#fff; padding:14px 20px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; }
   header h1 { font-size:18px; margin:0; }
-  header .acciones { display:flex; gap:8px; flex-wrap:wrap; }
-  main { padding:20px; display:grid; gap:20px; grid-template-columns: minmax(280px, 380px) 1fr; max-width:1300px; margin:0 auto; }
-  @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+  .acciones { display:flex; gap:8px; flex-wrap:wrap; }
+  main { padding:20px; display:grid; gap:20px; grid-template-columns: minmax(300px, 420px) 1fr; max-width:1400px; margin:0 auto; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
   .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
   .card h2 { font-size:15px; margin:0 0 12px; }
   label { display:block; font-size:12px; color:var(--muted); margin:8px 0 3px; }
@@ -22,18 +22,32 @@
   button { padding:8px 14px; border:0; border-radius:6px; background:var(--accent); color:#fff; font-size:14px; cursor:pointer; }
   button.sec { background:#e5e7eb; color:var(--ink); }
   button.peligro { background:var(--danger); }
-  button:disabled { opacity:.5; cursor:not-allowed; }
-  .msg { margin-top:10px; font-size:13px; min-height:18px; }
-  .msg.ok { color:#15803d; } .msg.error { color:var(--danger); }
-  .toolbar { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
-  .toolbar input { flex:1; min-width:180px; }
+  button.mini { padding:4px 8px; font-size:12px; }
+  .msg { margin-top:10px; font-size:13px; min-height:18px; white-space:pre-line; }
+  .msg.ok { color:var(--ok); } .msg.error { color:var(--danger); } .msg.warn { color:var(--warn); }
+  .banner { display:none; background:#eff6ff; border:1px solid #bfdbfe; color:#1e3a8a; border-radius:8px; padding:8px 10px; font-size:13px; margin-bottom:10px; gap:8px; align-items:center; justify-content:space-between; }
+  .banner.on { display:flex; }
+  .desglose { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:10px; margin-top:10px; font-size:13px; line-height:1.6; }
+  .desglose b { font-variant-numeric: tabular-nums; }
+  .botones { margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; }
+  details { margin-top:16px; border-top:1px solid var(--line); padding-top:10px; }
+  summary { cursor:pointer; font-size:13px; color:var(--muted); }
+  .ayuda { font-size:12px; color:var(--muted); margin:8px 0 0; line-height:1.5; }
+  .ayuda li { margin-bottom:4px; }
+  .toolbar { display:flex; gap:8px; margin-bottom:10px; }
+  .toolbar input { flex:1; }
   .tabla-wrap { overflow:auto; max-height:70vh; border:1px solid var(--line); border-radius:8px; }
   table { border-collapse:collapse; width:100%; font-size:13px; background:#fff; }
   th, td { padding:7px 9px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; }
   th { position:sticky; top:0; background:#f9fafb; font-weight:600; }
-  td.num, th.num { text-align:right; }
+  td.num, th.num { text-align:right; font-variant-numeric: tabular-nums; }
   .vacio { text-align:center; color:var(--muted); padding:30px; }
-  .contador { font-size:13px; color:var(--muted); margin-left:auto; }
+  .contador { font-size:13px; color:var(--muted); font-weight:400; margin-left:8px; }
+  .acc { display:flex; gap:4px; }
+  .fila-barras { display:flex; gap:6px; }
+  .fila-barras button { white-space:nowrap; }
+  .check { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink); margin:8px 0; }
+  .check input { width:auto; }
 </style>
 </head>
 <body>
@@ -51,69 +65,152 @@
 <main>
   <section class="card">
     <h2>Nuevo producto</h2>
+
+    <div class="banner" id="banner">
+      <span id="bannerTxt"></span>
+      <button class="mini sec" type="button" id="btnQuitarPlantilla">Quitar</button>
+    </div>
+
     <form id="form" autocomplete="off">
-      <label class="req" for="codigo_interno">Código interno</label>
-      <input id="codigo_interno" required>
+      <label class="req" for="ref">Referencia</label>
+      <input id="ref" required maxlength="50">
 
-      <label for="codigo_barras">Código de barras</label>
-      <input id="codigo_barras" inputmode="numeric">
+      <label for="barras">Código de barras (EAN-13)</label>
+      <div class="fila-barras">
+        <input id="barras" inputmode="numeric" maxlength="14">
+        <button type="button" class="sec" id="btnGenerarBarras">Generar</button>
+      </div>
 
-      <label class="req" for="nombre">Nombre / descripción</label>
+      <label class="req" for="nombre">Nombre del producto (como sale en la factura)</label>
       <input id="nombre" required maxlength="120">
 
-      <label for="grupo">Línea / grupo / familia</label>
-      <input id="grupo" placeholder="Ej: Abarrotes, Tecnología">
+      <label for="grupo_sel">Grupo</label>
+      <select id="grupo_sel">
+        <option value="Confecciones" selected>Confecciones</option>
+        <option value="Otro">Otro…</option>
+      </select>
+      <input id="grupo_otro" placeholder="Escribe el grupo" hidden style="margin-top:6px">
 
       <div class="fila">
         <div>
-          <label for="costo">Costo compra (sin IVA)</label>
-          <input id="costo" type="number" min="0" step="any">
+          <label class="req" for="impuesto">Tipo de impuesto</label>
+          <select id="impuesto" required>
+            <option value="IVA 19%" selected>IVA 19% (general)</option>
+            <option value="IVA 5%">IVA 5%</option>
+            <option value="Exento">Exento (tarifa 0%)</option>
+            <option value="Excluido">Excluido (sin IVA)</option>
+            <option value="No gravado">No gravado (sin IVA)</option>
+          </select>
         </div>
         <div>
-          <label class="req" for="impuesto">Impuesto</label>
-          <select id="impuesto" required>
-            <option value="IVA 19%">IVA 19%</option>
-            <option value="IVA 5%">IVA 5%</option>
-            <option value="Exento">Exento</option>
-            <option value="Excluido">Excluido</option>
+          <label class="req" for="unidad">Unidad de medida</label>
+          <select id="unidad" required>
+            <option value="Unidad" selected>Unidad</option>
+            <option value="Par">Par</option>
+            <option value="Docena">Docena</option>
+            <option value="Metro">Metro</option>
+            <option value="Kilogramo">Kilogramo</option>
           </select>
         </div>
       </div>
 
       <div class="fila">
         <div>
-          <label for="precio_detal">Precio detal</label>
+          <label for="costo">Costo de compra (sin IVA)</label>
+          <input id="costo" type="number" min="0" step="any">
+        </div>
+        <div>
+          <label for="inc">INC (%)</label>
+          <input id="inc" type="number" min="0" step="any" value="0">
+        </div>
+      </div>
+
+      <div class="fila">
+        <div>
+          <label class="req" for="precio_detal">Precio detal (con IVA)</label>
           <input id="precio_detal" type="number" min="0" step="any">
         </div>
         <div>
-          <label for="precio_mayorista">Precio mayorista</label>
+          <label for="precio_mayorista">Precio mayorista (con IVA)</label>
           <input id="precio_mayorista" type="number" min="0" step="any">
         </div>
       </div>
 
-      <label for="inc">Impuesto al consumo INC (%)</label>
-      <input id="inc" type="number" min="0" step="any" value="0">
+      <div class="desglose" id="desglose"></div>
 
-      <div style="margin-top:14px; display:flex; gap:8px;">
+      <div class="botones">
         <button type="submit">Guardar producto</button>
         <button type="button" class="sec" id="btnLimpiar">Limpiar</button>
+        <button type="button" class="sec" id="btnImprimirForm">Imprimir con BarTender</button>
       </div>
       <div class="msg" id="msgForm"></div>
     </form>
+
+    <details>
+      <summary>Reglas DIAN que aplica esta herramienta</summary>
+      <ul class="ayuda">
+        <li><b>Precio con IVA:</b> el precio de venta se ingresa con impuestos incluidos. La base gravable se calcula como precio ÷ (1 + IVA + INC), y el IVA es base × tarifa.</li>
+        <li><b>Tarifas:</b> IVA general 19% (prendas de vestir, por defecto). IVA 5% solo si el producto está en una tarifa diferencial. Exento y excluido/no gravado van sin IVA; cada una tiene requisitos distintos (exento: tarifa 0% con derecho a descontar; excluido y no gravado: sin IVA y sin descuento).</li>
+        <li><b>INC:</b> las prendas normalmente no lo llevan. La herramienta avisa si lo ingresas.</li>
+        <li><b>Unidad de medida:</b> obligatoria en la factura electrónica. Por defecto, Unidad.</li>
+        <li><b>Código de barras:</b> se revisa que tenga 8, 12, 13 o 14 dígitos y que el dígito verificador GS1 sea correcto.</li>
+        <li><b>Nombre:</b> se imprime tal cual en la factura electrónica. Evita abreviaturas.</li>
+        <li><b>Referencias normativas a verificar:</b> Estatuto Tributario arts. 468 (19%), 468-1 (5%), 477 (exentos), 424 (excluidos); facturación electrónica Resolución DIAN 000042 de 2020 y su anexo técnico vigente.</li>
+      </ul>
+      <p class="ayuda">Esta herramienta ayuda a no cometer errores de captura, pero no reemplaza la asesoría de un contador. Confirma con tu contador el tipo de impuesto de cada referencia antes de facturar.</p>
+    </details>
+
+    <details>
+      <summary>Código de barras propio</summary>
+      <label class="check"><input type="checkbox" id="bc_auto" checked> Generar automáticamente al guardar si lo dejo vacío</label>
+      <label for="bc_prefijo">Prefijo (2 dígitos, de 20 a 29)</label>
+      <input id="bc_prefijo" value="20" maxlength="2" inputmode="numeric">
+      <p class="ayuda">
+        Formato: <b>prefijo (2) + consecutivo (10) + dígito verificador (1)</b> = EAN-13.
+        Los prefijos 20 a 29 están reservados por GS1 para uso interno de una empresa, así que no chocan con códigos
+        de fabricantes. El consecutivo sigue al más alto que ya exista en la base con ese prefijo.
+        Estos códigos sirven para tu tienda (lector, Siigo, etiquetas), no para vender en plataformas que exigen un GTIN de GS1.
+      </p>
+    </details>
+
+    <details>
+      <summary>Configuración de BarTender</summary>
+      <label for="bt_exe">Ruta de bartend.exe</label>
+      <input id="bt_exe" value="C:\Program Files\Seagull\BarTender Suite\bartend.exe">
+      <label for="bt_tpl">Plantilla de etiqueta (.btw)</label>
+      <input id="bt_tpl" placeholder="C:\Etiquetas\etiqueta_ropa.btw">
+      <div class="fila">
+        <div>
+          <label for="bt_printer">Impresora</label>
+          <input id="bt_printer" placeholder="Nombre de la impresora">
+        </div>
+        <div>
+          <label for="bt_copias">Copias</label>
+          <input id="bt_copias" type="number" min="1" value="1">
+        </div>
+      </div>
+      <p class="ayuda">
+        En la plantilla, enlaza los campos con las columnas del CSV:
+        <b>referencia, nombre, codigo_barras, precio_detal, grupo, impuesto</b>.
+        Al imprimir se descargan un CSV y un .bat; ponlos en la misma carpeta y ejecuta el .bat.
+        Verifica las opciones con <b>bartend /?</b> en tu versión de BarTender.
+      </p>
+    </details>
   </section>
 
   <section class="card">
     <h2>Productos <span class="contador" id="contador"></span></h2>
     <div class="toolbar">
-      <input id="buscar" placeholder="Buscar por código, código de barras o nombre…">
+      <input id="buscar" placeholder="Buscar por referencia, código de barras o nombre…">
     </div>
     <div class="tabla-wrap">
       <table>
         <thead>
           <tr>
-            <th>Código</th><th>Barras</th><th>Nombre</th><th>Grupo</th>
-            <th class="num">Costo</th><th class="num">Detal</th><th class="num">Mayor.</th>
-            <th>Impuesto</th><th class="num">INC %</th><th></th>
+            <th>Referencia</th><th>Barras</th><th>Nombre</th><th>Grupo</th><th>Unidad</th>
+            <th>Impuesto</th><th class="num">Costo</th><th class="num">Detal</th>
+            <th class="num">Base detal</th><th class="num">IVA detal</th>
+            <th class="num">Mayor.</th><th class="num">INC %</th><th>Acciones</th>
           </tr>
         </thead>
         <tbody id="cuerpo"></tbody>
@@ -126,15 +223,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
 <script>
 (async function () {
-  const SQL = await initSqlJs({
-    locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${f}`
-  });
+  const $ = id => document.getElementById(id);
+
+  let SQL;
+  try {
+    SQL = await initSqlJs({
+      locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${f}`
+    });
+  } catch (err) {
+    document.querySelector("main").innerHTML =
+      "<p style='padding:20px;color:#dc2626'>No se pudo cargar el motor de base de datos (sql.js). Revisa la conexión a internet.</p>";
+    return;
+  }
 
   let db = null;
   let cambios = false;
 
-  const $ = id => document.getElementById(id);
-
+  // La columna se llama codigo_interno para que las bases ya guardadas sigan funcionando.
+  // En pantalla y en exportaciones se muestra como "Referencia".
   const ESQUEMA = `
     CREATE TABLE IF NOT EXISTS productos (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -152,101 +258,315 @@
     CREATE INDEX IF NOT EXISTS idx_barras ON productos(codigo_barras);
   `;
 
-  function nuevaBase() {
-    db = new SQL.Database();
-    db.run(ESQUEMA);
-    cambios = false;
-    listar();
-  }
+  const GRUPO_DEFECTO = "Confecciones";
 
+  // Tarifa de IVA que se aplica a la base para cada tipo de impuesto
+  const TARIFA_IVA = {
+    "IVA 19%": 0.19,
+    "IVA 5%": 0.05,
+    "Exento": 0,
+    "Excluido": 0,
+    "No gravado": 0
+  };
+
+  // ---------- utilidades ----------
   function mensaje(el, texto, tipo) {
     el.textContent = texto;
     el.className = "msg " + (tipo || "");
   }
-
   function numOrNull(v) {
     if (v === "" || v === null || v === undefined) return null;
     const n = Number(v);
     return Number.isFinite(n) ? n : null;
   }
-
   function txtOrNull(v) {
     const t = (v || "").trim();
     return t === "" ? null : t;
   }
+  function redondear(n) { return Math.round(n * 100) / 100; }
+  function pesos(n) {
+    if (n === null || n === undefined || n === "") return "";
+    return Number(n).toLocaleString("es-CO", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  }
+  function csvEsc(v, sep) {
+    if (v === null || v === undefined) return "";
+    const s = String(v);
+    return (s.includes(sep) || /["\n\r]/.test(s)) ? `"${s.replace(/"/g, '""')}"` : s;
+  }
+  function descargar(nombre, contenido, tipo) {
+    const blob = new Blob([contenido], { type: tipo });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = nombre;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
 
-  // ---- Guardar producto ----
-  $("form").addEventListener("submit", e => {
-    e.preventDefault();
-    const datos = {
-      codigo_interno: txtOrNull($("codigo_interno").value),
-      codigo_barras: txtOrNull($("codigo_barras").value),
+  // Dígito verificador GS1 (EAN-8, UPC-A, EAN-13, GTIN-14)
+  function gtinValido(codigo) {
+    if (!/^\d{8}$|^\d{12}$|^\d{13}$|^\d{14}$/.test(codigo)) return false;
+    const digitos = codigo.split("").map(Number);
+    const verificador = digitos.pop();
+    let suma = 0;
+    digitos.reverse().forEach((d, i) => { suma += d * (i % 2 === 0 ? 3 : 1); });
+    return (10 - (suma % 10)) % 10 === verificador;
+  }
+
+  // ---------- código de barras propio ----------
+  const BARRAS_KEY = "altaProductos.barras";
+  function leerCfgBarras() {
+    let pref = ($("bc_prefijo").value || "20").replace(/\D/g, "").slice(0, 2);
+    if (!/^2\d$/.test(pref)) pref = "20";
+    return { prefijo: pref, auto: $("bc_auto").checked };
+  }
+  function cargarCfgBarras() {
+    try {
+      const c = JSON.parse(localStorage.getItem(BARRAS_KEY) || "{}");
+      if (c.prefijo) $("bc_prefijo").value = c.prefijo;
+      if (c.auto === false) $("bc_auto").checked = false;
+    } catch (e) { /* sin almacenamiento: valores por defecto */ }
+  }
+  function guardarCfgBarras() {
+    try { localStorage.setItem(BARRAS_KEY, JSON.stringify(leerCfgBarras())); } catch (e) { /* ignorar */ }
+  }
+  ["bc_prefijo", "bc_auto"].forEach(id => $(id).addEventListener("change", guardarCfgBarras));
+
+  function digitoVerificador(base12) {
+    let suma = 0;
+    base12.split("").reverse().forEach((c, i) => { suma += Number(c) * (i % 2 === 0 ? 3 : 1); });
+    return String((10 - (suma % 10)) % 10);
+  }
+
+  // Referencia del producto que ya usa ese código de barras, o null
+  function barrasEnUso(codigo) {
+    const st = db.prepare("SELECT codigo_interno FROM productos WHERE codigo_barras = ? LIMIT 1");
+    st.bind([codigo]);
+    const ref = st.step() ? st.getAsObject().codigo_interno : null;
+    st.free();
+    return ref;
+  }
+
+  function siguienteBarras() {
+    const { prefijo } = leerCfgBarras();
+    const st = db.prepare(
+      `SELECT MAX(CAST(SUBSTR(codigo_barras, 3, 10) AS INTEGER)) AS m
+       FROM productos WHERE LENGTH(codigo_barras) = 13 AND SUBSTR(codigo_barras, 1, 2) = ?`);
+    st.bind([prefijo]);
+    st.step();
+    let n = (st.getAsObject().m || 0) + 1;
+    st.free();
+    for (;;) {
+      const base = prefijo + String(n).padStart(10, "0");
+      const codigo = base + digitoVerificador(base);
+      if (!barrasEnUso(codigo)) return codigo;
+      n++;
+    }
+  }
+
+  $("btnGenerarBarras").addEventListener("click", () => {
+    $("barras").value = siguienteBarras();
+    mensaje($("msgForm"), `Código generado: ${$("barras").value}. Se guarda con el producto.`, "ok");
+  });
+
+  // Desglose de un precio que incluye IVA (y, si aplica, INC)
+  function desglose(precioConImpuestos, impuesto, incPct) {
+    if (precioConImpuestos === null || precioConImpuestos === undefined) return null;
+    const tIva = TARIFA_IVA[impuesto] ?? 0;
+    const tInc = (incPct || 0) / 100;
+    const base = precioConImpuestos / (1 + tIva + tInc);
+    return {
+      base: redondear(base),
+      iva: redondear(base * tIva),
+      inc: redondear(base * tInc),
+      total: precioConImpuestos
+    };
+  }
+
+  function actualizarDesglose() {
+    const d = leerForm();
+    const box = $("desglose");
+    if (d.precio_detal === null) {
+      box.innerHTML = "Ingresa el precio detal para ver el desglose de IVA.";
+      return;
+    }
+    const x = desglose(d.precio_detal, d.impuesto, d.inc);
+    box.innerHTML =
+      `Base gravable: <b>$${pesos(x.base)}</b><br>` +
+      `IVA (${d.impuesto.startsWith("IVA") ? d.impuesto.replace("IVA ", "") : "0%"}): <b>$${pesos(x.iva)}</b><br>` +
+      (x.inc ? `INC: <b>$${pesos(x.inc)}</b><br>` : "") +
+      `Precio al público: <b>$${pesos(x.total)}</b>`;
+  }
+
+  // ---------- grupo ----------
+  function getGrupo() {
+    if ($("grupo_sel").value === "Otro") return txtOrNull($("grupo_otro").value);
+    return $("grupo_sel").value;
+  }
+  function setGrupo(valor) {
+    if (!valor || valor === GRUPO_DEFECTO) {
+      $("grupo_sel").value = GRUPO_DEFECTO;
+      $("grupo_otro").value = "";
+    } else {
+      $("grupo_sel").value = "Otro";
+      $("grupo_otro").value = valor;
+    }
+    actualizarGrupoOtro();
+  }
+  function actualizarGrupoOtro() {
+    $("grupo_otro").hidden = $("grupo_sel").value !== "Otro";
+  }
+  $("grupo_sel").addEventListener("change", () => {
+    actualizarGrupoOtro();
+    if ($("grupo_sel").value === "Otro") $("grupo_otro").focus();
+  });
+
+  // ---------- formulario ----------
+  function leerForm() {
+    return {
+      codigo_interno: txtOrNull($("ref").value),
+      codigo_barras: txtOrNull($("barras").value),
       nombre: txtOrNull($("nombre").value),
-      grupo: txtOrNull($("grupo").value),
+      grupo: getGrupo(),
+      unidad: $("unidad").value,
       costo: numOrNull($("costo").value),
       precio_detal: numOrNull($("precio_detal").value),
       precio_mayorista: numOrNull($("precio_mayorista").value),
       impuesto: $("impuesto").value,
       inc: numOrNull($("inc").value) ?? 0
     };
+  }
 
-    if (!datos.codigo_interno || !datos.nombre) {
-      mensaje($("msgForm"), "Código interno y nombre son obligatorios.", "error");
-      return;
+  // Devuelve { errores: [], avisos: [] }. Los errores bloquean el guardado.
+  function revisar(d) {
+    const errores = [];
+    const avisos = [];
+
+    if (!d.codigo_interno) errores.push("La referencia es obligatoria.");
+    if (!d.nombre) errores.push("El nombre del producto es obligatorio.");
+    if ($("grupo_sel").value === "Otro" && !d.grupo) errores.push("Escribe el nombre del grupo o elige Confecciones.");
+    if (d.precio_detal === null) errores.push("El precio detal es obligatorio.");
+    if (d.precio_detal !== null && d.precio_detal < 0) errores.push("El precio no puede ser negativo.");
+    if (d.inc < 0 || d.inc > 100) errores.push("El INC debe estar entre 0 y 100.");
+
+    if (d.codigo_barras) {
+      if (!/^\d+$/.test(d.codigo_barras)) errores.push("El código de barras solo puede tener dígitos.");
+      else if (!/^\d{8}$|^\d{12}$|^\d{13}$|^\d{14}$/.test(d.codigo_barras))
+        errores.push("El código de barras debe tener 8, 12, 13 o 14 dígitos.");
+      else if (!gtinValido(d.codigo_barras))
+        avisos.push("El dígito verificador del código de barras no coincide: revisa que esté bien digitado.");
     }
 
-    // Validaciones de negocio
-    if (datos.codigo_barras && !/^\d{6,14}$/.test(datos.codigo_barras)) {
-      mensaje($("msgForm"), "El código de barras debe tener entre 6 y 14 dígitos.", "error");
-      return;
+    if (d.inc > 0) avisos.push("Tiene INC. Las prendas normalmente no lo llevan; confirma con tu contador.");
+
+    if (d.precio_detal !== null && d.costo !== null) {
+      const base = desglose(d.precio_detal, d.impuesto, d.inc).base;
+      if (base < d.costo) avisos.push("La base sin IVA del precio detal es menor que el costo.");
     }
-    if (datos.costo !== null && datos.precio_detal !== null && datos.precio_detal < datos.costo) {
-      mensaje($("msgForm"), "Advertencia: el precio detal es menor que el costo.", "error");
-      // no bloquea, solo avisa
+
+    if (d.impuesto === "Exento" || d.impuesto === "Excluido" || d.impuesto === "No gravado")
+      avisos.push(`Tipo de impuesto "${d.impuesto}": confirma con tu contador que aplica a esta referencia.`);
+
+    return { errores, avisos };
+  }
+
+  function limpiarForm() {
+    $("form").reset();
+    setGrupo(GRUPO_DEFECTO);
+    $("inc").value = "0";
+    $("impuesto").value = "IVA 19%";
+    $("unidad").value = "Unidad";
+    quitarPlantilla();
+    actualizarDesglose();
+    $("ref").focus();
+  }
+  $("btnLimpiar").addEventListener("click", () => { limpiarForm(); mensaje($("msgForm"), "", ""); });
+
+  ["precio_detal", "inc", "impuesto"].forEach(id => $(id).addEventListener("input", actualizarDesglose));
+  $("impuesto").addEventListener("change", actualizarDesglose);
+
+  function mostrarPlantilla(p) {
+    $("bannerTxt").textContent =
+      `Plantilla: "${p.nombre}" (ref. ${p.codigo_interno}). Cambia la referencia y el código de barras antes de guardar.`;
+    $("banner").classList.add("on");
+  }
+  function quitarPlantilla() {
+    $("banner").classList.remove("on");
+    $("bannerTxt").textContent = "";
+  }
+  $("btnQuitarPlantilla").addEventListener("click", quitarPlantilla);
+
+  // Carga los datos de un producto guardado como base para uno nuevo
+  function usarComoPlantilla(p) {
+    $("ref").value = "";
+    $("barras").value = "";
+    $("nombre").value = p.nombre || "";
+    setGrupo(p.grupo);
+    $("unidad").value = p.unidad || "Unidad";
+    $("costo").value = p.costo ?? "";
+    $("precio_detal").value = p.precio_detal ?? "";
+    $("precio_mayorista").value = p.precio_mayorista ?? "";
+    $("impuesto").value = p.impuesto || "IVA 19%";
+    $("inc").value = p.inc ?? 0;
+    mostrarPlantilla(p);
+    actualizarDesglose();
+    mensaje($("msgForm"), "", "");
+    $("ref").focus();
+    $("form").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  $("form").addEventListener("submit", e => {
+    e.preventDefault();
+    let d = leerForm();
+    let generado = null;
+    if (!d.codigo_barras && leerCfgBarras().auto) {
+      generado = siguienteBarras();
+      $("barras").value = generado;
+      d = leerForm();
     }
+    const { errores, avisos } = revisar(d);
+    if (d.codigo_barras) {
+      const otro = barrasEnUso(d.codigo_barras);
+      if (otro) errores.push(`Ese código de barras ya lo tiene la referencia ${otro}.`);
+    }
+    if (errores.length) { mensaje($("msgForm"), errores.join("\n"), "error"); return; }
 
     try {
       db.run(
         `INSERT INTO productos (codigo_interno, codigo_barras, nombre, grupo, costo,
-                                precio_detal, precio_mayorista, impuesto, inc, creado)
-         VALUES (?,?,?,?,?,?,?,?,?,?)`,
-        [datos.codigo_interno, datos.codigo_barras, datos.nombre, datos.grupo, datos.costo,
-         datos.precio_detal, datos.precio_mayorista, datos.impuesto, datos.inc,
-         new Date().toISOString()]
+                                precio_detal, precio_mayorista, impuesto, inc, creado, unidad)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
+        [d.codigo_interno, d.codigo_barras, d.nombre, d.grupo, d.costo,
+         d.precio_detal, d.precio_mayorista, d.impuesto, d.inc,
+         new Date().toISOString(), d.unidad]
       );
       cambios = true;
-      mensaje($("msgForm"), "Producto guardado.", "ok");
-      limpiarForm(false);
+      limpiarForm();
+      const lineas = ["Producto guardado." + (generado ? ` Código de barras generado: ${generado}` : ""), ...avisos];
+      mensaje($("msgForm"), lineas.join("\n"), avisos.length ? "warn" : "ok");
       listar();
     } catch (err) {
       const txt = String(err.message || err);
       if (txt.includes("UNIQUE") && txt.includes("codigo_interno")) {
-        mensaje($("msgForm"), "Ya existe un producto con ese código interno.", "error");
+        mensaje($("msgForm"), "Ya existe un producto con esa referencia.", "error");
       } else {
         mensaje($("msgForm"), "Error al guardar: " + txt, "error");
       }
     }
   });
 
-  function limpiarForm(borrarMsg = true) {
-    $("form").reset();
-    $("inc").value = "0";
-    if (borrarMsg) mensaje($("msgForm"), "", "");
-    $("codigo_interno").focus();
-  }
-  $("btnLimpiar").addEventListener("click", () => limpiarForm(true));
-
-  // ---- Listado / búsqueda ----
+  // ---------- listado ----------
   function listar() {
     const q = "%" + $("buscar").value.trim() + "%";
     const stmt = db.prepare(`
-      SELECT id, codigo_interno, codigo_barras, nombre, grupo, costo,
+      SELECT id, codigo_interno, codigo_barras, nombre, grupo, unidad, costo,
              precio_detal, precio_mayorista, impuesto, inc
       FROM productos
       WHERE codigo_interno LIKE ? OR IFNULL(codigo_barras,'') LIKE ? OR nombre LIKE ?
       ORDER BY codigo_interno`);
     stmt.bind([q, q, q]);
-
     const filas = [];
     while (stmt.step()) filas.push(stmt.getAsObject());
     stmt.free();
@@ -259,32 +579,57 @@
     if (filas.length === 0) {
       const tr = document.createElement("tr");
       const td = document.createElement("td");
-      td.colSpan = 10; td.className = "vacio";
+      td.colSpan = 13; td.className = "vacio";
       td.textContent = total === 0 ? "Aún no hay productos." : "Sin resultados.";
       tr.appendChild(td); cuerpo.appendChild(tr);
       return;
     }
 
-    const fmt = v => (v === null || v === undefined) ? "" : v;
     for (const p of filas) {
+      const x = p.precio_detal !== null ? desglose(p.precio_detal, p.impuesto, p.inc) : null;
       const tr = document.createElement("tr");
       const celdas = [
-        p.codigo_interno, p.codigo_barras, p.nombre, p.grupo,
-        fmt(p.costo), fmt(p.precio_detal), fmt(p.precio_mayorista), p.impuesto, fmt(p.inc)
+        { v: p.codigo_interno },
+        { v: p.codigo_barras },
+        { v: p.nombre },
+        { v: p.grupo },
+        { v: p.unidad || "Unidad" },
+        { v: p.impuesto },
+        { v: pesos(p.costo), num: true },
+        { v: pesos(p.precio_detal), num: true },
+        { v: x ? pesos(x.base) : "", num: true },
+        { v: x ? pesos(x.iva) : "", num: true },
+        { v: pesos(p.precio_mayorista), num: true },
+        { v: p.inc ?? 0, num: true }
       ];
-      celdas.forEach((val, i) => {
+      celdas.forEach(c => {
         const td = document.createElement("td");
-        td.textContent = val === null ? "" : val;
-        if (i >= 4 && i <= 6 || i === 8) td.className = "num";
+        td.textContent = c.v ?? "";
+        if (c.num) td.className = "num";
         tr.appendChild(td);
       });
+
       const tdAcc = document.createElement("td");
-      const btn = document.createElement("button");
-      btn.textContent = "Eliminar";
-      btn.className = "peligro";
-      btn.style.padding = "4px 8px";
-      btn.addEventListener("click", () => eliminar(p.id, p.codigo_interno));
-      tdAcc.appendChild(btn);
+      const acc = document.createElement("div");
+      acc.className = "acc";
+
+      const bPlantilla = document.createElement("button");
+      bPlantilla.className = "mini sec";
+      bPlantilla.textContent = "Plantilla";
+      bPlantilla.addEventListener("click", () => usarComoPlantilla(p));
+
+      const bEtiqueta = document.createElement("button");
+      bEtiqueta.className = "mini sec";
+      bEtiqueta.textContent = "Etiqueta";
+      bEtiqueta.addEventListener("click", () => imprimirEtiqueta(p, $("msgLista")));
+
+      const bEliminar = document.createElement("button");
+      bEliminar.className = "mini peligro";
+      bEliminar.textContent = "Eliminar";
+      bEliminar.addEventListener("click", () => eliminar(p.id, p.codigo_interno));
+
+      acc.append(bPlantilla, bEtiqueta, bEliminar);
+      tdAcc.appendChild(acc);
       tr.appendChild(tdAcc);
       cuerpo.appendChild(tr);
     }
@@ -299,17 +644,93 @@
     listar();
   }
 
-  // ---- Guardar / abrir base ----
+  // ---------- BarTender ----------
+  const CFG_KEY = "altaProductos.bartender";
+  function leerCfg() {
+    return {
+      exe: $("bt_exe").value.trim().replace(/"/g, ""),
+      tpl: $("bt_tpl").value.trim().replace(/"/g, ""),
+      impresora: $("bt_printer").value.trim().replace(/"/g, ""),
+      copias: Math.max(1, parseInt($("bt_copias").value, 10) || 1)
+    };
+  }
+  function cargarCfg() {
+    try {
+      const c = JSON.parse(localStorage.getItem(CFG_KEY) || "{}");
+      if (c.exe) $("bt_exe").value = c.exe;
+      if (c.tpl) $("bt_tpl").value = c.tpl;
+      if (c.impresora) $("bt_printer").value = c.impresora;
+      if (c.copias) $("bt_copias").value = c.copias;
+    } catch (e) { /* sin almacenamiento: valores por defecto */ }
+  }
+  function guardarCfg() {
+    try { localStorage.setItem(CFG_KEY, JSON.stringify(leerCfg())); } catch (e) { /* ignorar */ }
+  }
+  ["bt_exe", "bt_tpl", "bt_printer", "bt_copias"].forEach(id => $(id).addEventListener("change", guardarCfg));
+
+  // d = datos del producto (del formulario o de la base)
+  function imprimirEtiqueta(d, msgEl) {
+    const ref = d.codigo_interno;
+    if (!ref) { mensaje(msgEl, "La etiqueta necesita una referencia.", "error"); return; }
+    if (!d.codigo_barras) { mensaje(msgEl, `La referencia ${ref} no tiene código de barras.`, "error"); return; }
+
+    const cfg = leerCfg();
+    if (!cfg.exe || !cfg.tpl) {
+      mensaje(msgEl, "Falta la ruta de bartend.exe o la plantilla .btw en «Configuración de BarTender».", "error");
+      $("bt_exe").closest("details").open = true;
+      return;
+    }
+
+    const cab = ["referencia", "nombre", "codigo_barras", "precio_detal", "grupo", "impuesto"];
+    const fila = [ref, d.nombre || "", d.codigo_barras || "", d.precio_detal ?? "", d.grupo || "", d.impuesto || ""];
+    const csv = [cab.join(","), fila.map(v => csvEsc(v, ",")).join(",")].join("\r\n");
+
+    const seguro = ref.replace(/[^\w-]+/g, "_");
+    const nombreCsv = `etiqueta_${seguro}.csv`;
+    const nombreBat = `imprimir_${seguro}.bat`;
+    const impresora = cfg.impresora ? ` /PRN="%IMPRESORA%"` : "";
+
+    const bat = [
+      "@echo off",
+      "REM Generado por Alta de productos. Guardar este .bat en la misma carpeta que el CSV.",
+      "REM Si la impresion no sale bien, revisa las opciones con: bartend /?",
+      `set "BARTENDER=${cfg.exe}"`,
+      `set "PLANTILLA=${cfg.tpl}"`,
+      `set "IMPRESORA=${cfg.impresora}"`,
+      `set "COPIAS=${cfg.copias}"`,
+      `set "DATOS=%~dp0${nombreCsv}"`,
+      'if not exist "%BARTENDER%" (echo No se encuentra BarTender en: %BARTENDER% & pause & exit /b 1)',
+      'if not exist "%PLANTILLA%" (echo No se encuentra la plantilla: %PLANTILLA% & pause & exit /b 1)',
+      `"%BARTENDER%" /F="%PLANTILLA%" /D="%DATOS%"${impresora} /C=%COPIAS% /P`,
+      "pause"
+    ].join("\r\n");
+
+    descargar(nombreCsv, "\uFEFF" + csv, "text/csv;charset=utf-8");
+    setTimeout(() => descargar(nombreBat, bat, "text/plain;charset=utf-8"), 400);
+    mensaje(msgEl,
+      `Listo: se descargaron ${nombreCsv} y ${nombreBat}. Ponlos en la misma carpeta y ejecuta el .bat para imprimir.`,
+      "ok");
+  }
+
+  $("btnImprimirForm").addEventListener("click", () => {
+    if (!$("barras").value.trim() && leerCfgBarras().auto) $("barras").value = siguienteBarras();
+    const d = leerForm();
+    const { errores } = revisar(d);
+    if (errores.length) { mensaje($("msgForm"), errores.join("\n"), "error"); return; }
+    imprimirEtiqueta(d, $("msgForm"));
+  });
+
+  // ---------- guardar / abrir base ----------
+  function asegurarEsquema() {
+    db.run(ESQUEMA);
+    // Migración: bases creadas antes de la versión con unidad de medida
+    const cols = db.exec("PRAGMA table_info(productos)")[0].values.map(r => r[1]);
+    if (!cols.includes("unidad")) db.run("ALTER TABLE productos ADD COLUMN unidad TEXT DEFAULT 'Unidad'");
+  }
+
   $("btnGuardar").addEventListener("click", () => {
-    const bytes = db.export();
-    const blob = new Blob([bytes], { type: "application/octet-stream" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
     const fecha = new Date().toISOString().slice(0, 10);
-    a.href = url;
-    a.download = `productos_${fecha}.sqlite`;
-    a.click();
-    URL.revokeObjectURL(url);
+    descargar(`productos_${fecha}.sqlite`, db.export(), "application/octet-stream");
     cambios = false;
     mensaje($("msgLista"), "Base descargada. Guárdala en tu carpeta de OneDrive o donde la respaldes.", "ok");
   });
@@ -324,7 +745,7 @@
     const buf = new Uint8Array(await f.arrayBuffer());
     try {
       db = new SQL.Database(buf);
-      db.run(ESQUEMA); // asegura la tabla si el archivo es nuevo
+      asegurarEsquema();
       cambios = false;
       mensaje($("msgLista"), `Base cargada: ${f.name}`, "ok");
       listar();
@@ -334,34 +755,44 @@
     e.target.value = "";
   });
 
-  // ---- Exportar CSV ----
+  // ---------- exportar CSV (para Excel) ----------
   $("btnCsv").addEventListener("click", () => {
-    const res = db.exec(`SELECT codigo_interno, codigo_barras, nombre, grupo, costo,
-                                precio_detal, precio_mayorista, impuesto, inc, creado
+    const res = db.exec(`SELECT codigo_interno, codigo_barras, nombre, grupo, unidad, impuesto,
+                                costo, precio_detal, precio_mayorista, inc, creado
                          FROM productos ORDER BY codigo_interno`);
     if (!res.length) { mensaje($("msgLista"), "No hay productos para exportar.", "error"); return; }
-    const cab = res[0].columns;
-    const esc = v => {
-      if (v === null || v === undefined) return "";
-      const s = String(v);
-      return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-    };
-    const lineas = [cab.join(";"), ...res[0].values.map(r => r.map(esc).join(";"))];
-    const blob = new Blob(["\uFEFF" + lineas.join("\n")], { type: "text/csv;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `productos_${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+    const cab = ["referencia", "codigo_barras", "nombre", "grupo", "unidad", "impuesto",
+                 "costo_sin_iva", "precio_detal_con_iva", "base_detal", "iva_detal",
+                 "precio_mayorista_con_iva", "inc_pct", "creado"];
+    const filas = res[0].values.map(r => {
+      const [ref, barras, nombre, grupo, unidad, impuesto, costo, pd, pm, inc, creado] = r;
+      const x = pd !== null ? desglose(pd, impuesto, inc) : null;
+      return [ref, barras, nombre, grupo, unidad || "Unidad", impuesto, costo, pd,
+              x ? x.base : "", x ? x.iva : "", pm, inc, creado];
+    });
+    const lineas = [cab.join(";"), ...filas.map(r => r.map(v => csvEsc(v, ";")).join(";"))];
+    const fecha = new Date().toISOString().slice(0, 10);
+    descargar(`productos_${fecha}.csv`, "\uFEFF" + lineas.join("\r\n"), "text/csv;charset=utf-8");
   });
 
+  // ---------- inicio ----------
   window.addEventListener("beforeunload", e => {
     if (cambios) { e.preventDefault(); e.returnValue = ""; }
   });
 
+  function nuevaBase() {
+    db = new SQL.Database();
+    asegurarEsquema();
+    cambios = false;
+    listar();
+  }
+
+  cargarCfg();
+  cargarCfgBarras();
+  setGrupo(GRUPO_DEFECTO);
   nuevaBase();
-  $("codigo_interno").focus();
+  actualizarDesglose();
+  $("ref").focus();
 })();
 </script>
 </body>

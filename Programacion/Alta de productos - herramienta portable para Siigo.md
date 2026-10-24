@@ -38,6 +38,22 @@ Reemplazar la pantalla de creación de productos de CRS (software de inventario,
 - Para etiquetas de productos nuevos se mencionó BarTender.
 - Requisito: "se tiene que poder vincular con siigo.com".
 
+## Cambios del 23 oct (noche)
+- Columna «Código interno» renombrada a **Referencia** (la base sigue guardando la columna `codigo_interno` para que los .sqlite viejos funcionen).
+- Grupo por defecto **Confecciones**; opción «Otro…» para escribir otro grupo.
+- Botón **Plantilla** en cada producto de la lista: copia nombre, grupo, costo, precios, impuesto e INC a un producto nuevo; quita referencia y código de barras para que los pongas tú.
+- Botón **Etiqueta** por producto y **Imprimir con BarTender** en el formulario. La herramienta no habla con BarTender directamente: descarga un CSV (`referencia, nombre, codigo_barras, precio_detal, grupo, impuesto`) y un `.bat` que llama a `bartend.exe` con la plantilla .btw. Ruta, plantilla, impresora y copias se configuran en «Configuración de BarTender» y se recuerdan en el navegador.
+- Sin probar: los parámetros del `.bat` (`/F`, `/D`, `/PRN`, `/C`, `/P`) hay que verificarlos con `bartend /?` en la versión instalada, y la plantilla .btw debe estar enlazada al CSV.
+
+## Cambios DIAN (23 oct, noche)
+- **Precio con IVA incluido**: base = precio / (1 + IVA + INC); IVA = base x tarifa. Se muestra el desglose en vivo en el formulario y las columnas Base detal e IVA detal en la lista y en el CSV.
+- **Tipos de impuesto**: IVA 19% (por defecto), IVA 5%, Exento (0%), Excluido y No gravado.
+- **Unidad de medida** obligatoria (por defecto Unidad). Las bases viejas se migran solas (columna `unidad`).
+- **Validaciones**: precio detal obligatorio; código de barras de 8, 12, 13 o 14 dígitos con dígito verificador GS1 (si no cuadra solo avisa); INC solo avisa (las prendas normalmente no lo llevan); aviso si la base sin IVA es menor que el costo; aviso al elegir exento, excluido o no gravado.
+- Panel «Reglas DIAN que aplica esta herramienta» con referencias a verificar: Estatuto Tributario arts. 468, 468-1, 477 y 424, y Resolución DIAN 000042 de 2020 con su anexo técnico vigente.
+- No sustituye al contador: confirmar el tipo de impuesto de cada referencia. No se verificaron los códigos UBL de la DIAN; el XML lo arma Siigo.
+- Probado: sintaxis del script y cálculo (119.000 con IVA 19% = base 100.000 + IVA 19.000). Sin probar en el navegador.
+
 ## Pendiente
 - [ ] Plantilla de Siigo con todos los campos (.xlsx): para fijar nombres exactos de columnas y cuáles son obligatorias.
 - [ ] Exportar a Excel usando esa plantilla, llenando columnas por nombre, sin tocar el formato; partir en lotes de 500.

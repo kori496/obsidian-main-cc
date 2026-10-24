@@ -1,15 +1,23 @@
 ---
 tags: [bitacora]
-actualizado: 2026-10-23
+actualizado: 2026-10-24
 ---
 
 # 📓 Bitácora
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
 
+## 2026-10-24 (alta de productos: versión 2, carpeta instalable)
+- Opción A elegida: Node.js incluido + interfaz en el navegador. Carpeta en `Documentos\alta de productos\` y paquete `paquete\AltaDeProductos_v2_2026-10-24.zip` (34 MB). Sin internet, guardado automático con copias, BarTender directo, Excel de Siigo escrito sobre la plantilla sin tocar su formato (lotes de 500, validación de obligatorias y listas).
+- Probado con una plantilla de prueba hecha en Excel, con Playwright + Edge (22 pruebas) e instalando en limpio. Corregido un error con espacios en la ruta de bartend.exe. Falta la plantilla real de Siigo y probar BarTender en la tienda. `productos.html` sin cambios.
+- Nota tocada: [[Alta de productos - herramienta portable para Siigo]] (secciones Archivo, Versión 2, Pendiente, Decisiones y Riesgos).
+
 ## 2026-10-23 (alta de productos para Siigo)
 - Herramienta portable para dar de alta productos, reemplazo de la creación de productos de CRS: `Programacion\Alta de productos\productos.html`. Un solo archivo, sin instalación, guarda una base `.sqlite` y exporta CSV. Nota: [[Alta de productos - herramienta portable para Siigo]].
 - Revisada la guía de Siigo «Subir desde Excel Productos»: plantilla desde Configuración → Productos y servicios → Importación, máximo 500 registros, no modificar columnas. Falta la plantilla real para generar el Excel.
+
+## 2026-10-24 (alta de productos: vincular BarTender)
+- Revisada la ayuda de BarTender sobre la línea de comandos y anotados los pasos para imprimir etiquetas desde la herramienta, qué está confirmado (`/F`, `/P`, `/C`, `/D`) y qué no (`/PRN`, `/X`, ediciones con Commander). Ver [[Alta de productos - herramienta portable para Siigo]].
 
 ## 2026-10-24 (alta de productos: formato carpeta instalable)
 - Decisión: el proyecto ya no tiene que ser un solo HTML; puede ser una carpeta instalable para pocas computadoras. Prompt actualizado en [[Prompt - seguir Alta de productos con Claude Code]] (propone estructura antes de reescribir) y decisión anotada en [[Alta de productos - herramienta portable para Siigo]].

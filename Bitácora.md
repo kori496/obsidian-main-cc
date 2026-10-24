@@ -7,6 +7,10 @@ actualizado: 2026-10-24
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
 
+## 2026-10-24 (alta de productos: botón IMPRIMIR)
+- Botón IMPRIMIR que abre una pestaña con solo los productos de la sesión (cantidad y precio por etiqueta), historial de la sesión con reimpresión (se reinicia al cerrar el programa) y log permanente `datos\impresiones.log`. El programa se cierra solo tras 10 min sin pestañas. 36/36 pruebas con Playwright; .zip rehecho.
+- Notas tocadas: [[Alta de productos - herramienta portable para Siigo]] (sección nueva «Botón IMPRIMIR, historial y log») y el canvas `Mapa Alta de productos` (tarjetas nuevas de la pestaña IMPRIMIR y el log; las que ya estaban no se movieron).
+
 ## 2026-10-24 (alta de productos: canvas)
 - Nuevo canvas `Programacion/Mapa Alta de productos.canvas`: arranque, interfaz, servidor, disco, flujos (guardar, Siigo, BarTender, base vieja y conflictos), reglas de negocio y estado de las pruebas. Enlazado desde [[Programacion]] y [[Alta de productos - herramienta portable para Siigo]].
 

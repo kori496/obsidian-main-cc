@@ -120,6 +120,16 @@ Opción elegida (A): app local con **Node.js incluido** (`node\node.exe`) y la i
 - BarTender real (no está instalado en este PC) ni `bartend /?`. `/PRN` sigue sin confirmar.
 - Instalación en un computador sin Node instalado (el node.exe va incluido, así que no debería importar) y con Windows SmartScreen.
 
+## Botón IMPRIMIR, historial y log (24 oct)
+- Botón verde **IMPRIMIR** arriba en la ventana principal: abre la pestaña `imprimir.html`.
+- Muestra **solo los productos guardados en esta sesión** (desde que se abrió el programa; si se elimina uno, sale de la lista). Por producto: marcar, **cantidad de etiquetas** y **precio en etiqueta**. Los que aún no se imprimieron vienen marcados. Pide confirmación con el resumen antes de imprimir.
+- Decisión: cambiar el precio en esa pestaña **solo cambia la etiqueta**, no el producto guardado (la fila se resalta en amarillo).
+- Cantidades: el CSV lleva **una fila por etiqueta** (cantidad 3 = 3 filas) y BarTender se llama con `/C=1`. Así cada producto sale con su propia cantidad en un solo trabajo. Máximo 1000 etiquetas por impresión.
+- **Historial de la sesión**: hora, referencia, nombre, precio, cantidad, desde dónde (pestaña Imprimir, botón Etiqueta, reimpresión) y resultado. «Reimprimir» con cantidad y precio editables. Vive en la memoria del servidor: **se reinicia solo al cerrar el programa**. Todas las impresiones (también el botón Etiqueta) pasan por `/api/imprimir` y quedan en el historial.
+- **Log en disco que no se borra**: `datos\impresiones.log`, una línea por producto impreso: `fecha | IMPRESO/ERROR | ref | nombre | barras | $precio | N etiquetas | impresora | desde [| error]`, más «Programa abierto» y «Programa cerrado (motivo)». Botón «Ver log de impresiones» lo abre en el Bloc de notas.
+- Decisión: como la app vive en el navegador, si no queda **ninguna pestaña abierta durante 10 minutos** el programa se cierra solo (latido cada 30 s) y el historial se reinicia. También se cierra con «Cerrar el programa».
+- Probado con Playwright: 14 pruebas nuevas (36/36 en total), incluida la reapertura (historial vacío, log intacto) y el cierre automático. Con BarTender simulado; falta con BarTender real.
+
 ## Pendiente
 - [ ] **Plantilla real de Siigo (.xlsx)**: cargarla en la app, revisar la detección de obligatorias y las listas, y comparar con Excel el archivo exportado.
 - [ ] Lista real de grupos de inventario, impuestos y unidades (sale de las listas de la plantilla real).

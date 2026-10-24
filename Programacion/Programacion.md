@@ -11,6 +11,9 @@ actualizado: 2026-10-23
 - [[Descargador de YouTube con Node y yt-dlp]]: app local con Express y yt-dlp, explicada paso a paso (npm, Express, formularios, GET/POST, spawn).
 - [[Descargador de redes - motores, diseño y panel]]: continuación (23 oct). Arreglos del código, 6 motores con redes por motor, botón «Ver descarga», diseño y animaciones, e integración como pestaña de [[Panel web lagrim-stats]].
 
+- [[Alta de productos - herramienta portable para Siigo]]: herramienta HTML con base SQLite para dar de alta productos (reemplazo de CRS), con IVA/DIAN, códigos de barras propios y etiquetas BarTender, para importar a Siigo (23 oct). Pendiente: plantilla de Siigo.
+- [[Prompt - seguir Alta de productos con Claude Code]]: prompt para continuar el proyecto en VS Code.
+
 ## Conceptos rápidos
 - npm: `package.json` es la lista; `node_modules` no se sube a Git y se regenera con `npm install`.
 - GET pide info sin cambiar nada; POST envía datos para que el servidor actúe. Los datos de POST van en el cuerpo.

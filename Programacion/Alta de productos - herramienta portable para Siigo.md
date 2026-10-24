@@ -71,6 +71,15 @@ Reemplazar la pantalla de creación de productos de CRS (software de inventario,
 - Probado: 76.000 da 117.572 y 117.900; 50.000 da 77.350 y 77.900. Sin probar en el navegador.
 - Pendiente: si el precio mayorista usa otra ganancia.
 
+## Códigos de barras que nunca se repiten (23 oct, noche)
+- **La base lo impide**: índice único sobre `codigo_barras` (varios productos sin código sí se permiten). Si una base vieja ya trae repetidos, al abrirla se listan para corregirlos.
+- **El consecutivo nunca baja**: se guarda un contador por prefijo en la base (`contador_barras`). Aunque se borre un producto o se genere un código sin guardarlo, ese número no se reutiliza (puede haber saltos, es lo esperado).
+- **Eliminar un producto reserva su código** (`barras_reservadas`, origen «eliminado»): tampoco se puede volver a digitar a mano.
+- **Códigos que ya existen en CRS o Siigo**: en «Código de barras propio» → «Cargar códigos existentes (CSV o TXT)». Toma todo número de 8 a 14 dígitos del archivo y los reserva; no se generan ni se aceptan. Para Excel, exportar antes a CSV.
+- **«Seguir después del número»**: fija desde dónde continuar la serie (solo sube). Útil al empezar una base nueva si ya se usó la serie.
+- **Varias bases o computadores**: cada archivo .sqlite lleva su propio contador. Si se trabaja en dos a la vez, usar un prefijo distinto en cada una (20, 21, ...) o una sola base en OneDrive.
+- Probado con SQLite real: generación, borrado, reservados, duplicado bloqueado y contador que no baja. Sin probar en el navegador.
+
 ## Pendiente
 - [ ] Plantilla de Siigo con todos los campos (.xlsx): para fijar nombres exactos de columnas y cuáles son obligatorias.
 - [ ] Exportar a Excel usando esa plantilla, llenando columnas por nombre, sin tocar el formato; partir en lotes de 500.

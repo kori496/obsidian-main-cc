@@ -21,11 +21,11 @@ fotos:
 
 ![[Edicion de imagenes/Adjuntos/crudo/prenda-05-01.jpg|180]] ![[Edicion de imagenes/Adjuntos/crudo/prenda-05-02.jpg|180]] ![[Edicion de imagenes/Adjuntos/crudo/prenda-05-03.jpg|180]]
 
-| Archivo | Nombre original (WhatsApp) | Original |
-| --- | --- | --- |
+| Archivo           | Nombre original (WhatsApp)                        | Original                                                                                                                                         |
+| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | prenda_05_01.jpeg | WhatsApp Image 2026-08-15 at 10.17.34 AM (3).jpeg | [abrir](<file:///C:/Users/sharo/Downloads/drive%20vya%20septiembre-20261017T013642Z-1-001/drive%20vya%20septiembre/agrupadas/prenda_05_01.jpeg>) |
 | prenda_05_02.jpeg | WhatsApp Image 2026-08-15 at 10.17.34 AM (4).jpeg | [abrir](<file:///C:/Users/sharo/Downloads/drive%20vya%20septiembre-20261017T013642Z-1-001/drive%20vya%20septiembre/agrupadas/prenda_05_02.jpeg>) |
-| prenda_05_03.jpeg | WhatsApp Image 2026-08-15 at 10.17.35 AM.jpeg | [abrir](<file:///C:/Users/sharo/Downloads/drive%20vya%20septiembre-20261017T013642Z-1-001/drive%20vya%20septiembre/agrupadas/prenda_05_03.jpeg>) |
+| prenda_05_03.jpeg | WhatsApp Image 2026-08-15 at 10.17.35 AM.jpeg     | [abrir](<file:///C:/Users/sharo/Downloads/drive%20vya%20septiembre-20261017T013642Z-1-001/drive%20vya%20septiembre/agrupadas/prenda_05_03.jpeg>) |
 
 ## Notas de edición
 - Estado: pendiente <!-- cambiar a: en edición / editada / publicada -->

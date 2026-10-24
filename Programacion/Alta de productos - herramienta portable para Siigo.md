@@ -62,6 +62,15 @@ Reemplazar la pantalla de creación de productos de CRS (software de inventario,
 - Para que Siigo lo reconozca, el código tiene que ir en la columna de código de barras de la plantilla de importación (pendiente: confirmar el nombre exacto de esa columna con la plantilla).
 - Probado: el dígito verificador coincide con el algoritmo GS1. Sin probar en el navegador ni con el lector.
 
+## Precio a partir del costo (23 oct, noche)
+- Fórmula de la tienda: **costo sin IVA x (1 + ganancia) x (1 + IVA)**, luego redondeo. Los porcentajes no se suman: el IVA va sobre el precio que ya incluye la ganancia.
+- Ejemplo del usuario: costo 76.000, ganancia 30% = 98.800, con IVA 19% = 117.572, redondeado a **117.900** (terminación 900, hacia arriba).
+- La ganancia es sobre el costo (no margen sobre el precio). Por defecto 30%; el redondeo por defecto es «Terminar en 900». Ambos se recuerdan en el navegador.
+- En el formulario aparece el precio calculado y el botón «Usar este precio», que lo copia al precio detal. El precio se puede seguir escribiendo a mano.
+- Con INC, el total usa (1 + IVA + INC) sobre la base, igual que el desglose.
+- Probado: 76.000 da 117.572 y 117.900; 50.000 da 77.350 y 77.900. Sin probar en el navegador.
+- Pendiente: si el precio mayorista usa otra ganancia.
+
 ## Pendiente
 - [ ] Plantilla de Siigo con todos los campos (.xlsx): para fijar nombres exactos de columnas y cuáles son obligatorias.
 - [ ] Exportar a Excel usando esa plantilla, llenando columnas por nombre, sin tocar el formato; partir en lotes de 500.

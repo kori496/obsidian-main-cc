@@ -185,10 +185,19 @@
       <label class="check"><input type="checkbox" id="bc_auto" checked> Generar automáticamente al guardar si lo dejo vacío</label>
       <label for="bc_prefijo">Prefijo (2 dígitos, de 20 a 29)</label>
       <input id="bc_prefijo" value="20" maxlength="2" inputmode="numeric">
+      <p class="ayuda" id="bc_info"></p>
+      <label for="bc_ultimo">Seguir después del número (si ya usaste una serie)</label>
+      <div class="fila-barras">
+        <input id="bc_ultimo" type="number" min="0" step="1" placeholder="0">
+        <button type="button" class="sec" id="btnAplicarUltimo">Aplicar</button>
+      </div>
+      <label>Códigos que ya existen en CRS o Siigo</label>
+      <button type="button" class="sec" id="btnCargarReservados">Cargar códigos existentes (CSV o TXT)…</button>
+      <input type="file" id="archivoReservados" accept=".csv,.txt" hidden>
       <p class="ayuda">
         Formato: <b>prefijo (2) + consecutivo (10) + dígito verificador (1)</b> = EAN-13.
         Los prefijos 20 a 29 están reservados por GS1 para uso interno de una empresa, así que no chocan con códigos
-        de fabricantes. El consecutivo sigue al más alto que ya exista en la base con ese prefijo.
+        de fabricantes. El consecutivo nunca baja: sigue al mayor número usado alguna vez con ese prefijo, aunque borres el producto (su código queda reservado). Si usas bases separadas, usa un prefijo distinto en cada una.
         Estos códigos sirven para tu tienda (lector, Siigo, etiquetas), no para vender en plataformas que exigen un GTIN de GS1.
       </p>
     </details>
@@ -276,6 +285,15 @@
       creado TEXT NOT NULL
     );
     CREATE INDEX IF NOT EXISTS idx_barras ON productos(codigo_barras);
+    CREATE TABLE IF NOT EXISTS barras_reservadas (
+      codigo TEXT PRIMARY KEY,
+      origen TEXT,
+      creado TEXT
+    );
+    CREATE TABLE IF NOT EXISTS contador_barras (
+      prefijo TEXT PRIMARY KEY,
+      ultimo INTEGER NOT NULL
+    );
   `;
 
   const GRUPO_DEFECTO = "Confecciones";
@@ -360,31 +378,112 @@
     return String((10 - (suma % 10)) % 10);
   }
 
-  // Referencia del producto que ya usa ese código de barras, o null
+  // Dónde está ya registrado un código de barras (texto), o null si está libre
   function barrasEnUso(codigo) {
-    const st = db.prepare("SELECT codigo_interno FROM productos WHERE codigo_barras = ? LIMIT 1");
+    let st = db.prepare("SELECT codigo_interno FROM productos WHERE codigo_barras = ? LIMIT 1");
     st.bind([codigo]);
     const ref = st.step() ? st.getAsObject().codigo_interno : null;
     st.free();
-    return ref;
+    if (ref) return `la referencia ${ref}`;
+
+    st = db.prepare("SELECT origen FROM barras_reservadas WHERE codigo = ? LIMIT 1");
+    st.bind([codigo]);
+    const reservado = st.step() ? st.getAsObject().origen : null;
+    st.free();
+    if (reservado !== null) {
+      return reservado === "eliminado"
+        ? "un producto eliminado (el código queda reservado)"
+        : "los códigos reservados (ya existían en CRS o Siigo)";
+    }
+    return null;
   }
 
+  function maximoConsecutivo(sql, prefijo) {
+    const st = db.prepare(sql);
+    st.bind([prefijo]);
+    const m = st.step() ? (st.getAsObject().m || 0) : 0;
+    st.free();
+    return m;
+  }
+
+  // El consecutivo nunca baja: toma el mayor número visto en productos, en códigos reservados
+  // y en el contador guardado en la base (que sigue subiendo aunque se borren productos).
   function siguienteBarras() {
     const { prefijo } = leerCfgBarras();
-    const st = db.prepare(
+    const enProductos = maximoConsecutivo(
       `SELECT MAX(CAST(SUBSTR(codigo_barras, 3, 10) AS INTEGER)) AS m
-       FROM productos WHERE LENGTH(codigo_barras) = 13 AND SUBSTR(codigo_barras, 1, 2) = ?`);
-    st.bind([prefijo]);
-    st.step();
-    let n = (st.getAsObject().m || 0) + 1;
-    st.free();
+       FROM productos WHERE LENGTH(codigo_barras) = 13 AND SUBSTR(codigo_barras, 1, 2) = ?`, prefijo);
+    const enReservados = maximoConsecutivo(
+      `SELECT MAX(CAST(SUBSTR(codigo, 3, 10) AS INTEGER)) AS m
+       FROM barras_reservadas WHERE LENGTH(codigo) = 13 AND SUBSTR(codigo, 1, 2) = ?`, prefijo);
+    const enContador = maximoConsecutivo(
+      "SELECT ultimo AS m FROM contador_barras WHERE prefijo = ?", prefijo);
+
+    let n = Math.max(enProductos, enReservados, enContador) + 1;
+    let codigo;
     for (;;) {
       const base = prefijo + String(n).padStart(10, "0");
-      const codigo = base + digitoVerificador(base);
-      if (!barrasEnUso(codigo)) return codigo;
+      codigo = base + digitoVerificador(base);
+      if (!barrasEnUso(codigo)) break;
       n++;
     }
+    db.run(
+      "INSERT INTO contador_barras (prefijo, ultimo) VALUES (?, ?) " +
+      "ON CONFLICT(prefijo) DO UPDATE SET ultimo = MAX(ultimo, excluded.ultimo)", [prefijo, n]);
+    cambios = true;
+    actualizarInfoBarras();
+    return codigo;
   }
+
+  function actualizarInfoBarras() {
+    const { prefijo } = leerCfgBarras();
+    let ultimo = 0, reservados = 0;
+    try {
+      ultimo = maximoConsecutivo("SELECT ultimo AS m FROM contador_barras WHERE prefijo = ?", prefijo);
+      reservados = db.exec("SELECT COUNT(*) FROM barras_reservadas")[0].values[0][0];
+    } catch (e) { /* base aún sin cargar */ }
+    $("bc_info").textContent =
+      `Último número usado con el prefijo ${prefijo}: ${ultimo}. Códigos reservados: ${reservados}.`;
+  }
+  $("bc_prefijo").addEventListener("change", actualizarInfoBarras);
+
+  // Fija desde qué número seguir (solo puede subir)
+  $("btnAplicarUltimo").addEventListener("click", () => {
+    const n = Math.floor(numOrNull($("bc_ultimo").value) ?? -1);
+    if (n < 0) { mensaje($("msgForm"), "Escribe un número igual o mayor que 0.", "error"); return; }
+    db.run(
+      "INSERT INTO contador_barras (prefijo, ultimo) VALUES (?, ?) " +
+      "ON CONFLICT(prefijo) DO UPDATE SET ultimo = MAX(ultimo, excluded.ultimo)", [leerCfgBarras().prefijo, n]);
+    cambios = true;
+    actualizarInfoBarras();
+    mensaje($("msgForm"), `El consecutivo seguirá después del ${n}. Nunca baja de un número ya usado.`, "ok");
+  });
+
+  // Códigos que ya existen en CRS o Siigo: no se generan ni se aceptan
+  $("btnCargarReservados").addEventListener("click", () => $("archivoReservados").click());
+  $("archivoReservados").addEventListener("change", async e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    try {
+      const texto = await f.text();
+      const codigos = new Set(texto.match(/(?<!\d)\d{8,14}(?!\d)/g) || []);
+      const ahora = new Date().toISOString();
+      let nuevos = 0;
+      db.run("BEGIN");
+      codigos.forEach(c => {
+        db.run("INSERT OR IGNORE INTO barras_reservadas (codigo, origen, creado) VALUES (?, 'importado', ?)", [c, ahora]);
+        nuevos += db.getRowsModified();
+      });
+      db.run("COMMIT");
+      cambios = true;
+      actualizarInfoBarras();
+      mensaje($("msgForm"), `Se reservaron ${nuevos} códigos nuevos de ${codigos.size} encontrados en ${f.name}.`, nuevos ? "ok" : "warn");
+    } catch (err) {
+      try { db.run("ROLLBACK"); } catch (e2) { /* sin transacción */ }
+      mensaje($("msgForm"), "No se pudo leer el archivo: " + err.message, "error");
+    }
+    e.target.value = "";
+  });
 
   $("btnGenerarBarras").addEventListener("click", () => {
     $("barras").value = siguienteBarras();
@@ -608,7 +707,7 @@
     const { errores, avisos } = revisar(d);
     if (d.codigo_barras) {
       const otro = barrasEnUso(d.codigo_barras);
-      if (otro) errores.push(`Ese código de barras ya lo tiene la referencia ${otro}.`);
+      if (otro) errores.push(`Ese código de barras ya está registrado en ${otro}.`);
     }
     if (errores.length) { mensaje($("msgForm"), errores.join("\n"), "error"); return; }
 
@@ -630,6 +729,8 @@
       const txt = String(err.message || err);
       if (txt.includes("UNIQUE") && txt.includes("codigo_interno")) {
         mensaje($("msgForm"), "Ya existe un producto con esa referencia.", "error");
+      } else if (txt.includes("UNIQUE") && txt.includes("codigo_barras")) {
+        mensaje($("msgForm"), "Ese código de barras ya está registrado en otro producto.", "error");
       } else {
         mensaje($("msgForm"), "Error al guardar: " + txt, "error");
       }
@@ -705,7 +806,7 @@
       const bEliminar = document.createElement("button");
       bEliminar.className = "mini peligro";
       bEliminar.textContent = "Eliminar";
-      bEliminar.addEventListener("click", () => eliminar(p.id, p.codigo_interno));
+      bEliminar.addEventListener("click", () => eliminar(p.id, p.codigo_interno, p.codigo_barras));
 
       acc.append(bPlantilla, bEtiqueta, bEliminar);
       tdAcc.appendChild(acc);
@@ -715,12 +816,18 @@
   }
   $("buscar").addEventListener("input", listar);
 
-  function eliminar(id, codigo) {
-    if (!confirm(`¿Eliminar el producto ${codigo}?`)) return;
+  function eliminar(id, codigo, barras) {
+    const aviso = barras ? "\n\nSu código de barras quedará reservado y no se volverá a usar." : "";
+    if (!confirm(`¿Eliminar el producto ${codigo}?${aviso}`)) return;
+    if (barras) {
+      db.run("INSERT OR IGNORE INTO barras_reservadas (codigo, origen, creado) VALUES (?, 'eliminado', ?)",
+             [barras, new Date().toISOString()]);
+    }
     db.run("DELETE FROM productos WHERE id = ?", [id]);
     cambios = true;
     mensaje($("msgLista"), `Producto ${codigo} eliminado.`, "ok");
     listar();
+    actualizarInfoBarras();
   }
 
   // ---------- BarTender ----------
@@ -805,6 +912,18 @@
     // Migración: bases creadas antes de la versión con unidad de medida
     const cols = db.exec("PRAGMA table_info(productos)")[0].values.map(r => r[1]);
     if (!cols.includes("unidad")) db.run("ALTER TABLE productos ADD COLUMN unidad TEXT DEFAULT 'Unidad'");
+    // La base misma impide dos productos con el mismo código de barras
+    try {
+      db.run("CREATE UNIQUE INDEX IF NOT EXISTS idx_barras_unico ON productos(codigo_barras) WHERE codigo_barras IS NOT NULL");
+    } catch (e) { /* hay repetidos: se avisa al abrir la base */ }
+  }
+
+  // Códigos de barras que ya están repetidos en una base abierta
+  function barrasRepetidos() {
+    const r = db.exec(`SELECT codigo_barras, GROUP_CONCAT(codigo_interno, ', ')
+                       FROM productos WHERE codigo_barras IS NOT NULL
+                       GROUP BY codigo_barras HAVING COUNT(*) > 1`);
+    return r.length ? r[0].values.map(v => `${v[0]} (referencias ${v[1]})`) : [];
   }
 
   $("btnGuardar").addEventListener("click", () => {
@@ -826,8 +945,15 @@
       db = new SQL.Database(buf);
       asegurarEsquema();
       cambios = false;
-      mensaje($("msgLista"), `Base cargada: ${f.name}`, "ok");
+      const repetidos = barrasRepetidos();
+      if (repetidos.length) {
+        mensaje($("msgLista"),
+          `Base cargada: ${f.name}\nAtención: hay códigos de barras repetidos. Corrígelos:\n` + repetidos.join("\n"), "warn");
+      } else {
+        mensaje($("msgLista"), `Base cargada: ${f.name}`, "ok");
+      }
       listar();
+      actualizarInfoBarras();
     } catch (err) {
       mensaje($("msgLista"), "No se pudo abrir el archivo: " + err.message, "error");
     }
@@ -864,6 +990,7 @@
     asegurarEsquema();
     cambios = false;
     listar();
+    actualizarInfoBarras();
   }
 
   cargarCfg();

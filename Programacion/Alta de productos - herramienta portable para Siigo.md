@@ -88,7 +88,8 @@ Reemplazar la pantalla de creación de productos de CRS (software de inventario,
 - [ ] Decidir si se quiere 100 % offline (incluir sql.js dentro del archivo).
 
 ## Decisiones
-- Un solo HTML, sin Python: portable y fácil de copiar.
+- (Hasta el 23 oct) Un solo HTML, sin Python: portable y fácil de copiar.
+- **24 oct: ya no tiene que ser un solo archivo.** Puede ser una carpeta instalable con todo lo necesario, para pocas computadoras (poca distribución): sin internet, con guardado automático en disco, impresión directa con BarTender y exportación a Excel que conserve el formato de la plantilla de Siigo. Antes de reescribir se propone la estructura y se espera el OK. Ver [[Prompt - seguir Alta de productos con Claude Code]].
 - La base es un .sqlite que se puede guardar en OneDrive.
 
 ## Riesgos conocidos

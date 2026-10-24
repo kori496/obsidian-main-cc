@@ -11,6 +11,9 @@ Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reg
 - Herramienta portable para dar de alta productos, reemplazo de la creación de productos de CRS: `Programacion\Alta de productos\productos.html`. Un solo archivo, sin instalación, guarda una base `.sqlite` y exporta CSV. Nota: [[Alta de productos - herramienta portable para Siigo]].
 - Revisada la guía de Siigo «Subir desde Excel Productos»: plantilla desde Configuración → Productos y servicios → Importación, máximo 500 registros, no modificar columnas. Falta la plantilla real para generar el Excel.
 
+## 2026-10-24 (alta de productos: formato carpeta instalable)
+- Decisión: el proyecto ya no tiene que ser un solo HTML; puede ser una carpeta instalable para pocas computadoras. Prompt actualizado en [[Prompt - seguir Alta de productos con Claude Code]] (propone estructura antes de reescribir) y decisión anotada en [[Alta de productos - herramienta portable para Siigo]].
+
 ## 2026-10-24 (alta de productos: prompt para Claude Code)
 - Nueva nota [[Prompt - seguir Alta de productos con Claude Code]] con el prompt para continuar el proyecto en VS Code. Se volvieron a añadir el enlace en el índice [[Programacion]] y la sección de códigos que no se repiten en la nota del proyecto: el PC había vuelto a una versión vieja tras guardar.
 

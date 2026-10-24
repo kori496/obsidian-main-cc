@@ -11,6 +11,9 @@ Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reg
 - Herramienta portable para dar de alta productos, reemplazo de la creación de productos de CRS: `Programacion\Alta de productos\productos.html`. Un solo archivo, sin instalación, guarda una base `.sqlite` y exporta CSV. Nota: [[Alta de productos - herramienta portable para Siigo]].
 - Revisada la guía de Siigo «Subir desde Excel Productos»: plantilla desde Configuración → Productos y servicios → Importación, máximo 500 registros, no modificar columnas. Falta la plantilla real para generar el Excel.
 
+## 2026-10-23 (alta de productos: código de barras propio)
+- `productos.html`: botón Generar y generación automática de EAN-13 con prefijo 20 a 29 (uso interno GS1), sin repetir códigos. Notas y límites en [[Alta de productos - herramienta portable para Siigo]].
+
 ## 2026-10-23 (alta de productos: reglas DIAN)
 - `productos.html`: precio con IVA incluido y desglose (base, IVA), tipos IVA 19%, 5%, exento, excluido y no gravado, unidad de medida, validación GS1 del código de barras y avisos de INC. Detalles y límites en [[Alta de productos - herramienta portable para Siigo]].
 

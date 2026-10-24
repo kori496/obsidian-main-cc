@@ -127,6 +127,26 @@
 
       <div class="fila">
         <div>
+          <label for="ganancia">Ganancia sobre el costo (%)</label>
+          <input id="ganancia" type="number" min="0" step="any" value="30">
+        </div>
+        <div>
+          <label for="redondeo">Redondeo del precio</label>
+          <select id="redondeo">
+            <option value="900" selected>Terminar en 900</option>
+            <option value="100">A la centena (hacia arriba)</option>
+            <option value="1000">Al mil (hacia arriba)</option>
+            <option value="0">Sin redondeo</option>
+          </select>
+        </div>
+      </div>
+      <div class="desglose" id="sugeridoBox">
+        <span id="sugeridoTxt"></span>
+        <button type="button" class="mini" id="btnCalcPrecio" hidden>Usar este precio</button>
+      </div>
+
+      <div class="fila">
+        <div>
           <label class="req" for="precio_detal">Precio detal (con IVA)</label>
           <input id="precio_detal" type="number" min="0" step="any">
         </div>
@@ -385,6 +405,62 @@
     };
   }
 
+  // ---------- precio a partir del costo ----------
+  const PRECIO_KEY = "altaProductos.precio";
+  function redondearPrecio(x, modo) {
+    x = Math.round(x * 100) / 100; // evita errores de coma flotante en el límite
+    if (modo === "900") return Math.ceil((x - 900) / 1000) * 1000 + 900;
+    if (modo === "100") return Math.ceil(x / 100) * 100;
+    if (modo === "1000") return Math.ceil(x / 1000) * 1000;
+    return Math.round(x);
+  }
+  // costo sin IVA x (1 + ganancia) x (1 + IVA + INC), luego redondeo
+  function calcularPrecio(d, gananciaPct, modo) {
+    if (d.costo === null || d.costo <= 0) return null;
+    const tIva = TARIFA_IVA[d.impuesto] ?? 0;
+    const tInc = (d.inc || 0) / 100;
+    const exacto = d.costo * (1 + gananciaPct / 100) * (1 + tIva + tInc);
+    return { exacto: redondear(exacto), final: redondearPrecio(exacto, modo) };
+  }
+  function actualizarSugerido() {
+    const d = leerForm();
+    const gan = numOrNull($("ganancia").value) ?? 0;
+    const r = calcularPrecio(d, gan, $("redondeo").value);
+    if (!r) {
+      $("sugeridoTxt").textContent = "Ingresa el costo para calcular el precio con la ganancia.";
+      $("btnCalcPrecio").hidden = true;
+      return;
+    }
+    $("sugeridoTxt").textContent =
+      `Costo $${pesos(d.costo)} + ${gan}% de ganancia + IVA = $${pesos(r.exacto)}` +
+      (r.final !== r.exacto ? ` → redondeado a $${pesos(r.final)}` : "");
+    $("btnCalcPrecio").hidden = false;
+  }
+  function guardarCfgPrecio() {
+    try {
+      localStorage.setItem(PRECIO_KEY, JSON.stringify({ ganancia: $("ganancia").value, redondeo: $("redondeo").value }));
+    } catch (e) { /* ignorar */ }
+  }
+  function cargarCfgPrecio() {
+    try {
+      const c = JSON.parse(localStorage.getItem(PRECIO_KEY) || "{}");
+      if (c.ganancia !== undefined && c.ganancia !== "") $("ganancia").value = c.ganancia;
+      if (c.redondeo) $("redondeo").value = c.redondeo;
+    } catch (e) { /* valores por defecto */ }
+  }
+  ["costo", "ganancia", "redondeo", "inc", "impuesto"].forEach(id => {
+    $(id).addEventListener("input", actualizarSugerido);
+    $(id).addEventListener("change", actualizarSugerido);
+  });
+  ["ganancia", "redondeo"].forEach(id => $(id).addEventListener("change", guardarCfgPrecio));
+  $("btnCalcPrecio").addEventListener("click", () => {
+    const d = leerForm();
+    const r = calcularPrecio(d, numOrNull($("ganancia").value) ?? 0, $("redondeo").value);
+    if (!r) return;
+    $("precio_detal").value = r.final;
+    actualizarDesglose();
+  });
+
   function actualizarDesglose() {
     const d = leerForm();
     const box = $("desglose");
@@ -478,8 +554,10 @@
     $("inc").value = "0";
     $("impuesto").value = "IVA 19%";
     $("unidad").value = "Unidad";
+    cargarCfgPrecio();
     quitarPlantilla();
     actualizarDesglose();
+    actualizarSugerido();
     $("ref").focus();
   }
   $("btnLimpiar").addEventListener("click", () => { limpiarForm(); mensaje($("msgForm"), "", ""); });
@@ -512,6 +590,7 @@
     $("inc").value = p.inc ?? 0;
     mostrarPlantilla(p);
     actualizarDesglose();
+    actualizarSugerido();
     mensaje($("msgForm"), "", "");
     $("ref").focus();
     $("form").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -791,7 +870,9 @@
   cargarCfgBarras();
   setGrupo(GRUPO_DEFECTO);
   nuevaBase();
+  cargarCfgPrecio();
   actualizarDesglose();
+  actualizarSugerido();
   $("ref").focus();
 })();
 </script>

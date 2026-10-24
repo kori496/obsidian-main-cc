@@ -54,6 +54,14 @@ Reemplazar la pantalla de creación de productos de CRS (software de inventario,
 - No sustituye al contador: confirmar el tipo de impuesto de cada referencia. No se verificaron los códigos UBL de la DIAN; el XML lo arma Siigo.
 - Probado: sintaxis del script y cálculo (119.000 con IVA 19% = base 100.000 + IVA 19.000). Sin probar en el navegador.
 
+## Código de barras propio (23 oct, noche)
+- Botón **Generar** junto al campo, y opción (activada por defecto) de generarlo solo al guardar si se deja vacío.
+- Formato EAN-13: **prefijo (2 dígitos, 20 a 29) + consecutivo (10) + dígito verificador**. Por defecto `20`, por ejemplo `2000000000015`. Los prefijos 20 a 29 son de circulación restringida de GS1 (uso interno de una empresa), así que no chocan con códigos de fabricantes.
+- El consecutivo sigue al mayor que ya exista en la base con ese prefijo y salta cualquier código ya usado. No se permite guardar dos productos con el mismo código de barras.
+- Sirve para la tienda (lector, Siigo, etiquetas BarTender). No sirve para vender en plataformas que exigen un GTIN real de GS1.
+- Para que Siigo lo reconozca, el código tiene que ir en la columna de código de barras de la plantilla de importación (pendiente: confirmar el nombre exacto de esa columna con la plantilla).
+- Probado: el dígito verificador coincide con el algoritmo GS1. Sin probar en el navegador ni con el lector.
+
 ## Pendiente
 - [ ] Plantilla de Siigo con todos los campos (.xlsx): para fijar nombres exactos de columnas y cuáles son obligatorias.
 - [ ] Exportar a Excel usando esa plantilla, llenando columnas por nombre, sin tocar el formato; partir en lotes de 500.

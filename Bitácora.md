@@ -7,6 +7,9 @@ actualizado: 2026-10-24
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
 
+## 2026-10-24 (alta de productos: canvas)
+- Nuevo canvas `Programacion/Mapa Alta de productos.canvas`: arranque, interfaz, servidor, disco, flujos (guardar, Siigo, BarTender, base vieja y conflictos), reglas de negocio y estado de las pruebas. Enlazado desde [[Programacion]] y [[Alta de productos - herramienta portable para Siigo]].
+
 ## 2026-10-24 (alta de productos: versión 2, carpeta instalable)
 - Opción A elegida: Node.js incluido + interfaz en el navegador. Carpeta en `Documentos\alta de productos\` y paquete `paquete\AltaDeProductos_v2_2026-10-24.zip` (34 MB). Sin internet, guardado automático con copias, BarTender directo, Excel de Siigo escrito sobre la plantilla sin tocar su formato (lotes de 500, validación de obligatorias y listas).
 - Probado con una plantilla de prueba hecha en Excel, con Playwright + Edge (22 pruebas) e instalando en limpio. Corregido un error con espacios en la ruta de bartend.exe. Falta la plantilla real de Siigo y probar BarTender en la tienda. `productos.html` sin cambios.

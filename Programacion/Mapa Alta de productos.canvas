@@ -1,0 +1,630 @@
+{
+	"nodes": [
+		{
+			"id": "titulo",
+			"type": "text",
+			"text": "# Alta de productos — cómo funciona (v2)\nReemplaza la creación de productos de CRS. Guarda en SQLite, imprime etiquetas con BarTender y genera el Excel para importar en Siigo Nube.\n**Opción A:** Node.js incluido + interfaz en el navegador en `http://127.0.0.1:3789`. Funciona sin internet.",
+			"x": -1700,
+			"y": -560,
+			"width": 900,
+			"height": 200,
+			"color": "5"
+		},
+		{
+			"id": "nota",
+			"type": "file",
+			"file": "Programacion/Alta de productos - herramienta portable para Siigo.md",
+			"x": -700,
+			"y": -560,
+			"width": 420,
+			"height": 200,
+			"color": "5"
+		},
+		{
+			"id": "leyenda",
+			"type": "text",
+			"text": "**Cómo leer este mapa**\n1 → 4 de izquierda a derecha: dónde arranca, qué ves, quién hace el trabajo, dónde queda guardado.\nAbajo: los flujos paso a paso.\nVerde = probado · Amarillo = falta probar · Rojo = reglas que no cambiar",
+			"x": -200,
+			"y": -560,
+			"width": 520,
+			"height": 200
+		},
+		{
+			"id": "rutas",
+			"type": "text",
+			"text": "**Rutas**\nApp: `Documentos\\alta de productos\\`\nPaquete: `paquete\\AltaDeProductos_v2_2026-10-24.zip` (34 MB)\nVersión 1 (referencia, sin cambios): `Programacion/Alta de productos/productos.html`",
+			"x": 420,
+			"y": -560,
+			"width": 620,
+			"height": 200
+		},
+		{
+			"id": "g1",
+			"type": "group",
+			"label": "1. Instalación y arranque",
+			"x": -1720,
+			"y": -300,
+			"width": 560,
+			"height": 1340,
+			"color": "6"
+		},
+		{
+			"id": "zip",
+			"type": "text",
+			"text": "**.zip descomprimido**\nen una carpeta fija (ej. `C:\\AltaProductos`)",
+			"x": -1680,
+			"y": -250,
+			"width": 480,
+			"height": 110
+		},
+		{
+			"id": "instalar",
+			"type": "text",
+			"text": "**instalar.bat → instalar.ps1**\n- quita el bloqueo de Windows a los archivos del .zip\n- crea el acceso directo «Alta de productos» en escritorio y menú Inicio",
+			"x": -1680,
+			"y": -90,
+			"width": 480,
+			"height": 150
+		},
+		{
+			"id": "acceso",
+			"type": "text",
+			"text": "**Acceso directo**\n`wscript.exe iniciar.vbs`\n(también sirve `iniciar.bat`)",
+			"x": -1680,
+			"y": 110,
+			"width": 480,
+			"height": 110
+		},
+		{
+			"id": "vbs",
+			"type": "text",
+			"text": "**iniciar.vbs**\nverifica que exista `node\\node.exe` y ejecuta\n`node.exe app\\server.js` **sin ventana negra**",
+			"x": -1680,
+			"y": 270,
+			"width": 480,
+			"height": 120
+		},
+		{
+			"id": "puerto",
+			"type": "text",
+			"text": "**¿Ya está abierto?**\nprueba `/api/ping` en los puertos 3789 a 3798\n- si responde la app → solo abre el navegador\n- si está libre → arranca el servidor ahí\n- si lo usa otro programa → prueba el siguiente",
+			"x": -1680,
+			"y": 440,
+			"width": 480,
+			"height": 190
+		},
+		{
+			"id": "arranque",
+			"type": "text",
+			"text": "**Al arrancar**\n- crea `datos\\`, `copias\\`, `etiquetas\\`, `exportados\\`, `plantillas\\`\n- copia de seguridad «al-abrir»\n- genera un **token** nuevo para esta sesión",
+			"x": -1680,
+			"y": 680,
+			"width": 480,
+			"height": 150
+		},
+		{
+			"id": "navegador",
+			"type": "text",
+			"text": "**Abre el navegador** en\n`http://127.0.0.1:3789/`",
+			"x": -1680,
+			"y": 880,
+			"width": 480,
+			"height": 110,
+			"color": "4"
+		},
+		{
+			"id": "g2",
+			"type": "group",
+			"label": "2. Interfaz en el navegador (app/public/index.html)",
+			"x": -1080,
+			"y": -300,
+			"width": 760,
+			"height": 1880,
+			"color": "4"
+		},
+		{
+			"id": "ui_carga",
+			"type": "text",
+			"text": "**Al cargar la página**\n1. carga sql.js local (`vendor/sql-wasm.js` + `.wasm`)\n2. pide la configuración y la base al servidor\n3. abre la base en memoria; si es vieja, la **migra** y la guarda",
+			"x": -1040,
+			"y": -250,
+			"width": 680,
+			"height": 150
+		},
+		{
+			"id": "ui_form",
+			"type": "text",
+			"text": "**Formulario «Nuevo producto»**\n- Referencia (columna `codigo_interno`), código de barras, nombre\n- Grupo: Confecciones por defecto u «Otro…»\n- Impuesto: IVA 19% · IVA 5% · Exento · Excluido · No gravado (INC solo avisa)\n- Unidad de medida, costo sin IVA, ganancia %, redondeo\n- Precio detal y mayorista **con IVA incluido**\n- Desglose en vivo: base = precio / (1 + IVA + INC)",
+			"x": -1040,
+			"y": -50,
+			"width": 680,
+			"height": 260
+		},
+		{
+			"id": "ui_val",
+			"type": "text",
+			"text": "**Validaciones antes de guardar**\nErrores (bloquean): referencia, nombre, precio detal, barras 8/12/13/14 dígitos, barras ya usado o reservado, referencia repetida\nAvisos: dígito verificador, INC > 0, base menor que el costo, exento/excluido",
+			"x": -1040,
+			"y": 260,
+			"width": 680,
+			"height": 170
+		},
+		{
+			"id": "ui_lista",
+			"type": "text",
+			"text": "**Lista de productos**\nbúsqueda por referencia, barras o nombre\ncolumnas de base e IVA, y **Siigo** (fecha de exportación)\nbotones por fila: **Plantilla** · **Etiqueta** · **Eliminar**",
+			"x": -1040,
+			"y": 480,
+			"width": 680,
+			"height": 170
+		},
+		{
+			"id": "ui_barras",
+			"type": "text",
+			"text": "**Código de barras propio**\nGenerar (o automático al guardar si se deja vacío)\nprefijo 20–29 · «Seguir después del número» · cargar códigos de CRS/Siigo (CSV o TXT)",
+			"x": -1040,
+			"y": 700,
+			"width": 680,
+			"height": 150
+		},
+		{
+			"id": "ui_siigo",
+			"type": "text",
+			"text": "**Tarjeta «Excel para Siigo»**\n- cargar plantilla `.xlsx`\n- tabla de columnas: obligatoria · dato de la app · valor fijo · equivalencias\n- «Solo productos que aún no se han exportado»\n- **Revisar productos** · **Exportar a Excel**",
+			"x": -1040,
+			"y": 900,
+			"width": 680,
+			"height": 190
+		},
+		{
+			"id": "ui_paneles",
+			"type": "text",
+			"text": "**Paneles plegables**\n- Reglas DIAN (referencias por verificar con el contador)\n- Configuración de BarTender (exe, .btw, impresora, copias, parámetros)\n- Base de datos y copias (ubicación, copia ahora, abrir carpeta, cerrar el programa)",
+			"x": -1040,
+			"y": 1140,
+			"width": 680,
+			"height": 190
+		},
+		{
+			"id": "ui_estado",
+			"type": "text",
+			"text": "**Indicador arriba a la derecha**\n«Guardando…» → «Guardado hh:mm»\nsi falla: «No se guardó (clic para reintentar)»\nsi hay conflicto: «Sin guardar: recarga (F5)»",
+			"x": -1040,
+			"y": 1380,
+			"width": 680,
+			"height": 150
+		},
+		{
+			"id": "g3",
+			"type": "group",
+			"label": "3. Servidor local (app/server.js + app/siigo.js)",
+			"x": -240,
+			"y": -300,
+			"width": 760,
+			"height": 1880,
+			"color": "5"
+		},
+		{
+			"id": "seg",
+			"type": "text",
+			"text": "**Seguridad**\nsolo escucha en `127.0.0.1` · rechaza otro `Host`\ntoda ruta `/api/*` exige el header `X-Token` (inyectado en la página)\nasí ninguna web externa puede usar el servidor",
+			"x": -200,
+			"y": -250,
+			"width": 680,
+			"height": 150
+		},
+		{
+			"id": "api_base",
+			"type": "text",
+			"text": "**GET /api/base · PUT /api/base**\n- GET: devuelve el .sqlite y una `version`\n- PUT: recibe la base completa y\n  1. rechaza si no es SQLite\n  2. rechaza (409) si la versión o la fecha del archivo cambió (otra pestaña u otro PC)\n  3. copia de seguridad si pasó 1 hora o si es «abrir otra base»\n  4. **escritura segura** y verificación",
+			"x": -200,
+			"y": -50,
+			"width": 680,
+			"height": 240
+		},
+		{
+			"id": "escritura",
+			"type": "text",
+			"text": "**Escritura segura**\nescribe un `.tmp` → lo renombra (reintenta si OneDrive o el antivirus bloquean)\n→ **relee el archivo y lo compara** byte a byte con lo enviado",
+			"x": -200,
+			"y": 240,
+			"width": 680,
+			"height": 150,
+			"color": "4"
+		},
+		{
+			"id": "api_cfg",
+			"type": "text",
+			"text": "**GET/PUT /api/config**\nguarda BarTender, ruta de la base y columnas de Siigo en `datos\\config.json`\nsi cambia la ruta: abre la base de allá o copia la actual",
+			"x": -200,
+			"y": 440,
+			"width": 680,
+			"height": 150
+		},
+		{
+			"id": "api_bt",
+			"type": "text",
+			"text": "**POST /api/bartender**\n1. escribe `datos\\etiquetas\\etiquetas.csv` (UTF-8, ruta fija)\n2. arma los parámetros: `/F=\"{plantilla}\" /D=\"{datos}\" {impresora} /C={copias} /P /X`\n3. ejecuta `bartend.exe` (ruta entre comillas) y espera hasta 90 s\n4. una impresión a la vez",
+			"x": -200,
+			"y": 640,
+			"width": 680,
+			"height": 190
+		},
+		{
+			"id": "api_siigo",
+			"type": "text",
+			"text": "**siigo.js — leer la plantilla**\n- busca la hoja visible y la fila de encabezados (la de más textos en las primeras 30)\n- **obligatorias** = encabezados de color oscuro (o con *)\n- lee las **listas desplegables**: texto fijo, rango de otra hoja o rango con nombre\n- sugiere el dato de la app por el nombre de la columna\n- se combina con lo que guardaste en «Columnas de la plantilla»",
+			"x": -200,
+			"y": 880,
+			"width": 680,
+			"height": 260
+		},
+		{
+			"id": "api_xlsx",
+			"type": "text",
+			"text": "**siigo.js — escribir el .xlsx**\nabre la plantilla como zip y **solo** cambia:\n- `sheetData` de la hoja (filas de datos, con el estilo de cada celda)\n- textos nuevos al final de `sharedStrings.xml`\n- el rango de la tabla de Excel, si existe\ntodo lo demás queda byte a byte igual · máximo **500 por archivo**",
+			"x": -200,
+			"y": 1190,
+			"width": 680,
+			"height": 240,
+			"color": "4"
+		},
+		{
+			"id": "api_otros",
+			"type": "text",
+			"text": "Otros: `/api/estado` · `/api/copia` · `/api/carpeta` (abre el Explorador) · `/api/salir`",
+			"x": -200,
+			"y": 1470,
+			"width": 680,
+			"height": 90
+		},
+		{
+			"id": "g4",
+			"type": "group",
+			"label": "4. Disco (carpeta de la app)",
+			"x": 600,
+			"y": -300,
+			"width": 560,
+			"height": 1340,
+			"color": "3"
+		},
+		{
+			"id": "d_base",
+			"type": "text",
+			"text": "**datos\\productos.sqlite**\nla base de trabajo (o la ruta que elijas, ej. OneDrive)",
+			"x": 640,
+			"y": -250,
+			"width": 480,
+			"height": 130
+		},
+		{
+			"id": "d_tablas",
+			"type": "text",
+			"text": "**Tablas**\n- `productos`: codigo_interno (único), codigo_barras (único si no está vacío), nombre, grupo, unidad, costo, precio_detal, precio_mayorista, impuesto, inc, creado, exportado_siigo\n- `barras_reservadas`: código, origen (eliminado / importado)\n- `contador_barras`: último consecutivo por prefijo",
+			"x": 640,
+			"y": -80,
+			"width": 480,
+			"height": 230
+		},
+		{
+			"id": "d_copias",
+			"type": "text",
+			"text": "**datos\\copias\\**\n`productos_AAAA-MM-DD_HHMMSS[_motivo].sqlite`\nmotivos: al-abrir · antes-de-abrir · manual · cada hora · se guardan 60",
+			"x": 640,
+			"y": 190,
+			"width": 480,
+			"height": 130
+		},
+		{
+			"id": "d_cfg",
+			"type": "text",
+			"text": "**datos\\config.json**\nBarTender · ruta de la base · columnas de Siigo",
+			"x": 640,
+			"y": 360,
+			"width": 480,
+			"height": 90
+		},
+		{
+			"id": "d_et",
+			"type": "text",
+			"text": "**datos\\etiquetas\\etiquetas.csv**\nsiempre el mismo archivo (para enlazarlo en el .btw)",
+			"x": 640,
+			"y": 490,
+			"width": 480,
+			"height": 90
+		},
+		{
+			"id": "d_log",
+			"type": "text",
+			"text": "**datos\\registro.log** — errores y llamadas a BarTender",
+			"x": 640,
+			"y": 620,
+			"width": 480,
+			"height": 70
+		},
+		{
+			"id": "d_pl",
+			"type": "text",
+			"text": "**plantillas\\**\nplantilla de Siigo `.xlsx` (si cargas otra con el mismo nombre, guarda la anterior)",
+			"x": 640,
+			"y": 730,
+			"width": 480,
+			"height": 90
+		},
+		{
+			"id": "d_exp",
+			"type": "text",
+			"text": "**exportados\\**\n`Siigo_productos_AAAA-MM-DD_HHMMSS[_loteN].xlsx`",
+			"x": 640,
+			"y": 860,
+			"width": 480,
+			"height": 90
+		},
+		{
+			"id": "g5",
+			"type": "group",
+			"label": "Flujos paso a paso",
+			"x": -1720,
+			"y": 1660,
+			"width": 2880,
+			"height": 820,
+			"color": "2"
+		},
+		{
+			"id": "f1",
+			"type": "text",
+			"text": "### Guardar un producto\n1. Escribes referencia, nombre, costo…\n2. «Usar este precio»: costo × (1 + ganancia) × (1 + IVA) → redondeo\n3. **Guardar producto**\n4. Si el código de barras está vacío y está activado el automático → se genera el siguiente EAN-13 libre\n5. Validaciones (errores bloquean, avisos se muestran)\n6. `INSERT` en la base en memoria (sql.js)\n7. `marcarCambio()` → la base completa va a **PUT /api/base**\n8. El servidor la escribe en disco y la verifica\n9. Indicador: **Guardado hh:mm**\n\nVarios cambios seguidos se juntan en un solo guardado.\nSi cierras la pestaña con algo pendiente, el navegador avisa.",
+			"x": -1680,
+			"y": 1710,
+			"width": 660,
+			"height": 720,
+			"color": "4"
+		},
+		{
+			"id": "f2",
+			"type": "text",
+			"text": "### Excel para Siigo\n1. En Siigo: Configuración → Productos y servicios → Importación → Crear plantilla\n2. «Cargar plantilla» → queda en `plantillas\\`\n3. Revisas «Columnas de la plantilla» (ej. Tipo de producto = valor fijo «Producto») y guardas\n4. **Revisar productos**: por cada producto y columna:\n   - obligatoria vacía → falla\n   - valor fuera de la lista de Siigo (ej. grupo que no existe) → falla\n5. **Exportar**: si algunos fallan, pregunta si exporta solo los buenos\n6. Se escriben los archivos en lotes de 500 en `exportados\\`\n7. A los exportados se les pone la fecha en la columna **Siigo**\n8. Subes el archivo en Siigo\n\nSiigo actualiza los productos que ya existen (mismo código), no los duplica.",
+			"x": -980,
+			"y": 1710,
+			"width": 660,
+			"height": 720,
+			"color": "4"
+		},
+		{
+			"id": "f3",
+			"type": "text",
+			"text": "### Etiqueta con BarTender\n1. Botón **Etiqueta** (fila) o **Imprimir con BarTender** (formulario)\n2. Necesita referencia y código de barras\n3. **POST /api/bartender** con la fila\n4. Se escribe `etiquetas.csv`: referencia, nombre, codigo_barras, precio_detal, grupo, impuesto\n5. Se ejecuta `bartend.exe` con la plantilla .btw, el CSV, la impresora y las copias\n6. Mensaje: enviada / error con el comando usado\n\n**Falta probar con BarTender real:**\n`bartend /?` en la versión instalada\n`/PRN` no está confirmado\n`/D` puede requerir la edición Automation → si falla, quitarlo y enlazar el .btw al CSV fijo",
+			"x": -280,
+			"y": 1710,
+			"width": 660,
+			"height": 720,
+			"color": "3"
+		},
+		{
+			"id": "f4",
+			"type": "text",
+			"text": "### Abrir una base vieja y conflictos\n**Abrir otra base…**\n1. Eliges un `.sqlite` (ej. de la versión 1)\n2. Se abre y se migra en memoria (agrega `unidad`, `exportado_siigo`)\n3. Confirmas → el servidor hace la copia «antes-de-abrir» de la actual\n4. La base elegida pasa a ser la de trabajo\n5. Si trae códigos de barras repetidos, los lista\nTu archivo original **no se modifica**.\n\n**Dos pestañas o dos computadores**\nCada guardado lleva la versión que leyó la pestaña. Si otra pestaña recargó o el archivo cambió (otro PC por OneDrive), el servidor responde 409: la pestaña vieja **no pisa** los datos y pide recargar (F5).\n\n**Segundo doble clic** → reutiliza el servidor abierto.",
+			"x": 420,
+			"y": 1710,
+			"width": 700,
+			"height": 720,
+			"color": "4"
+		},
+		{
+			"id": "g6",
+			"type": "group",
+			"label": "Reglas de negocio",
+			"x": -1720,
+			"y": 2560,
+			"width": 2880,
+			"height": 520,
+			"color": "1"
+		},
+		{
+			"id": "r1",
+			"type": "text",
+			"text": "### Precio desde el costo\n**costo sin IVA × (1 + ganancia) × (1 + IVA + INC)**\nganancia sobre el costo (30% por defecto)\nredondeo hacia arriba a terminación 900\n\nEjemplo: 76.000 → 98.800 → 117.572 → **117.900**\n50.000 → 77.350 → **77.900**\n\nPendiente: ¿el mayorista usa otra ganancia?",
+			"x": -1680,
+			"y": 2610,
+			"width": 660,
+			"height": 420,
+			"color": "1"
+		},
+		{
+			"id": "r2",
+			"type": "text",
+			"text": "### Código de barras propio (EAN-13)\n**prefijo (20–29) + consecutivo (10) + dígito verificador GS1**\nej. `2000000000015`\n- índice único en la base\n- el contador **nunca baja**\n- los códigos de productos eliminados quedan reservados\n- los códigos de CRS/Siigo cargados no se generan ni se aceptan\n- un prefijo distinto por base si trabajas en varias\nSirve para la tienda; no es un GTIN de GS1 para marketplaces.",
+			"x": -980,
+			"y": 2610,
+			"width": 660,
+			"height": 420,
+			"color": "1"
+		},
+		{
+			"id": "r3",
+			"type": "text",
+			"text": "### Impuestos (DIAN)\nprecio con IVA incluido · base = precio / (1 + IVA + INC)\nIVA 19% (por defecto) · IVA 5% · Exento · Excluido · No gravado\nINC: solo avisa (las prendas normalmente no lo llevan)\n\nEl tipo de impuesto de cada referencia lo confirma el **contador**.\nLas referencias normativas del panel están **por verificar**.",
+			"x": -280,
+			"y": 2610,
+			"width": 660,
+			"height": 420,
+			"color": "1"
+		},
+		{
+			"id": "r4",
+			"type": "text",
+			"text": "### Lo que no se cambia\n- la columna se llama `codigo_interno` (en pantalla: Referencia)\n- compatibilidad con .sqlite viejos: migraciones con `ALTER TABLE`\n- no se borran ni sobrescriben .sqlite del usuario (siempre copia antes)\n- la plantilla de Siigo no se modifica: sin columnas, fórmulas ni formato nuevos\n- `productos.html` (v1) queda como referencia",
+			"x": 420,
+			"y": 2610,
+			"width": 700,
+			"height": 420,
+			"color": "1"
+		},
+		{
+			"id": "probado",
+			"type": "text",
+			"text": "### Probado (24 oct)\n- plantilla de prueba hecha en Excel: obligatorias, listas, comparación del zip, Excel abre sin reparar, lotes 500 + 500 + 203\n- Playwright + Edge: **22/22** (crear, generar código, guardar en disco, recargar, Plantilla, Eliminar, reservados, BarTender simulado, exportar Siigo, conflicto de pestañas, base vieja)\n- instalación en limpio desde el .zip, segundo arranque, cerrar\n- corregido: espacios en la ruta de bartend.exe",
+			"x": 1240,
+			"y": -300,
+			"width": 520,
+			"height": 520,
+			"color": "4"
+		},
+		{
+			"id": "falta",
+			"type": "text",
+			"text": "### Falta\n- **plantilla real de Siigo** (.xlsx): revisar obligatorias y listas\n- grupos, impuestos y unidades reales (salen de la plantilla)\n- **BarTender real**: `bartend /?`, `/D`, `/PRN`, enlazar el .btw\n- ganancia del precio mayorista\n- instalar el .zip en un PC de la tienda",
+			"x": 1240,
+			"y": 260,
+			"width": 520,
+			"height": 420,
+			"color": "3"
+		}
+	],
+	"edges": [
+		{
+			"id": "e1",
+			"fromNode": "zip",
+			"fromSide": "bottom",
+			"toNode": "instalar",
+			"toSide": "top"
+		},
+		{
+			"id": "e2",
+			"fromNode": "instalar",
+			"fromSide": "bottom",
+			"toNode": "acceso",
+			"toSide": "top"
+		},
+		{
+			"id": "e3",
+			"fromNode": "acceso",
+			"fromSide": "bottom",
+			"toNode": "vbs",
+			"toSide": "top",
+			"label": "doble clic"
+		},
+		{
+			"id": "e4",
+			"fromNode": "vbs",
+			"fromSide": "bottom",
+			"toNode": "puerto",
+			"toSide": "top"
+		},
+		{
+			"id": "e5",
+			"fromNode": "puerto",
+			"fromSide": "bottom",
+			"toNode": "arranque",
+			"toSide": "top",
+			"label": "puerto libre"
+		},
+		{
+			"id": "e6",
+			"fromNode": "arranque",
+			"fromSide": "bottom",
+			"toNode": "navegador",
+			"toSide": "top"
+		},
+		{
+			"id": "e7",
+			"fromNode": "navegador",
+			"fromSide": "right",
+			"toNode": "ui_carga",
+			"toSide": "left"
+		},
+		{
+			"id": "e8",
+			"fromNode": "ui_carga",
+			"fromSide": "bottom",
+			"toNode": "ui_form",
+			"toSide": "top"
+		},
+		{
+			"id": "e9",
+			"fromNode": "ui_form",
+			"fromSide": "bottom",
+			"toNode": "ui_val",
+			"toSide": "top"
+		},
+		{
+			"id": "e10",
+			"fromNode": "seg",
+			"fromSide": "bottom",
+			"toNode": "api_base",
+			"toSide": "top"
+		},
+		{
+			"id": "e11",
+			"fromNode": "api_base",
+			"fromSide": "bottom",
+			"toNode": "escritura",
+			"toSide": "top"
+		},
+		{
+			"id": "e12",
+			"fromNode": "api_siigo",
+			"fromSide": "bottom",
+			"toNode": "api_xlsx",
+			"toSide": "top"
+		},
+		{
+			"id": "e13",
+			"fromNode": "escritura",
+			"fromSide": "right",
+			"toNode": "d_base",
+			"toSide": "left"
+		},
+		{
+			"id": "e14",
+			"fromNode": "api_base",
+			"fromSide": "right",
+			"toNode": "d_copias",
+			"toSide": "left",
+			"label": "copia"
+		},
+		{
+			"id": "e15",
+			"fromNode": "api_cfg",
+			"fromSide": "right",
+			"toNode": "d_cfg",
+			"toSide": "left"
+		},
+		{
+			"id": "e16",
+			"fromNode": "api_bt",
+			"fromSide": "right",
+			"toNode": "d_et",
+			"toSide": "left"
+		},
+		{
+			"id": "e17",
+			"fromNode": "api_xlsx",
+			"fromSide": "right",
+			"toNode": "d_exp",
+			"toSide": "left"
+		},
+		{
+			"id": "e18",
+			"fromNode": "api_siigo",
+			"fromSide": "right",
+			"toNode": "d_pl",
+			"toSide": "left",
+			"label": "lee"
+		},
+		{
+			"id": "e19",
+			"fromNode": "d_base",
+			"fromSide": "bottom",
+			"toNode": "d_tablas",
+			"toSide": "top"
+		},
+		{
+			"id": "e20",
+			"fromNode": "probado",
+			"fromSide": "bottom",
+			"toNode": "falta",
+			"toSide": "top"
+		}
+	]
+}

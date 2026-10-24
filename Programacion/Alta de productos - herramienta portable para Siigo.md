@@ -91,6 +91,8 @@ Reemplazar la pantalla de creación de productos de CRS (software de inventario,
 - Nada de esto se ha probado todavía en el PC con BarTender instalado.
 
 ## Versión 2: carpeta instalable (24 oct)
+Mapa visual de cómo funciona: [[Mapa Alta de productos.canvas|Mapa Alta de productos]].
+
 Opción elegida (A): app local con **Node.js incluido** (`node\node.exe`) y la interfaz en el navegador en `http://127.0.0.1:3789`. Se descartaron Python embebido (openpyxl puede dañar la plantilla, habría que reescribir la lógica) y Electron (150-250 MB y paso de build).
 
 **Estructura**

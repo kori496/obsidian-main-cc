@@ -13,6 +13,7 @@ actualizado: 2026-10-23
 
 - [[Alta de productos - herramienta portable para Siigo]]: herramienta HTML con base SQLite para dar de alta productos (reemplazo de CRS), con IVA/DIAN, códigos de barras propios y etiquetas BarTender, para importar a Siigo (23 oct). Pendiente: plantilla de Siigo.
 - [[Prompt - seguir Alta de productos con Claude Code]]: prompt para continuar el proyecto en VS Code.
+- [[Mapa Alta de productos.canvas|Mapa Alta de productos]]: canvas con cómo funciona la versión 2 (arranque, interfaz, servidor, disco, flujos y reglas) (24 oct).
 
 ## Conceptos rápidos
 - npm: `package.json` es la lista; `node_modules` no se sube a Git y se regenera con `npm install`.

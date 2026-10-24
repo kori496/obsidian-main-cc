@@ -1,0 +1,33 @@
+{
+  "frase": "how to sound like eyesofdirty",
+  "voz": "en-US-AriaNeural",
+  "preset": "robot",
+  "palabras": [
+    {
+      "texto": "how",
+      "ini": 0.1,
+      "dur": 0.2
+    },
+    {
+      "texto": "to",
+      "ini": 0.312,
+      "dur": 0.1
+    },
+    {
+      "texto": "sound",
+      "ini": 0.425,
+      "dur": 0.35
+    },
+    {
+      "texto": "like",
+      "ini": 0.787,
+      "dur": 0.225
+    },
+    {
+      "texto": "eyesofdirty",
+      "ini": 1.025,
+      "dur": 0.8
+    }
+  ],
+  "duracion": 2.682
+}

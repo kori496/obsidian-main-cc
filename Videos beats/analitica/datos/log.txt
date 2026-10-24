@@ -1,0 +1,7 @@
+===== jue 22/10/2026 19:51:15,39 ===== 
+C:\Users\sharo\PycharmProjects\pythonProject\venv\lib\site-packages\google\api_core\_python_version_support.py:223: FutureWarning: You are using a non-supported Python version (3.10.2). Google will not post any further updates to google.api_core supporting this Python version. Please upgrade to the latest Python version, or at least Python 3.11, and then update google.api_core.
+  warnings.warn(message, FutureWarning)
+Canal: lagrimankv | 2 suscriptores | 1042 vistas
+Videos leidos: 18
+Listo. Reporte: reporte_youtube.md | Base de datos: datos/youtube.db
+Overview.csv: serie diaria 'overview' (7 dias, metricas: Video Views, Profile Views, Likes, Comments, Shares)

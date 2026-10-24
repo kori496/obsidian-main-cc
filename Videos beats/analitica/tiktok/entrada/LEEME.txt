@@ -1,0 +1,3 @@
+Suelta aqui los CSV de TikTok Studio (Analytics > Descargar datos) y ejecuta:
+    python importar_tiktok.py
+Los archivos ya importados se mueven a tiktok/importados/.

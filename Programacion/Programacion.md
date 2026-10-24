@@ -1,0 +1,21 @@
+---
+tags: [programacion, indice]
+actualizado: 2026-10-23
+---
+
+# Programación
+
+Índice de notas de código. Reglas en `CLAUDE.md`.
+
+## Proyectos y aprendizaje
+- [[Descargador de YouTube con Node y yt-dlp]]: app local con Express y yt-dlp, explicada paso a paso (npm, Express, formularios, GET/POST, spawn).
+- [[Descargador de redes - motores, diseño y panel]]: continuación (23 oct). Arreglos del código, 6 motores con redes por motor, botón «Ver descarga», diseño y animaciones, e integración como pestaña de [[Panel web lagrim-stats]].
+
+## Conceptos rápidos
+- npm: `package.json` es la lista; `node_modules` no se sube a Git y se regenera con `npm install`.
+- GET pide info sin cambiar nada; POST envía datos para que el servidor actúe. Los datos de POST van en el cuerpo.
+- `express.urlencoded` es necesario para leer `req.body` en formularios.
+- No fiarse de la ruta que imprime yt-dlp (`--print after_move:filepath`): con caracteres especiales en el título falla en Windows. Mejor buscar el archivo nuevo en la carpeta de descargas por fecha.
+- Para abrir el Explorador con un archivo seleccionado: `explorer /select,"ruta"` (con `windowsVerbatimArguments: true` en Node).
+
+Volver a [[Bitácora]]

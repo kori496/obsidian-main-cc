@@ -1,0 +1,41 @@
+{
+	"nodes":[
+		{"id":"hub","type":"file","file":"Edicion de imagenes/Edición de imágenes.md","x":-200,"y":-120,"width":400,"height":260,"color":"#D81B60"},
+		{"id":"estilo","type":"file","file":"Edicion de imagenes/Preferencias de estilo.md","x":-700,"y":-500,"width":300,"height":160,"color":"#F06292"},
+		{"id":"mat","type":"file","file":"Edicion de imagenes/Material y carpetas.md","x":-150,"y":-560,"width":300,"height":160,"color":"#FF7043"},
+		{"id":"flujo","type":"file","file":"Edicion de imagenes/Flujo de trabajo.md","x":400,"y":-480,"width":300,"height":160,"color":"#FFA726"},
+		{"id":"cal","type":"file","file":"Edicion de imagenes/Calendario de contenido.md","x":560,"y":-60,"width":300,"height":160,"color":"#FFA726"},
+		{"id":"jeans","type":"file","file":"Edicion de imagenes/Referencias de jeans.md","x":500,"y":320,"width":300,"height":160,"color":"#FFA726"},
+		{"id":"grab","type":"file","file":"Edicion de imagenes/Guía de grabación.md","x":-50,"y":360,"width":300,"height":160,"color":"#FF7043"},
+		{"id":"herr","type":"file","file":"Edicion de imagenes/Herramientas.md","x":-650,"y":280,"width":300,"height":160,"color":"#C62828"},
+		{"id":"pend","type":"file","file":"Edicion de imagenes/Pendientes.md","x":-800,"y":-60,"width":300,"height":160,"color":"#C62828"},
+		{"id":"skills","type":"file","file":"Skills.md","x":400,"y":-860,"width":300,"height":160,"color":"#F4C430"},
+		{"id":"db","type":"file","file":"Edicion de imagenes/Base de datos/Base de datos fotos en crudo.md","x":-700,"y":-900,"width":320,"height":180,"color":"#FFAB91"},
+		{"id":"ses","type":"file","file":"Edicion de imagenes/Base de datos/Sesiones de fotos.md","x":-1100,"y":-700,"width":320,"height":180,"color":"#FFAB91"},
+		{"id":"refs","type":"file","file":"Edicion de imagenes/Referencias/Referencias de estilo.md","x":-1150,"y":-350,"width":320,"height":180,"color":"#F8A5C2"}
+	],
+	"edges":[
+		{"id":"hub-estilo","fromNode":"hub","toNode":"estilo","fromSide":"top","toSide":"bottom"},
+		{"id":"hub-mat","fromNode":"hub","toNode":"mat","fromSide":"top","toSide":"bottom"},
+		{"id":"hub-flujo","fromNode":"hub","toNode":"flujo","fromSide":"top","toSide":"bottom"},
+		{"id":"hub-cal","fromNode":"hub","toNode":"cal","fromSide":"right","toSide":"left"},
+		{"id":"hub-jeans","fromNode":"hub","toNode":"jeans","fromSide":"right","toSide":"top"},
+		{"id":"hub-grab","fromNode":"hub","toNode":"grab","fromSide":"bottom","toSide":"top"},
+		{"id":"hub-herr","fromNode":"hub","toNode":"herr","fromSide":"bottom","toSide":"top"},
+		{"id":"hub-pend","fromNode":"hub","toNode":"pend","fromSide":"left","toSide":"right"},
+		{"id":"grab-mat","fromNode":"grab","toNode":"mat","label":"clips","fromSide":"top","toSide":"bottom"},
+		{"id":"mat-flujo","fromNode":"mat","toNode":"flujo","label":"fotos en crudo","fromSide":"right","toSide":"left"},
+		{"id":"estilo-flujo","fromNode":"estilo","toNode":"flujo","label":"cómo editar","fromSide":"right","toSide":"left"},
+		{"id":"flujo-cal","fromNode":"flujo","toNode":"cal","label":"qué publicar","fromSide":"bottom","toSide":"top"},
+		{"id":"cal-jeans","fromNode":"cal","toNode":"jeans","label":"modelos","fromSide":"bottom","toSide":"top"},
+		{"id":"herr-flujo","fromNode":"herr","toNode":"flujo","label":"fondo / resolución","fromSide":"top","toSide":"bottom"},
+		{"id":"pend-herr","fromNode":"pend","toNode":"herr","fromSide":"bottom","toSide":"top"},
+		{"id":"hub-skills","fromNode":"hub","toNode":"skills","label":"skills","fromSide":"top","toSide":"bottom"},
+		{"id":"hub-db","fromNode":"hub","toNode":"db","fromSide":"top","toSide":"bottom"},
+		{"id":"hub-refs","fromNode":"hub","toNode":"refs","fromSide":"left","toSide":"right"},
+		{"id":"db-ses","fromNode":"db","toNode":"ses","label":"sesiones","fromSide":"left","toSide":"right"},
+		{"id":"mat-db","fromNode":"mat","toNode":"db","label":"fotos en crudo","fromSide":"top","toSide":"bottom"},
+		{"id":"refs-estilo","fromNode":"refs","toNode":"estilo","label":"guía visual","fromSide":"right","toSide":"left"},
+		{"id":"db-flujo","fromNode":"db","toNode":"flujo","label":"elegir fotos","fromSide":"right","toSide":"left"}
+	]
+}

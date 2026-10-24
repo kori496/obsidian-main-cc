@@ -11,6 +11,12 @@ Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reg
 - Herramienta portable para dar de alta productos, reemplazo de la creación de productos de CRS: `Programacion\Alta de productos\productos.html`. Un solo archivo, sin instalación, guarda una base `.sqlite` y exporta CSV. Nota: [[Alta de productos - herramienta portable para Siigo]].
 - Revisada la guía de Siigo «Subir desde Excel Productos»: plantilla desde Configuración → Productos y servicios → Importación, máximo 500 registros, no modificar columnas. Falta la plantilla real para generar el Excel.
 
+## 2026-10-24 (alta de productos: prompt para Claude Code)
+- Nueva nota [[Prompt - seguir Alta de productos con Claude Code]] con el prompt para continuar el proyecto en VS Code. Se volvieron a añadir el enlace en el índice [[Programacion]] y la sección de códigos que no se repiten en la nota del proyecto: el PC había vuelto a una versión vieja tras guardar.
+
+## 2026-10-23 (alta de productos: códigos que no se repiten)
+- `productos.html`: índice único en la base, contador que nunca baja, códigos de productos eliminados reservados y carga de códigos existentes de CRS o Siigo. Detalles y límites en [[Alta de productos - herramienta portable para Siigo]].
+
 ## 2026-10-23 (alta de productos: precio con ganancia)
 - `productos.html`: campo «Ganancia sobre el costo (%)» (30% por defecto) y redondeo (terminar en 900), con el precio calculado y botón «Usar este precio». Ejemplo: 76.000 → 117.572 → 117.900. Ver [[Alta de productos - herramienta portable para Siigo]].
 

@@ -285,7 +285,7 @@
 			"x": 600,
 			"y": -300,
 			"width": 560,
-			"height": 1500,
+			"height": 1570,
 			"color": "3"
 		},
 		{
@@ -318,18 +318,18 @@
 		{
 			"id": "d_cfg",
 			"type": "text",
-			"text": "**datos\\config.json**\nBarTender · ruta de la base · columnas de Siigo",
+			"text": "**configuracion\\opciones.json** (carpeta propia, se puede copiar a otro PC)\nBarTender (exe, .btw, impresora, copias) · impresoras usadas · **última carpeta** por tipo de archivo · ruta de la base · columnas de Siigo\n(antes: datos\\config.json → migrado solo)",
 			"x": 640,
 			"y": 360,
 			"width": 480,
-			"height": 90
+			"height": 150
 		},
 		{
 			"id": "d_et",
 			"type": "text",
 			"text": "**datos\\etiquetas\\etiquetas.csv**\nsiempre el mismo archivo (para enlazarlo en el .btw)",
 			"x": 640,
-			"y": 490,
+			"y": 560,
 			"width": 480,
 			"height": 90
 		},
@@ -338,7 +338,7 @@
 			"type": "text",
 			"text": "**datos\\registro.log** — errores y llamadas a BarTender",
 			"x": 640,
-			"y": 620,
+			"y": 690,
 			"width": 480,
 			"height": 70
 		},
@@ -347,7 +347,7 @@
 			"type": "text",
 			"text": "**plantillas\\**\nplantilla de Siigo `.xlsx` (si cargas otra con el mismo nombre, guarda la anterior)",
 			"x": 640,
-			"y": 730,
+			"y": 800,
 			"width": 480,
 			"height": 90
 		},
@@ -356,7 +356,7 @@
 			"type": "text",
 			"text": "**exportados\\**\n`Siigo_productos_AAAA-MM-DD_HHMMSS[_loteN].xlsx`",
 			"x": 640,
-			"y": 860,
+			"y": 930,
 			"width": 480,
 			"height": 90
 		},
@@ -485,7 +485,7 @@
 			"type": "text",
 			"text": "**datosimpresiones.log** — no se borra nunca\n`fecha | IMPRESO/ERROR | ref | nombre | barras | $precio | N etiquetas | impresora | desde`\n+ líneas «Programa abierto» / «Programa cerrado (motivo)»",
 			"x": 640,
-			"y": 990,
+			"y": 1060,
 			"width": 480,
 			"height": 150,
 			"color": "4"
@@ -521,18 +521,18 @@
 		{
 			"id": "imp_hist",
 			"type": "text",
-			"text": "**Historial de esta sesión**\nhora · referencia · nombre · precio · etiquetas · desde · resultado\n**Reimprimir** (cantidad · precio)\ntotal de etiquetas impresas\n«Ver log de impresiones» abre el log en el Bloc de notas",
+			"text": "**Historial de esta sesión**\nhora · referencia · nombre · precio · etiquetas · desde · resultado\n**Reimprimir** (cantidad · precio)\ntotal de etiquetas impresas\n«Ver log de impresiones» abre el log en el Bloc de notas\n**Ctrl+F7** reinicia la sesión (pide confirmar; queda en el log)\n**← Volver** regresa a la ventana principal",
 			"x": 1260,
 			"y": 1260,
 			"width": 480,
-			"height": 190
+			"height": 240
 		},
 		{
 			"id": "imp_lat",
 			"type": "text",
 			"text": "Ambas pestañas mandan un **latido** cada 30 s al servidor",
 			"x": 1260,
-			"y": 1490,
+			"y": 1540,
 			"width": 480,
 			"height": 70
 		}

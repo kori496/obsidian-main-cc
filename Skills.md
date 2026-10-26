@@ -7,7 +7,7 @@ actualizado: 2026-10-21
 
 Manual de los skills de Claude: **cómo funciona** cada uno, **qué debe hacer** y **cómo debe comportarse** en situaciones que ya pasaron.
 
-**Proyectos:** [[Edición de imágenes]] · [[Videos beats]]
+**Proyectos:** [[Edición de imágenes]] · [[Videos beats]] · Herramientas: [[REA - ingeniería inversa]]
 
 Leyenda: 🖼️ Edición de imágenes · 🎧 Videos beats · 🌐 general · ⚠️ situación que ya pasó
 

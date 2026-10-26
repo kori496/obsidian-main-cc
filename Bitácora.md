@@ -1,11 +1,92 @@
----
+﻿---
 tags: [bitacora]
-actualizado: 2026-10-24
+actualizado: 2026-10-25
 ---
 
 # 📓 Bitácora
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
+
+## 2026-10-25 (prompt para analizar apps con REA)
+- Nueva nota [[Prompt - analizar app propia con REA]]: prompt en tres fases que inventaría las opciones de una app, traza el efecto de cada una en el sistema y guarda el resultado en el vault. Sin probar todavía con una app real. Enlazada desde [[REA - ingeniería inversa]].
+
+## 2026-10-25 (REA: Ghidra funcionando)
+- `GHIDRA_INSTALL_DIR` apuntaba al archivo `ghidraRun` en vez de a la carpeta raíz del release; corregido y `rea doctor` en verde para Ghidra 12.2.
+- Nota tocada: [[REA - ingeniería inversa]].
+
+## 2026-10-25 (REA: timeout al conectar)
+- `claude mcp list` mostró `rea` con timeout de 30 s (npx lento); tras las pruebas sugeridas ya conectó. La carpeta `rust prueba\ghidra` resultó ser código fuente, no un release; sigue pendiente el release 12.1.x y `GHIDRA_INSTALL_DIR`.
+- Nota tocada: [[REA - ingeniería inversa]].
+
+## 2026-10-25 (REA: Ghidra y doctor)
+- Instalar REA en el entorno en la nube no se pudo (npm bloqueado por política, 403). Sigue instalado solo en el PC.
+- Interpretado el resultado de `rea doctor`: lo único que faltaba para Ghidra era `GHIDRA_INSTALL_DIR` (Ghidra 12.1.x extraído). Anotado cómo comprobar el JDK y qué avisos ignorar.
+- Nota tocada: [[REA - ingeniería inversa]].
+
+## 2026-10-24 (navegador propio basado en Zen)
+- Zen es open source, así que basta con un fork. Se eligió el fork completo, pero el PC no da para compilarlo (9 GB libres, 8 GB de RAM, sin VS/Rust/MozillaBuild). Pendiente elegir: nube, más disco con artifact build, o mods.
+- Nota nueva: [[Navegador propio - fork de Zen Browser]] (enlazada desde [[Programacion]]).
+
+## 2026-10-24 (REA instalado en Claude Code)
+- Aplicado `rea-agents@6.7.0 setup --client claude_code --yes`: MCP `rea` registrado en `.claude.json` (copia en `.claude.json.rea.backup`) y skill `reverse-engineer-anything` instalado. Verificado con `rea doctor` (aligned) y `claude mcp get rea` (Connected).
+- La tabla «Sep oct» de TikTok **se deja** (decidido: no borrarla).
+- Nota tocada: [[REA - ingeniería inversa]].
+
+## 2026-10-24 (skill analyze-apps-with-rea)
+- Nuevo skill de Claude Code `analyze-apps-with-rea` (SKILL.md + `scripts/trace_input.py`) con el flujo de REA para apps Electron: analizar, sembrar por canal IPC, rastrear y confirmar en el código. Script probado con notes-example (1 coincidencia, 1 ruta, cobertura completa). Sin evals ni optimización de la descripción.
+- Nota tocada: [[REA - ingeniería inversa]].
+
+## 2026-10-24 (REA: plan de instalación y ejemplo notes)
+- Revisado el plan de `rea-agents@6.7.0 setup` para Claude Code (2 acciones). **No aplicado**: falta tu aprobación.
+- Descargado y descomprimido `notes-example.zip` en `metricool\rea-work\rea-work\example\`. Trazado con REA (vía `npx`) el botón «Export notes»: escribe `notes.csv` en Descargas, con columnas `id,title`.
+- Nota nueva: [[REA - ingeniería inversa]], enlazada desde [[Skills]].
+
+## 2026-10-24 (lagrim-stats: revisión de datos de fin de día)
+- Se corrió `ejecutar_diario.bat` (sin errores). YouTube: 2 suscriptores, 1.567 vistas totales, 21 videos (la analítica llega hasta el 22 oct; YouTube va 2 días atrasado). TikTok: sin CSV nuevos, 797 vistas del 14 al 22 oct. Instagram API: 0 seguidores, 105 vistas y 101 de alcance, 5 publicaciones.
+- Global (28 d): 2.301 vistas, 26 interacciones, 2,9 interacciones por cada 100 vistas (TikTok + Instagram).
+- Arreglado: el rango de fechas de cada bloque (p. ej. «Api») ahora cubre todas las métricas (antes decía «1 día»).
+- Pendiente: un CSV de Instagram (`Sep-24-2026_Oct-21-2026_979051954630492.csv`, reels de @lagrimankv) se importó por error en TikTok y sale como tabla «Sep oct» en esa pestaña. No afecta a las sumas. No se borró sin preguntar.
+- Nota tocada: [[Panel web lagrim-stats]].
+
+## 2026-10-24 (lagrim-stats: Instagram conectado)
+- La API de Instagram no funcionaba: `meta_config.json` tenía el token como texto suelto, no JSON. Se reescribió en el formato correcto (copia del original en `meta_config.antes-de-arreglar.txt`, ignorada por git). Probado: conecta como @lagrimankv, el token se renovó y trajo 5 publicaciones; Global ya suma Instagram.
+- El panel ahora avisa si el archivo de configuración está mal escrito, mostrando el motivo.
+- Nota tocada: [[API de Instagram (Meta) - configuración y errores]].
+
+## 2026-10-24 (lagrim-stats: panel «Todas las plataformas»)
+- En Global, arriba del resumen por red, nuevo panel con la suma de YouTube + TikTok + Instagram (28 días): seguidores + suscriptores, vistas, interacciones e interacciones por cada 100 vistas. Debajo de cada número dice qué redes se sumaron; las que no tienen el dato no cuentan como cero.
+- La tasa por cada 100 vistas solo usa redes que tienen vistas e interacciones (YouTube no da interacciones por día y la diluía de 3,1 a 1,1).
+- Nota tocada: [[Panel web lagrim-stats]].
+
+## 2026-10-24 (lagrim-stats: código del panel unificado)
+- Se sacó el código repetido de las 5 páginas del panel a `web/comun.php` (funciones, base de datos, menú, subida de CSV, carga de TikTok/Instagram, tarjetas y tablas) y `web/comun.js` (tablas ordenables, colores y gráficos por métrica). TikTok pasó de 264 a 59 líneas; Instagram de 335 a 135.
+- Comprobado: el HTML de las 5 páginas sale igual que antes, el JS corre sin errores (Chart.js simulado) y la subida de CSV rechaza bien archivos vacíos o que no son .csv. La velocidad ya era buena (~0,3 s), no hacía falta tocarla.
+- Nota tocada: [[Panel web lagrim-stats]].
+
+## 2026-10-24 (alta de productos: GitHub limpio)
+- `kori496/ALTA` en GitHub volvió al «Initial commit» (solo LICENSE y README): sin rastro de la app ni de las bases en el historial de `main`. El usuario lo sube él mismo; local quedó sin commit, con `.gitignore` listo. Rama local `respaldo-antes-de-limpiar` guarda el historial viejo (con datos): no subirla.
+
+## 2026-10-24 (alta de productos: logo y marcas de Siigo)
+- Logo de texto «ALTA» arriba a la derecha (reemplaza el título «Alta de productos»; la pestaña también dice ALTA).
+- Se quitó la fecha de «exportado a Siigo» a los 7759 productos (nada estaba subido). Copia previa: `datos\copias\productos_2026-10-24_203424_antes-quitar-siigo.sqlite`. Ahora «Exportar a Excel» (solo nuevos) los incluye todos.
+
+## 2026-10-24 (alta de productos: .gitignore para GitHub)
+- Repo privado `kori496/ALTA`: `.gitignore` nuevo (fuera: `datos/`, `exportados/`, `configuracion/opciones.json`, `node/`, `node_modules/`, `*.zip`). Archivos sacados del índice, siguen en disco. Ojo: el primer commit ya subido contiene las bases y node.exe; pendiente decidir si se limpia el historial.
+
+## 2026-10-24 (alta de productos: código de barras = referencia)
+- Formulario «Nuevo producto»: el código de barras se guarda también como referencia (`codigo_interno`); campos nuevos Referencia (Vf2944) y Descripción (Body), guardados juntos como nombre «Body Vf2944». Sin cambios en la base. También se explicó que pasar a PHP no muestra las impresoras del PC cliente. Nota: [[Alta de productos - herramienta portable para Siigo]] (sección «Código de barras = referencia»).
+
+## 2026-10-24 (alta de productos: carpeta de opciones)
+- Carpeta `configuracion\opciones.json`: BarTender, impresora elegida e impresoras usadas, última carpeta de cada tipo de archivo, ubicación de la base y columnas de Siigo. Ventana de Windows para abrir archivos en la última carpeta; lista de impresoras instaladas. Opciones viejas migradas solas. 54/54 pruebas + ventana real probada; .zip rehecho. Nota: [[Alta de productos - herramienta portable para Siigo]] (sección «Carpeta de opciones guardadas»).
+
+## 2026-10-24 (alta de productos: imprimir fallaba por servidor viejo)
+- El programa abierto (carpeta normal) seguía con el código de antes de la impresión: las páginas eran nuevas y el servidor viejo («Ruta desconocida»). Reiniciado. Ahora el doble clic detecta si el código cambió, cierra la versión vieja y abre la nueva (anotado en el log). Pruebas 46/46 y 5/5; .zip rehecho. Nota: [[Alta de productos - herramienta portable para Siigo]].
+
+## 2026-10-24 (alta de productos: error «Sesión no válida»)
+- Resuelto: tras reiniciarse el programa, las pestañas abiertas quedaban con la clave vieja. Ahora renuevan la clave solas; la versión de la base sale de la fecha y tamaño del archivo, así que reiniciar o abrir otra ventana ya no obliga a recargar. 46/46 pruebas; .zip rehecho. Nota: [[Alta de productos - herramienta portable para Siigo]].
+
+## 2026-10-24 (alta de productos: Volver, Ctrl+F7 y texto del botón)
+- Pestaña de impresión con botón «← Volver»; Ctrl+F7 reinicia la sesión de impresión (con confirmación, anotado en el log); el botón dice «Imprimir». 43/43 pruebas en cuatro corridas; .zip rehecho. Nota tocada: [[Alta de productos - herramienta portable para Siigo]] (sección «Botón IMPRIMIR, historial y log»).
 
 ## 2026-10-24 (alta de productos: botón IMPRIMIR)
 - Botón IMPRIMIR que abre una pestaña con solo los productos de la sesión (cantidad y precio por etiqueta), historial de la sesión con reimpresión (se reinicia al cerrar el programa) y log permanente `datos\impresiones.log`. El programa se cierra solo tras 10 min sin pestañas. 36/36 pruebas con Playwright; .zip rehecho.

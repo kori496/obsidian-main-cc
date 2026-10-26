@@ -1,4 +1,4 @@
----
+﻿---
 tags: [bitacora]
 actualizado: 2026-10-25
 ---
@@ -6,6 +6,11 @@ actualizado: 2026-10-25
 # 📓 Bitácora
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
+
+## 2026-10-25 (Pro-Q 4: Ghidra OK y FASE 2 bloque 1)
+- Ghidra 12.1.4 funciona con REA (timeout subido a 30 min). Como la CLI reanaliza en cada comando, se montó una sesión MCP persistente por script.
+- Bloque 1 (opciones 1-10) trazado: menú de presets, cambio de carpeta (registro HKCU), Restore Factory Presets (extrae un archivo embebido y sobrescribe), Favorites.txt y Save As Default. Corregida la fila 9: Revert y Load Factory Settings son del menú MIDI Learn.
+- Notas tocadas: [[FabFilter Pro-Q 4]], [[REA - ingeniería inversa]].
 
 ## 2026-10-25 (prueba de Ghidra para REA)
 - Las variables nuevas apuntan a carpetas que no existen (Ghidra 12.1.4 sin extraer; `JAVA_HOME` con «jdk-21...»). Con el JDK 25 real, Java pasa; con la 12.2, REA solo rechaza la versión.

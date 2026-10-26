@@ -11,7 +11,7 @@ Volver a [[Análisis de apps con REA]]
 - **No es una app propia**: es un plugin comercial de FabFilter B.V. (lo dice el `Readme.txt`). El análisis es estático y se limita a qué hace el plugin en el sistema. No se analiza la lógica de licencia ni de activación.
 - `C:\Program Files\FabFilter\Pro-Q 4` solo tiene la ayuda (`FabFilter Pro-Q 4.chm`), el icono, el `Readme.txt` y el desinstalador. El código real está en `C:\Program Files\Common Files\VST3\FabFilter\FabFilter Pro-Q 4.vst3`: una DLL PE32+ x86-64 de un solo archivo (no es una carpeta-bundle), 4 784 128 bytes, SHA-256 `292580739f88e8d48662aa25b5b4022a03657a0c2d4331f2f1216db9b6229271`.
 - Exporta `GetPluginFactory` (0x180106f90, VST3) y `VSTPluginMain` (0x180106fa0, punto de entrada VST2).
-- Estado: **FASE 1 hecha** (inventario). Fases 2 y 3 pendientes del visto bueno y de tener Ghidra funcionando en REA (ver «Qué NO funcionó»).
+- Estado: FASE 1 hecha. **FASE 2: bloque 1 (opciones 1-10) hecho** con Ghidra 12.1.4 vía REA (25 oct 2026). Siguen los bloques 2-6 y la FASE 3.
 
 ## Tabla de opciones (FASE 1)
 La evidencia es la dirección virtual (VA) de la cadena dentro de la DLL, o el import o valor de registro. **confirmado** = la opción existe en el binario (cadena de UI o menú, import) o se vio en el registro o en disco. **probable** = deducido por asociación, sin traza de código.
@@ -26,7 +26,7 @@ La evidencia es la dirección virtual (VA) de la cadena dentro de la DLL, o el i
 | 6 | Menú y navegador de presets (Search, favoritos, etiquetas, Author..., Description...) | 0x180236ac0, 0x180233380-0x1802336d0 | confirmado |
 | 7 | Open Other Preset... / Save As... (.ffp) | 0x1802386e8, 0x180233408, filtro 0x180238998; imports `GetOpenFileNameW`/`GetSaveFileNameW` | confirmado |
 | 8 | Change Preset Folder... | 0x180238700, 0x180238438; `SHBrowseForFolderW`; registro `PresetFolder` | confirmado |
-| 9 | Refresh / Revert / Load Factory Settings / Restore Factory Presets | 0x180238718, 0x180238734, 0x180238740, 0x1802382b0 | confirmado |
+| 9 | Refresh / Restore Factory Presets (**corregido**: Revert y Load Factory Settings son del menú MIDI Learn, ver nº 13) | 0x180238718, 0x1802382b0 | confirmado |
 | 10 | Options > Save As Default / Favorite (Favorites.txt) | 0x180238278, 0x180238268, 0x18022d160, cabecera 0x18022d3e8 | confirmado |
 | 11 | Enable MIDI Program Changes | 0x180238460; registro `EnableMIDIProgramChanges` | confirmado |
 | 12 | Presets de componente (.ffpresetmap, «Component Presets») | 0x180238a80, 0x180239e00, 0x18023a5b8; carpeta `%APPDATA%\FabFilter\Pro-Q 4\Component Presets` | confirmado |
@@ -81,8 +81,37 @@ La evidencia es la dirección virtual (VA) de la cadena dentro de la DLL, o el i
 
 **No encontrado** (búsqueda acotada a cadenas e imports): argumentos de línea de comandos (es una DLL que carga el host), claves `Run` o inicio con Windows, tareas programadas, lanzamiento de procesos aparte de `ShellExecuteW` (abrir URL o ayuda), endpoints distintos de `www.fabfilter.com`.
 
-## Detalle por opción
-Pendiente (FASE 2), en bloques de 5 a 10 opciones, cuando REA pueda abrir el binario con Ghidra.
+## Detalle por opción (FASE 2)
+Funciones con el nombre que les pone Ghidra (`FUN_<dirección>`). «Confirmado» = visto en el pseudocódigo. «Probable» = el salto pasa por una llamada virtual o una tabla de funciones (vtable) que Ghidra no resuelve sola.
+
+### Bloque 1 (opciones 1-10): barra superior y presets
+- **Menú de presets**: lo construye `FUN_1800d7050`. Cada opción guarda la dirección de su manejador: Enable MIDI Program Changes → `FUN_1800d4b40`; Save As Default → 0x1800ddb14; Open Other Preset → `FUN_1800d81e0`; Change Preset Folder → 0x1800ddb74; Restore Factory Presets → `FUN_1800da090`; Refresh → `FUN_1800da060` (confirmado). 0x1800ddb14 y 0x1800ddb74 son mini-funciones que solo saltan a una entrada de la vtable (`mov rax,[rcx]; jmp [rax+0x170]` y `[rax+0x120]`). Leyendo las vtables (0x1802390a8 y otras dos iguales) se llega a `FUN_1800da160` y `FUN_1800d47e0` (probable).
+
+1. **Undo**, 2. **Redo**: REA/Ghidra **no pudo enlazarlos**. Las únicas referencias a `IconUndo`/`IconRedo` están en una tabla de datos (0x180227e00/08) que ningún código usa directamente. Probable: solo cambian el estado en memoria, sin efectos en el sistema.
+3. **A/B**, 4. **Copy**: no enlazados. Solo se encontró el tooltip. Probable: estado en memoria.
+5. **Preset anterior/siguiente**: no enlazado directamente. Probable: carga el `.ffp` anterior o siguiente de la lista indexada (ver 6).
+6. **Navegador e indexado de presets**: `FUN_18002af90` recorre la carpeta de presets (`FUN_18002a020`, con un límite de 0x9c4 = 2500 entradas; probable) y `FUN_18001e3c0` lista archivos con `FindFirstFileW` (confirmado). Caché en `PresetCache.dat` (`FUN_1800e6060`). Ruta en disco vista: `%APPDATA%\FabFilter\Pro-Q 4\PresetCache.dat`. El enlace entre la función y esa ruta es probable. Si falla la lectura, muestra «Unable to read presets…» (`FUN_1800af370`).
+   - Efectos: lee la carpeta de presets y escribe `PresetCache.dat`. Sin red ni registro.
+7. **Open Other Preset… / Save As…**:
+   - Open: `FUN_1800d81e0` abre un diálogo con el filtro `FabFilter Presets (*.ffp)` y empieza en la carpeta de presets. `GetOpenFileNameW` solo se llama en `FUN_18014bd60` (0x18014bfd6). El salto hasta ahí es una llamada virtual (probable). Solo lee el `.ffp` elegido.
+   - Save As: lo arma `FUN_1800dbb50`. El de presets de componente es `FUN_1800dc0b0` (filtro «Component Preset»). `GetSaveFileNameW` está en `FUN_18014bd60` (0x18014bfde). Escribe el `.ffp` donde elijas.
+8. **Change Preset Folder…** → `FUN_1800d47e0` (confirmado):
+   - Abre el diálogo «Select a folder to store your presets». `SHBrowseForFolderW` solo se usa en `FUN_18014c240` (probable).
+   - Si aceptas: reindexa la carpeta (`FUN_18002af90`), guarda los ajustes (`FUN_1800eacc0`) y actualiza favoritos y caché (`FUN_18002b160`).
+   - `FUN_1800eacc0` usa un `RegistryWriter` sobre `HKCU` (0x80000001) y la clave `Software\FabFilter\<producto>\<versión>` que arma `FUN_180020c00`; en tu PC es `HKCU\Software\FabFilter\Pro-Q\4.0`. Escritura con `RegCreateKeyExW` (permiso total, 0xF003F) + `RegSetValueExW` (`FUN_18014cdb0`, `FUN_18014ced0`, `FUN_18014cff0`).
+   - El valor se llama `PresetFolder` (`FUN_1800ead60`, que también comprueba que la carpeta existe con `GetFileAttributesW`).
+   - Carpeta por defecto (`FUN_180020990`): Documentos (`SHGetSpecialFolderLocation` con CSIDL 5, en `FUN_18001fe80`) + `FabFilter\Presets\<producto>\`. Si falla, usa `C:\My Documents`. Por eso en tu PC queda en `OneDrive\Documentos\...`, porque Documentos está redirigido a OneDrive.
+   - Las carpetas se crean de forma recursiva con `CreateDirectoryW` (`FUN_18001f330`); que se use justo aquí es probable.
+9. **Refresh**: `FUN_1800da060` → `FUN_18002b060` vuelve a leer la lista de presets. **Restore Factory Presets**: `FUN_1800da090` pide confirmación; al aceptar, `FUN_1800dd7b0` → `FUN_1800e8340(sobrescribir=1)`:
+   - Saca del recurso RCDATA `WINDOWSSETUPDOCS` (415 841 bytes, formato de archivo comprimido con firma `FS/ISB/3`; `FUN_18001f690`, `FUN_18001f190` con `FindResourceW`, `FUN_18014d150`) dos carpetas:
+     - `ApplicationData` → carpeta de datos del plugin (probable `%APPDATA%\FabFilter\Pro-Q 4`).
+     - `FactoryPresets` → tu carpeta de presets.
+   - **Sobrescribe** los presets de fábrica y el preset por defecto, y luego reindexa. Si la carpeta es de solo lectura, sale «Unable to restore all factory presets».
+10. **Save As Default** → `FUN_1800da160` (probable por la vtable): serializa el estado actual (`FUN_180022e20`) y lo guarda como preset dentro de la carpeta de presets. Es lo que abren las instancias nuevas. **Favorite** → `FUN_1800dafb0` / `FUN_180028ab0`: escribe `Favorites.txt` en la carpeta de presets, con la cabecera «# == FabFilter Preset Favorites File ==» (confirmado).
+
+**Extra (nº 11)**: `FUN_1800d4b40` cambia el indicador de Program Changes en memoria (`DAT_1802bdfe8+0x78`). `FUN_1800ec870` es el que guarda todos los ajustes en el registro; ahí se ven los nombres `EnableMIDIProgramChanges`, `GraphicsAcceleration`, `LicenseError`, `RetinaEnabled`, `showInteractiveHelp`, `showWelcomeHint`, `ShowComponentDisplays`, `PresetBrowserTypeToSearch`… (confirmado). `FUN_1800e9450` lee `GraphicsAcceleration` y `RetinaEnabled` de `HKCU\Software\FabFilter` y, según un indicador interno, también lee de **HKLM** (solo lectura).
+
+**Bloque 1 sin**: red, procesos lanzados, variables de entorno, tareas programadas, inicio con Windows ni privilegios elevados (todo se escribe en HKCU y en tus carpetas).
 
 ## Configuración (lo visto hasta ahora)
 - Registro: `HKCU\Software\FabFilter\Pro-Q\4.0`. Valores vistos: `EnableMIDIProgramChanges, GraphicsAcceleration, LicenseError, RetinaEnabled, showInteractiveHelp, showWelcomeHint, ShowComponentDisplays, PresetBrowserTypeToSearch, AutoAdjustDisplayRange, AutoEQSketch, InstanceListAutoZoom, InstanceListKeyAction, InstanceListZoomLevel, InstanceListShowMinimap, ShowMouseFrequency, UseAccessibleColors, InterfaceLayout, InterfaceWidth, InterfaceHeight, ScalingAdjustments, GainQInteraction, PianoRoll, ShowOutputLevelMeter, PresetFolder, CurrentVersion`. Los valores de licencia no se leyeron.
@@ -102,6 +131,8 @@ Pendiente (FASE 2), en bloques de 5 a 10 opciones, cuando REA pueda abrir el bin
 - Hopper no está soportado en Windows; IDA y Kuna no están configurados (Kuna además no admite PE).
 
 ## Comandos y parámetros usados
+- **Lo que funcionó para la FASE 2**: la CLI repite el análisis de Ghidra (unos 5 min) en **cada** comando. Solución: `scratchpad\scripts\mcp_daemon.js` arranca `rea --mcp` por stdio, llama `open_binary` (con `provider_id: "ghidra"`) una sola vez y atiende consultas en cola (`rea_q\in\*.json` → `out\*.json`). La primera tarda unos 6,5 min; las siguientes, milisegundos. `scripts\q.js` encola un lote y espera la respuesta.
+- Herramientas MCP útiles: `xrefs` (dirección de una cadena → quién la usa), `resolve_containing_procedure`, `procedure_pseudo_code`, `procedure_callees`. `find_xrefs_to_name` **no** encuentra imports: hay que usar `xrefs` con la dirección de la entrada en la tabla de imports (IAT) que da `pefile` (`imp.address`).
 - Copia de prueba (no se ejecutó nada): `...\scratchpad\proq4\bin\ProQ4.vst3`.
 - `rea inspect-pe-resources <dll> --format json`: funcionó sin Ghidra. Resultado: 361 recursos (358 PNG/RCDATA tipo 10, 1 diálogo `WINDOWSLICENSEDIALOG`, versión, 2 manifiestos).
 - Imports, exports y cadenas con offsets y VA: script Python con `pefile` 2024.8.26 (`scratchpad\scripts\pe_dump.py <dll> <prefijo>`), ejecutado con `python -I`. Da 20 486 cadenas ASCII y UTF-16.

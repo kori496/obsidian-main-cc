@@ -58,5 +58,11 @@ Carpeta `metricool\rea-work\rea-work\example\notes-example\notes-example`.
 - Prueba del 25 oct (noche): las variables de usuario apuntaban a rutas que **no existen**: `GHIDRA_INSTALL_DIR=C:	ools\ghidra_12.1.4_PUBLIC` (no hay carpeta; en `C:	ools` solo está la 12.2) y `JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-21...` (con «...» literal; solo existe `jdk-25.0.4.101-hotspot`). Con `JAVA_HOME` apuntando al JDK 25 real, la comprobación de Java **pasa**; lo único que falla con la 12.2 es la versión. Falta descargar y extraer de verdad Ghidra 12.1.4.
 - Sin Ghidra sí funcionan `rea inspect-pe-resources` y, por fuera de REA, `pefile` para imports, exports y cadenas. Ver [[FabFilter Pro-Q 4]].
 
+## Ghidra funcionando de verdad (25 oct 2026, noche)
+- Ghidra 12.1.4 en `C:\tools\ghidra_12.1.4_PUBLIC` + `JAVA_HOME` = `C:\Program Files\Eclipse Adoptium\jdk-25.0.4.101-hotspot` → `rea` abre binarios PE con Ghidra.
+- Una DLL de 4,7 MB tarda unos 5,5 min en analizarse; el límite por defecto (330 000 ms) se queda corto. Usar `REA_GHIDRA_STARTUP_TIMEOUT_MS=1800000`.
+- La CLI **no reutiliza** el análisis: `--snapshot` solo guarda la evidencia, no la base de Ghidra, así que cada comando vuelve a tardar 5 min. Para muchas consultas, usar una sesión MCP persistente (script por stdio). Ver «Comandos y parámetros usados» en [[FabFilter Pro-Q 4]].
+- Tras `setx` hay que reiniciar Claude Code; mientras tanto se pueden pasar las variables delante del comando.
+
 ## Prompt para analizar apps propias
 - Plantilla en tres fases (inventario, efectos en el sistema, resumen) que guarda todo en el vault: [[Prompt - analizar app propia con REA]].

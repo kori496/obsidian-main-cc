@@ -13,6 +13,10 @@ Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reg
 - Enlace «Mapa general: [[Inicio]]» añadido arriba en [[Videos beats]], [[Programacion]] y [[Edición de imágenes]], y regla de mapas en `CLAUDE.md`.
 - **No se movió ningún archivo**: desde la sesión no hay shell en el PC y mover fuera de Obsidian rompe enlaces. Mover carpetas físicas queda pendiente (ver final del resumen).
 
+## 2026-10-25 (Pro-Q 4: FASE 2 bloque 2)
+- Bloque 2 (opciones 11-20) trazado: MIDI Learn (`MidiControllerMap.ffm`), escalado (valores en HKCU), menú Help (`HelpFileName` en HKCU/HKLM; web y soporte en el navegador) y red: registro del dispositivo cada 7 días, que envía el nombre del PC y un ID basado en las MAC; deauthorize. Corregida la fila 54 (ProgramFilesDir es el plan B de la carpeta de datos).
+- Nota tocada: [[FabFilter Pro-Q 4]].
+
 ## 2026-10-25 (Pro-Q 4: Ghidra OK y FASE 2 bloque 1)
 - Ghidra 12.1.4 funciona con REA (timeout subido a 30 min). Como la CLI reanaliza en cada comando, se montó una sesión MCP persistente por script.
 - Bloque 1 (opciones 1-10) trazado: menú de presets, cambio de carpeta (registro HKCU), Restore Factory Presets (extrae un archivo embebido y sobrescribe), Favorites.txt y Save As Default. Corregida la fila 9: Revert y Load Factory Settings son del menú MIDI Learn.

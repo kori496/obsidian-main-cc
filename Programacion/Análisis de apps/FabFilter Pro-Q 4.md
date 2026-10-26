@@ -11,7 +11,7 @@ Volver a [[Análisis de apps con REA]]
 - **No es una app propia**: es un plugin comercial de FabFilter B.V. (lo dice el `Readme.txt`). El análisis es estático y se limita a qué hace el plugin en el sistema. No se analiza la lógica de licencia ni de activación.
 - `C:\Program Files\FabFilter\Pro-Q 4` solo tiene la ayuda (`FabFilter Pro-Q 4.chm`), el icono, el `Readme.txt` y el desinstalador. El código real está en `C:\Program Files\Common Files\VST3\FabFilter\FabFilter Pro-Q 4.vst3`: una DLL PE32+ x86-64 de un solo archivo (no es una carpeta-bundle), 4 784 128 bytes, SHA-256 `292580739f88e8d48662aa25b5b4022a03657a0c2d4331f2f1216db9b6229271`.
 - Exporta `GetPluginFactory` (0x180106f90, VST3) y `VSTPluginMain` (0x180106fa0, punto de entrada VST2).
-- Estado: FASE 1 hecha. **FASE 2: bloque 1 (opciones 1-10) hecho** con Ghidra 12.1.4 vía REA (25 oct 2026). Siguen los bloques 2-6 y la FASE 3.
+- Estado: FASE 1 hecha. **FASE 2: bloques 1 y 2 (opciones 1-20) hechos** con Ghidra 12.1.4 vía REA (25 oct 2026). Siguen los bloques 3-6 y la FASE 3.
 
 ## Tabla de opciones (FASE 1)
 La evidencia es la dirección virtual (VA) de la cadena dentro de la DLL, o el import o valor de registro. **confirmado** = la opción existe en el binario (cadena de UI o menú, import) o se vio en el registro o en disco. **probable** = deducido por asociación, sin traza de código.
@@ -71,7 +71,7 @@ La evidencia es la dirección virtual (VA) de la cadena dentro de la DLL, o el i
 | 51 | Nombre/color/índice de pista del host y detección del host (Cubase, Ableton, Bitwig, WaveLab...) | 0x18023bf98-0x18023bfe0, 0x18023a8e0-0x18023a930, 0x18023c394-0x18023c3d8 | confirmado (cadenas); uso: probable |
 | 52 | Al iniciar: lee y escribe ajustes en `HKCU\Software\FabFilter\Pro-Q\4.0` | 0x18022ce18; imports `RegOpenKeyExW`/`RegCreateKeyExW`/`RegSetValueExW`; valores vistos en el registro | confirmado |
 | 53 | Al iniciar: indexa presets (`PresetCache.dat`, «Indexing Presets...») | 0x180233418, 0x18023a5e8; archivo en `%APPDATA%\FabFilter\Pro-Q 4\` | confirmado |
-| 54 | Lee `ProgramFilesDir` de `HKLM\Software\Microsoft\Windows\CurrentVersion` (para encontrar la ayuda) | 0x18023d028, 0x18022d050 | probable |
+| 54 | Lee `ProgramFilesDir` de `HKLM\Software\Microsoft\Windows\CurrentVersion` (**corregido**: es el plan B para la carpeta de datos si falla `%APPDATA%`, `FUN_18001fc80`) | 0x18023d028, 0x18022d050 | confirmado |
 | 55 | Log de depuración `FabFilter.log` («*** Begin debug session ***») | 0x18022cd88, 0x18022cd98 | probable (no se sabe si se activa en esta build) |
 | 56 | Aceleración gráfica OpenGL / escalado HiDPI | registro `GraphicsAcceleration`, `RetinaEnabled` (0x18023a638, 0x18023a650); imports OPENGL32 | confirmado |
 | 57 | Ajuste oculto `VST2_DefaultToNoSideChain` | 0x18023a660 | probable |
@@ -112,6 +112,41 @@ Funciones con el nombre que les pone Ghidra (`FUN_<dirección>`). «Confirmado»
 **Extra (nº 11)**: `FUN_1800d4b40` cambia el indicador de Program Changes en memoria (`DAT_1802bdfe8+0x78`). `FUN_1800ec870` es el que guarda todos los ajustes en el registro; ahí se ven los nombres `EnableMIDIProgramChanges`, `GraphicsAcceleration`, `LicenseError`, `RetinaEnabled`, `showInteractiveHelp`, `showWelcomeHint`, `ShowComponentDisplays`, `PresetBrowserTypeToSearch`… (confirmado). `FUN_1800e9450` lee `GraphicsAcceleration` y `RetinaEnabled` de `HKCU\Software\FabFilter` y, según un indicador interno, también lee de **HKLM** (solo lectura).
 
 **Bloque 1 sin**: red, procesos lanzados, variables de entorno, tareas programadas, inicio con Windows ni privilegios elevados (todo se escribe en HKCU y en tus carpetas).
+
+### Bloque 2 (opciones 11-20): MIDI, interfaz, ayuda, licencia y red
+La licencia y la activación se describen solo por sus efectos (URL, datos enviados, cuándo). No se analizó cómo se valida la clave.
+
+- **Carpeta de datos del plugin** (`FUN_180020770` → `FUN_18001fc80`): `SHGetSpecialFolderLocation` con CSIDL 0x1A (`%APPDATA%`) + `FabFilter\<producto>`. Si falla, usa `ProgramFilesDir` de `HKLM\Software\Microsoft\Windows\CurrentVersion` y, si también falla, `C:\Program Files` (confirmado). En tu PC: `C:\Users\sharo\AppData\Roaming\FabFilter\Pro-Q 4`.
+
+11. **Enable MIDI Program Changes**: `FUN_1800d4b40` cambia el indicador en memoria y `FUN_1800ec870` lo guarda en `HKCU\Software\FabFilter\Pro-Q\4.0\EnableMIDIProgramChanges` (confirmado).
+12. **Presets de componente**: `FUN_1800f09f0` arma los nombres `PresetMap_<n>.ffpresetmap`. Dentro de la DLL hay tres recursos `PRESETMAP_FQ3P_1..3`; probablemente sirven para traducir presets de Pro-Q 3. `FUN_1800dbdc0` busca el componente «Default» (si no existe: «Default component preset not found.»). Para guardar se usa `FUN_1800dc0b0` (diálogo «Component Preset»). Carpeta vista en disco: `%APPDATA%\FabFilter\Pro-Q 4\Component Presets`.
+13. **MIDI Learn** (menú `FUN_1800d6490`):
+    - Enable MIDI → `FUN_1800d7f90`: pone a 1.0 o 0.0 el parámetro «Receive Midi». Sin efecto en el sistema.
+    - Clear: un submenú por parámetro (`FUN_1800ce830`).
+    - Revert, Save, Load Factory Settings y Clear All: saltan a funciones del controlador de MIDI (vtable +0x118, +0xf8, `FUN_1800d7f80`, +0x100). Qué opción va a qué entrada es probable.
+    - Archivo `MidiControllerMap.ffm` en la carpeta de datos: se lee con `FUN_1800e8e70` (`BinaryFileReader`); si no existe, se usa el mapa de fábrica que va dentro de la DLL (`FUN_1800e8ce0`, `BinaryResourceReader`); se escribe con `FUN_1800ea900` (crea la carpeta con `FUN_18001f330` + `BinaryFileWriter`). Confirmado.
+14. **Resize / Scaling**: el botón lo arma `FUN_1800c2110` y el menú de escalado `FUN_1800d4130`. `FUN_1800ec340` guarda en HKCU `InterfaceLayout`, `InterfacePanels`, `InterfaceWidth`, `InterfaceHeight` y `ScalingAdjustments` (confirmado). `FUN_1800e6dc0` lee `InterfaceDefaults.ffd` de la carpeta de datos (probable: tamaño por defecto).
+15. **Full Screen**: el botón lo arma `FUN_1800c26a0`. No se encontraron efectos fuera de la ventana (probable).
+16. **Menú Help** (`FUN_1800d5bc0`):
+    - Help Topics → 0x1800d5aa0 (mini-función: llama al sistema de ayuda con −2). La ruta del `.chm` se lee del valor `HelpFileName` en `HKCU` y luego en `HKLM\Software\FabFilter\Pro-Q\4.0` (`FUN_1801071e0`, confirmado). Que se abra con `ShellExecuteW` (`FUN_1800e41b0`) es probable.
+    - Show Interactive Help Hints → `FUN_1800d58a0` y Show Component Displays → `FUN_1800d57d0`: cambian indicadores que `FUN_1800ec870` guarda como `showInteractiveHelp` y `ShowComponentDisplays` (confirmado).
+    - FabFilter Web Site → `FUN_1800d59c0` y Support → `FUN_1800d5a30`: piden la URL a `FUN_1800d4e70` (índice 0 = `https://www.fabfilter.com/`, 1 = `/support/`) y la abren en el navegador por defecto (`ShellExecuteW` con verbo nulo = abrir; la función exacta es probable).
+17. **Purchase / Enter License / About**:
+    - Purchase → `FUN_1800d5950`: URL índice 2 = `https://www.fabfilter.com/shop/` + sufijo del producto. Solo aparece si no hay licencia.
+    - Enter License → `FUN_1800d5850`: abre el diálogo y, si se acepta, guarda los ajustes en HKCU (`FUN_1800eacc0`). El contenido de la validación no se analizó.
+    - About → `FUN_180054450` (abre la vista «Acerca de»).
+    - `FUN_180035d50` abre en el navegador `https://www.fabfilter.com/activate/?c=<código>` (`ShellExecuteW`, confirmado).
+18. **Deauthorize…**: `FUN_1800d5220` pide confirmación («This will deauthorize all plug-ins on this computer…») → `FUN_1800dd950` → `FUN_1800d52e0`. Este hace un GET a `https://www.fabfilter.com/api/v1/device-registration/unregister?code=<…>&deviceId=<…>`, borra la licencia guardada (`FUN_180034db0`) y avisa «deauthorized successfully» (confirmado).
+19. **Registro del dispositivo** (red, confirmado):
+    - **Cuándo**: `FUN_1800d75e0` (probablemente al abrir la interfaz). Si hay licencia y pasaron más de **604 800 s (7 días)** desde el último registro, llama a `FUN_1800d88e0`.
+    - **Qué envía**: GET a `https://www.fabfilter.com/api/v1/device-registration/register?code=<…>&deviceId=<…>&deviceName=<…>`.
+      - `deviceName` = **nombre del PC** (`GetComputerNameExW`, ComputerNamePhysicalDnsHostname).
+      - `deviceId` = identificador con forma de GUID que arma `FUN_180036180` a partir de las **direcciones MAC** de las tarjetas de red (`FUN_180020410`: `GetAdaptersInfo`, bytes en `%.2x` unidos con `-`).
+    - **Cómo**: `FUN_18001e950` usa `InternetOpenUrlW` (flags 0x40200) en otro hilo (`FUN_18001ee40`) y lee la respuesta en bloques de 1 KB.
+    - **Sin licencia**: el mismo `FUN_1800d75e0` arma un temporizador de 600 000 ms (10 min) y un aviso (`FUN_1800d8e90`; del 16 al 31 de diciembre usa otra variante, `FUN_1800d9070`). Ambos pueden abrir el navegador con `ShellExecuteW`.
+20. **Shop / Beta**: `FUN_1800d4e70` índice 2 = `/shop/`, índice 3 = `/beta/`. Dónde se usa `/beta/` es probable (avisos de beta caducada).
+
+**Bloque 2 sin**: procesos lanzados aparte del navegador o la ayuda (vía `ShellExecuteW`), variables de entorno, tareas programadas, inicio con Windows ni privilegios elevados. HKLM solo se **lee**.
 
 ## Configuración (lo visto hasta ahora)
 - Registro: `HKCU\Software\FabFilter\Pro-Q\4.0`. Valores vistos: `EnableMIDIProgramChanges, GraphicsAcceleration, LicenseError, RetinaEnabled, showInteractiveHelp, showWelcomeHint, ShowComponentDisplays, PresetBrowserTypeToSearch, AutoAdjustDisplayRange, AutoEQSketch, InstanceListAutoZoom, InstanceListKeyAction, InstanceListZoomLevel, InstanceListShowMinimap, ShowMouseFrequency, UseAccessibleColors, InterfaceLayout, InterfaceWidth, InterfaceHeight, ScalingAdjustments, GainQInteraction, PianoRoll, ShowOutputLevelMeter, PresetFolder, CurrentVersion`. Los valores de licencia no se leyeron.

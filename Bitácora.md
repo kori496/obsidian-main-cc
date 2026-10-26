@@ -1,4 +1,4 @@
-﻿---
+---
 tags: [bitacora]
 actualizado: 2026-10-25
 ---

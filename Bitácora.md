@@ -7,6 +7,12 @@ actualizado: 2026-10-25
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
 
+## 2026-10-25 (reorganización por temas y colores)
+- Nuevos mapas por tema en `Mapas/`: [[Multimedia]], [[Imágenes]], [[Webs]], [[Redes]], [[Tienda y negocio]], [[Herramientas y IA]], más [[Inicio]] y [[Resumen reciente 21-25 oct 2026]] (explicación detallada de la semana).
+- Colores del grafo (`.obsidian/graph.json`): violeta multimedia, rosa imágenes, verde programación, turquesa webs, azul redes, ámbar tienda, naranja herramientas y IA, dorado mapas, gris bitácora. Copia del archivo anterior: `.obsidian/graph.antes-de-colores.json`.
+- Enlace «Mapa general: [[Inicio]]» añadido arriba en [[Videos beats]], [[Programacion]] y [[Edición de imágenes]], y regla de mapas en `CLAUDE.md`.
+- **No se movió ningún archivo**: desde la sesión no hay shell en el PC y mover fuera de Obsidian rompe enlaces. Mover carpetas físicas queda pendiente (ver final del resumen).
+
 ## 2026-10-25 (Pro-Q 4: Ghidra OK y FASE 2 bloque 1)
 - Ghidra 12.1.4 funciona con REA (timeout subido a 30 min). Como la CLI reanaliza en cada comando, se montó una sesión MCP persistente por script.
 - Bloque 1 (opciones 1-10) trazado: menú de presets, cambio de carpeta (registro HKCU), Restore Factory Presets (extrae un archivo embebido y sobrescribe), Favorites.txt y Save As Default. Corregida la fila 9: Revert y Load Factory Settings son del menú MIDI Learn.

@@ -5,6 +5,8 @@ proyecto: V.YA
 creado: 2026-10-21
 ---
 
+Mapa general: [[Inicio]]
+
 # ✂️ Edición de imágenes · V.YA
 
 ## Qué es

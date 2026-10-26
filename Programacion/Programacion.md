@@ -3,6 +3,8 @@ tags: [programacion, indice]
 actualizado: 2026-10-25
 ---
 
+Mapa general: [[Inicio]]
+
 # Programación
 
 Índice de notas de código. Reglas en `CLAUDE.md`.

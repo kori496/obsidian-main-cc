@@ -7,6 +7,10 @@ Este vault de Obsidian es mi memoria de trabajo. Úsalo siempre.
 - **Al terminar** cualquier cosa nueva (cambios, decisiones, novedades, resultados, errores resueltos, rutas, parámetros que funcionaron) que pueda servir a futuro, **escríbela como nota en el vault**. No esperes a que te lo pida.
 - Anota también lo que NO funcionó y por qué.
 
+## Mapas por tema
+- `Inicio.md` y la carpeta `Mapas/` (Multimedia, Imágenes, Webs, Redes, Tienda y negocio, Herramientas y IA) ordenan el vault por tema. Toda nota nueva se enlaza desde el mapa de su tema.
+- Colores del grafo en `.obsidian/graph.json` (por nombre y carpeta). Si se crea un tema o nota nueva, añadirla al grupo de color que le toque.
+
 ## Cómo escribir las notas
 - Markdown de Obsidian, en español, con frontmatter (`tags`, `actualizado: AAAA-MM-DD`).
 - Enlaza con `[[wikilinks]]` a las notas relacionadas y deja un "Volver a [[...]]" arriba, como las demás.

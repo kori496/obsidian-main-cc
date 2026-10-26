@@ -5,6 +5,8 @@ alias: [lagrimankv, canal de beats]
 creado: 2026-10-21
 ---
 
+Mapa general: [[Inicio]]
+
 # 🎧 Videos beats · lagrimankv
 
 Proyecto personal de música, aparte de V.YA. Hago beats en **FL Studio**, sobre todo **boom bap** y a veces trap o cosas más experimentales. La idea es convertirlos en **videos cortos** (visualizers, "make beat", glitch) para crecer en redes, medir qué formato funciona e iterar hasta dar con uno rentable.

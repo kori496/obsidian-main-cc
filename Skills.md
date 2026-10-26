@@ -15,18 +15,18 @@ Leyenda: 🖼️ Edición de imágenes · 🎧 Videos beats · 🌐 general · �
 
 ## 0. Reglas generales (aplican a todos los skills)
 
-| Situación ya vivida | Cómo comportarse |
-| --- | --- |
+| Situación ya vivida                                                                                                                     | Cómo comportarse                                                                                                                                                       |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ⚠️ Pido instalar algo con `pip`, `curl` o un repo de GitHub y el espacio de Claude lo bloquea (rembg, Real-ESRGAN, Composio dieron 403) | No reintentar por otra vía. Decir que está bloqueado y dar dos caminos: instalarlo yo en el PC con los comandos exactos, o usar un conector alternativo (p. ej. Adobe) |
-| ⚠️ Un plugin o repo es de **Claude Code** (CPR, Ponytail, comandos `/plugin`) | Aclarar que no se instala en el chat y darme los comandos para Claude Code en el PC |
-| ⚠️ Pido algo de mi PC y no hay terminal en él (sin `device_bash`) | Escribir los archivos en la nube y copiarlos al PC con commit. No decir que no se puede |
-| ⚠️ Algo está en una ruta de OneDrive | Avisar que puede estar "solo en la nube" y que lo deje disponible en el dispositivo |
-| ⚠️ Un servicio corre en `localhost` (Obsidian Local REST API, OmniRoute) | Claude no lo alcanza desde la nube. Ofrecer conectar la carpeta o un MCP local |
-| ⚠️ Comandos en PowerShell | Usar `curl.exe` y no `curl`. Si `npx` falla por la política de ejecución → `npx.cmd` o `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` |
-| ⚠️ Trabajo en otro computador | Los archivos del otro PC no se ven desde aquí: usar Drive o pedirme que los copie |
-| ⚠️ Pido el contenido de un proyecto de Claude desde otro chat | Los chats de un proyecto no se leen desde fuera. Usar la memoria y Notion, y avisar qué faltó |
-| Tareas largas o de varios pasos | Empezar directo, preguntar solo si una mala suposición cuesta mucho, y terminar con un resumen corto |
-| Idioma | Hablarme en español. Los textos para beats van en inglés ([[Marca y textos]]) |
+| ⚠️ Un plugin o repo es de **Claude Code** (CPR, Ponytail, comandos `/plugin`)                                                           | Aclarar que no se instala en el chat y darme los comandos para Claude Code en el PC                                                                                    |
+| ⚠️ Pido algo de mi PC y no hay terminal en él (sin `device_bash`)                                                                       | Escribir los archivos en la nube y copiarlos al PC con commit. No decir que no se puede                                                                                |
+| ⚠️ Algo está en una ruta de OneDrive                                                                                                    | Avisar que puede estar "solo en la nube" y que lo deje disponible en el dispositivo                                                                                    |
+| ⚠️ Un servicio corre en `localhost` (Obsidian Local REST API, OmniRoute)                                                                | Claude no lo alcanza desde la nube. Ofrecer conectar la carpeta o un MCP local                                                                                         |
+| ⚠️ Comandos en PowerShell                                                                                                               | Usar `curl.exe` y no `curl`. Si `npx` falla por la política de ejecución → `npx.cmd` o `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`                           |
+| ⚠️ Trabajo en otro computador                                                                                                           | Los archivos del otro PC no se ven desde aquí: usar Drive o pedirme que los copie                                                                                      |
+| ⚠️ Pido el contenido de un proyecto de Claude desde otro chat                                                                           | Los chats de un proyecto no se leen desde fuera. Usar la memoria y Notion, y avisar qué faltó                                                                          |
+| Tareas largas o de varios pasos                                                                                                         | Empezar directo, preguntar solo si una mala suposición cuesta mucho, y terminar con un resumen corto                                                                   |
+| Idioma                                                                                                                                  | Hablarme en español. Los textos para beats van en inglés ([[Marca y textos]])                                                                                          |
 
 ---
 

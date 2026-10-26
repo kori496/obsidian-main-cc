@@ -1,6 +1,6 @@
 ---
 tags: [programacion, indice]
-actualizado: 2026-10-24
+actualizado: 2026-10-25
 ---
 
 # Programación
@@ -16,6 +16,7 @@ actualizado: 2026-10-24
 - [[Mapa Alta de productos.canvas|Mapa Alta de productos]]: canvas con cómo funciona la versión 2 (arranque, interfaz, servidor, disco, flujos y reglas) (24 oct).
 
 - [[Navegador propio - fork de Zen Browser]]: fork de Zen (MPL-2.0) con marca propia; bloqueado porque el PC no tiene disco ni RAM para compilar Firefox (24 oct).
+- [[Análisis de apps con REA]]: índice de apps analizadas con REA y Ghidra (inventario de opciones y efectos en el sistema). Primera: [[FabFilter Pro-Q 4]] (25 oct).
 
 ## Conceptos rápidos
 - npm: `package.json` es la lista; `node_modules` no se sube a Git y se regenera con `npm install`.

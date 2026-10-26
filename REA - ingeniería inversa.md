@@ -52,5 +52,10 @@ Carpeta `metricool\rea-work\rea-work\example\notes-example\notes-example`.
 - Ghidra instalado en `C:\tools\ghidra_12.2_PUBLIC_20261016\ghidra_12.2_PUBLIC` (release 12.2, no 12.1.x; REA lo aceptó).
 - Error que salió: `GHIDRA_INSTALL_DIR` terminaba en `\ghidraRun` (el archivo lanzador). REA buscaba `...\ghidraRun\Ghidra\application.properties` y marcaba `ghidra-installation` y `ghidra-java` como `config_drift`. La variable debe apuntar a la **carpeta raíz** que contiene `ghidraRun.bat`, `support` y `Ghidra`. Corregido con `setx` sin `\ghidraRun`; el usuario confirmó que ya funciona.
 
+## Corrección: Ghidra 12.2 NO sirve para abrir binarios (25 oct 2026, Pro-Q 4)
+- `rea doctor` sale verde con 12.2, pero `rea inspect <dll> --provider ghidra` falla con `provider_unavailable` → `unsupported_version`: REA 6.7.0 solo acepta **Ghidra 12.1.x** (verificado 12.1.4). Hay que bajar el release 12.1.4 y apuntar `GHIDRA_INSTALL_DIR` a su carpeta raíz.
+- Segundo fallo en la misma comprobación: `java.exe: Owned Windows process requires an absolute executable path`. Solución probable: `setx JAVA_HOME "C:\Program Files\Eclipse Adoptium\jdk-25.0.4.101-hotspot"` (o un JDK 21 si Ghidra 12.1 lo pide) y reiniciar Claude Code.
+- Sin Ghidra sí funcionan `rea inspect-pe-resources` y, por fuera de REA, `pefile` para imports, exports y cadenas. Ver [[FabFilter Pro-Q 4]].
+
 ## Prompt para analizar apps propias
 - Plantilla en tres fases (inventario, efectos en el sistema, resumen) que guarda todo en el vault: [[Prompt - analizar app propia con REA]].

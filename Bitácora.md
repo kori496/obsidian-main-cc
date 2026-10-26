@@ -7,6 +7,11 @@ actualizado: 2026-10-25
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
 
+## 2026-10-25 (análisis de FabFilter Pro-Q 4 con REA, fase 1)
+- Inventario de 60 opciones del plugin VST3 (cadenas, imports, recursos PE y registro). El binario real está en `Common Files\VST3`, no en `Program Files\FabFilter`. Es un producto de FabFilter, no propio: no se analizó la licencia.
+- REA 6.7.0 no abre el binario con Ghidra 12.2 (pide 12.1.x) y le falta `JAVA_HOME`. Fases 2 y 3 en espera.
+- Notas: nueva [[FabFilter Pro-Q 4]], nueva [[Análisis de apps con REA]], enlace en [[Programacion]], sección añadida en [[REA - ingeniería inversa]].
+
 ## 2026-10-25 (prompt para analizar apps con REA)
 - Nueva nota [[Prompt - analizar app propia con REA]]: prompt en tres fases que inventaría las opciones de una app, traza el efecto de cada una en el sistema y guarda el resultado en el vault. Sin probar todavía con una app real. Enlazada desde [[REA - ingeniería inversa]].
 

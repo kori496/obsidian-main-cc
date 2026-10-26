@@ -55,6 +55,7 @@ Carpeta `metricool\rea-work\rea-work\example\notes-example\notes-example`.
 ## Corrección: Ghidra 12.2 NO sirve para abrir binarios (25 oct 2026, Pro-Q 4)
 - `rea doctor` sale verde con 12.2, pero `rea inspect <dll> --provider ghidra` falla con `provider_unavailable` → `unsupported_version`: REA 6.7.0 solo acepta **Ghidra 12.1.x** (verificado 12.1.4). Hay que bajar el release 12.1.4 y apuntar `GHIDRA_INSTALL_DIR` a su carpeta raíz.
 - Segundo fallo en la misma comprobación: `java.exe: Owned Windows process requires an absolute executable path`. Solución probable: `setx JAVA_HOME "C:\Program Files\Eclipse Adoptium\jdk-25.0.4.101-hotspot"` (o un JDK 21 si Ghidra 12.1 lo pide) y reiniciar Claude Code.
+- Prueba del 25 oct (noche): las variables de usuario apuntaban a rutas que **no existen**: `GHIDRA_INSTALL_DIR=C:	ools\ghidra_12.1.4_PUBLIC` (no hay carpeta; en `C:	ools` solo está la 12.2) y `JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-21...` (con «...» literal; solo existe `jdk-25.0.4.101-hotspot`). Con `JAVA_HOME` apuntando al JDK 25 real, la comprobación de Java **pasa**; lo único que falla con la 12.2 es la versión. Falta descargar y extraer de verdad Ghidra 12.1.4.
 - Sin Ghidra sí funcionan `rea inspect-pe-resources` y, por fuera de REA, `pefile` para imports, exports y cadenas. Ver [[FabFilter Pro-Q 4]].
 
 ## Prompt para analizar apps propias

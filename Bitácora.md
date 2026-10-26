@@ -7,6 +7,10 @@ actualizado: 2026-10-25
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
 
+## 2026-10-25 (prueba de Ghidra para REA)
+- Las variables nuevas apuntan a carpetas que no existen (Ghidra 12.1.4 sin extraer; `JAVA_HOME` con «jdk-21...»). Con el JDK 25 real, Java pasa; con la 12.2, REA solo rechaza la versión.
+- Nota tocada: [[REA - ingeniería inversa]].
+
 ## 2026-10-25 (análisis de FabFilter Pro-Q 4 con REA, fase 1)
 - Inventario de 60 opciones del plugin VST3 (cadenas, imports, recursos PE y registro). El binario real está en `Common Files\VST3`, no en `Program Files\FabFilter`. Es un producto de FabFilter, no propio: no se analizó la licencia.
 - REA 6.7.0 no abre el binario con Ghidra 12.2 (pide 12.1.x) y le falta `JAVA_HOME`. Fases 2 y 3 en espera.

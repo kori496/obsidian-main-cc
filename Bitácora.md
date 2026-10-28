@@ -7,6 +7,10 @@ actualizado: 2026-10-25
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
 
+## 2026-10-27 (idea: juego de ritmo tipo ADOFAI)
+- Guardada la lluvia de ideas sobre hacer un juego para celular: de Factorio/idle a ritmo tipo ADOFAI con modelo Geometry Dash (sets con mis beats desde el MIDI, biblioteca de productores, mapas de la comunidad, plan por fases).
+- Notas: nueva [[Idea juego de ritmo tipo ADOFAI]]; enlaces en [[Programacion]] y [[Multimedia]].
+
 ## 2026-10-25 (reorganización por temas y colores)
 - Nuevos mapas por tema en `Mapas/`: [[Multimedia]], [[Imágenes]], [[Webs]], [[Redes]], [[Tienda y negocio]], [[Herramientas y IA]], más [[Inicio]] y [[Resumen reciente 21-25 oct 2026]] (explicación detallada de la semana).
 - Colores del grafo (`.obsidian/graph.json`): violeta multimedia, rosa imágenes, verde programación, turquesa webs, azul redes, ámbar tienda, naranja herramientas y IA, dorado mapas, gris bitácora. Copia del archivo anterior: `.obsidian/graph.antes-de-colores.json`.

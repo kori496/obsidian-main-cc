@@ -1,6 +1,6 @@
 ---
 tags: [programacion, indice]
-actualizado: 2026-10-25
+actualizado: 2026-10-27
 ---
 
 Mapa general: [[Inicio]]
@@ -19,6 +19,8 @@ Mapa general: [[Inicio]]
 
 - [[Navegador propio - fork de Zen Browser]]: fork de Zen (MPL-2.0) con marca propia; bloqueado porque el PC no tiene disco ni RAM para compilar Firefox (24 oct).
 - [[Análisis de apps con REA]]: índice de apps analizadas con REA y Ghidra (inventario de opciones y efectos en el sistema). Primera: [[FabFilter Pro-Q 4]] (25 oct).
+- [[LKV EQ - plugin VST3 propio (JUCE)]]: ecualizador VST3 propio en C++/JUCE, base para añadir herramientas; compila y pasa los tests (25 oct).
+- [[Idea juego de ritmo tipo ADOFAI]]: idea de juego de ritmo para celular estilo ADOFAI + modelo Geometry Dash (sets con mis beats, niveles generados desde el MIDI, mapas de la comunidad). Solo idea, plan por fases (27 oct).
 
 ## Conceptos rápidos
 - npm: `package.json` es la lista; `node_modules` no se sube a Git y se regenera con `npm install`.

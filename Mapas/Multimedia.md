@@ -1,6 +1,6 @@
 ---
 tags: [mapa, multimedia, beats, videos]
-actualizado: 2026-10-25
+actualizado: 2026-10-27
 ---
 
 Volver a [[Inicio]]
@@ -23,6 +23,9 @@ Producir el beat en FL Studio → convertirlo en video (visualizer, breakdown, m
 
 ## Beats concretos
 - [[Clean Eyes - beat y publicación]] · [[CLEAN EYES - loop a mezcla y fragmento (oscuro rojo)]]
+
+## Ideas con los beats
+- [[Idea juego de ritmo tipo ADOFAI]]: juego de ritmo para celular con mis beats como niveles (generados desde el MIDI).
 
 ## Mapa visual
 - `Mapa videos beats.canvas`

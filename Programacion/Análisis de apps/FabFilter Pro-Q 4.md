@@ -148,6 +148,9 @@ La licencia y la activación se describen solo por sus efectos (URL, datos envia
 
 **Bloque 2 sin**: procesos lanzados aparte del navegador o la ayuda (vía `ShellExecuteW`), variables de entorno, tareas programadas, inicio con Windows ni privilegios elevados. HKLM solo se **lee**.
 
+## Uso del análisis
+- La tabla de opciones sirvió como lista de funciones para un EQ propio hecho desde cero: [[LKV EQ - plugin VST3 propio (JUCE)]]. No se copió el procesado de audio de FabFilter; los bloques 3-6 quedan sin hacer.
+
 ## Configuración (lo visto hasta ahora)
 - Registro: `HKCU\Software\FabFilter\Pro-Q\4.0`. Valores vistos: `EnableMIDIProgramChanges, GraphicsAcceleration, LicenseError, RetinaEnabled, showInteractiveHelp, showWelcomeHint, ShowComponentDisplays, PresetBrowserTypeToSearch, AutoAdjustDisplayRange, AutoEQSketch, InstanceListAutoZoom, InstanceListKeyAction, InstanceListZoomLevel, InstanceListShowMinimap, ShowMouseFrequency, UseAccessibleColors, InterfaceLayout, InterfaceWidth, InterfaceHeight, ScalingAdjustments, GainQInteraction, PianoRoll, ShowOutputLevelMeter, PresetFolder, CurrentVersion`. Los valores de licencia no se leyeron.
 - `%APPDATA%\FabFilter\Pro-Q 4\`: `MidiControllerMap.ffm`, `PresetCache.dat`, `Component Presets\Spectrum`, `Pinned Instance Sets`.

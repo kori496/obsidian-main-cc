@@ -1,4 +1,4 @@
----
+﻿---
 tags: [bitacora]
 actualizado: 2026-10-25
 ---
@@ -12,6 +12,22 @@ Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reg
 - Colores del grafo (`.obsidian/graph.json`): violeta multimedia, rosa imágenes, verde programación, turquesa webs, azul redes, ámbar tienda, naranja herramientas y IA, dorado mapas, gris bitácora. Copia del archivo anterior: `.obsidian/graph.antes-de-colores.json`.
 - Enlace «Mapa general: [[Inicio]]» añadido arriba en [[Videos beats]], [[Programacion]] y [[Edición de imágenes]], y regla de mapas en `CLAUDE.md`.
 - **No se movió ningún archivo**: desde la sesión no hay shell en el PC y mover fuera de Obsidian rompe enlaces. Mover carpetas físicas queda pendiente (ver final del resumen).
+
+## 2026-10-27 (LKV EQ: analizador de espectro, pendiente de compilar)
+- Escrito el analizador FFT de fondo (Spectrum.h, FIFO en el procesador, dibujo en EqCurve) y su test. La compilación falló porque el disco C: se quedó a 0 bytes (algo ajeno ocupó unos 5,5 GB). Ver [[LKV EQ - plugin VST3 propio (JUCE)]].
+
+## 2026-10-27 (LKV EQ instalado para FL Studio)
+- Copiado `LKV EQ.vst3` a `C:\Program Files\Common Files\VST3` con permisos de administrador (UAC). Falta escanearlo desde el Plugin Manager de FL.
+- Nota tocada: [[LKV EQ - plugin VST3 propio (JUCE)]].
+
+## 2026-10-26 (LKV EQ: limpieza de disco)
+- Borrada la carpeta de compilación `C:\devuild\LkvEQ` (405 MB); binarios guardados en `C:\dev\LkvEQ-bin`. Ahora quedan 701 MB libres en C:.
+- Nota tocada: [[LKV EQ - plugin VST3 propio (JUCE)]].
+
+## 2026-10-25 (LKV EQ: plugin VST3 propio)
+- EQ paramétrico propio en C++/JUCE 8.0.4 (8 bandas, curva arrastrable, VST3 + Standalone) en `Documentos\LkvEQ`; herramientas en `C:\dev`. Compila con VS 2022 + CMake portable y pasan los 6 tests. Resuelto el error C2280 (Filter no se puede copiar).
+- Aviso: quedan 296 MB libres en C:.
+- Notas: nueva [[LKV EQ - plugin VST3 propio (JUCE)]]; enlaces en [[Programacion]] y [[FabFilter Pro-Q 4]].
 
 ## 2026-10-25 (Pro-Q 4: FASE 2 bloque 2)
 - Bloque 2 (opciones 11-20) trazado: MIDI Learn (`MidiControllerMap.ffm`), escalado (valores en HKCU), menú Help (`HelpFileName` en HKCU/HKLM; web y soporte en el navegador) y red: registro del dispositivo cada 7 días, que envía el nombre del PC y un ID basado en las MAC; deauthorize. Corregida la fila 54 (ProgramFilesDir es el plan B de la carpeta de datos).

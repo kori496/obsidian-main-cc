@@ -31,6 +31,7 @@ drive vya septiembre/
 
 | Qué | Dónde | En Obsidian |
 | --- | --- | --- |
+| Fotos en crudo (sesión 19 oct en adelante) | `C:\Users\VYASotano\Documents\almacen fotos` (carpetas por sesión + `mapa_renombrado.csv`) | [[Sesiones de fotos#19 oct]] |
 | Fotos en crudo | `agrupadas` | [[Base de datos fotos en crudo]]: una nota por prenda, con miniaturas |
 | El "Excel" | `agrupadas/mapa_renombrado.csv` | Copiado en `Base de datos/` |
 | Sesiones | carpetas `MMDDAA` | [[Sesiones de fotos]] |
@@ -45,7 +46,7 @@ drive vya septiembre/
 - Piezas editadas: ver [[Referencias de estilo#Nombres de archivo]].
 
 ## Miniaturas en la bóveda
-`Adjuntos/crudo` (278) y `Adjuntos/refs` (320): JPG pequeños, ~11 MB en total. Sirven para ver y elegir; para editar se usan siempre los originales.
+`Adjuntos/crudo` (350) y `Adjuntos/refs` (320): JPG pequeños, ~11 MB en total. Sirven para ver y elegir; para editar se usan siempre los originales.
 
 ## Relacionado
 - [[Flujo de trabajo]] · [[Referencias de jeans]]

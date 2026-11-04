@@ -1,15 +1,15 @@
 ---
 tags: [vya, base-de-datos, foto-crudo]
 fuente: mapa_renombrado.csv
-prendas: 94
-fotos: 278
+prendas: 119
+fotos: 350
 ---
 
 # 🗃️ Base de datos fotos en crudo
 
 Volver a [[Edición de imágenes]] · Sesiones: [[Sesiones de fotos]] · Referencias: [[Referencias de estilo]]
 
-Toda la base de fotos en crudo de V.YA: **278 fotos de 94 prendas**, tomadas en 5 sesiones (15 ago – 9 oct 2026). Sale del archivo `mapa_renombrado.csv`, que está guardado aquí mismo: [mapa_renombrado.csv](mapa_renombrado.csv).
+Toda la base de fotos en crudo de V.YA: **350 fotos de 119 prendas**, tomadas en 6 sesiones (15 ago – 19 oct 2026). Sale del archivo `mapa_renombrado.csv`, que está guardado aquí mismo: [mapa_renombrado.csv](mapa_renombrado.csv).
 
 ## Cómo está armada
 - Las fotos llegaron por **WhatsApp** con nombres tipo `WhatsApp Image 2026-08-15 at 10.17.31 AM.jpeg`, repartidas en carpetas por fecha de sesión.
@@ -22,19 +22,20 @@ Toda la base de fotos en crudo de V.YA: **278 fotos de 94 prendas**, tomadas en 
 | Qué | Enlace |
 | --- | --- |
 | Carpeta de Drive "drive vya septiembre" | [abrir en Drive](https://drive.google.com/drive/folders/1Yyu1-YYzaEaAcAr9rPwiHaucw-NGgbYa) |
+| Sesión 19 oct (PC, sin renombrar) | [abrir carpeta](<file:///C:/Users/VYASotano/Documents/almacen%20fotos/192026%20FOTOS%20ALMACEN>) |
 | Fotos en crudo agrupadas (PC) | [abrir carpeta](<file:///C:/Users/sharo/Downloads/drive%20vya%20septiembre-20261017T013642Z-1-001/drive%20vya%20septiembre/agrupadas>) |
 
 ## Resumen
 | Tipo | Prendas |
 | --- | --- |
-| parte-superior | 73 |
-| jean | 39 |
-| vestido | 15 |
-| pantalon | 14 |
-| set | 12 |
-| short | 11 |
-| falda | 4 |
-| enterizo | 3 |
+| parte-superior | 89 |
+| jean | 48 |
+| pantalon | 20 |
+| vestido | 18 |
+| set | 17 |
+| short | 12 |
+| falda | 7 |
+| enterizo | 4 |
 
 | Sesión | Prendas |
 | --- | --- |
@@ -43,6 +44,7 @@ Toda la base de fotos en crudo de V.YA: **278 fotos de 94 prendas**, tomadas en 
 | 2 sep | 17 |
 | 24 sep | 23 |
 | 9 oct | 20 |
+| 19 oct | 25 |
 
 ## Todas las prendas
 | Prenda | Descripción | Tipo | Sesión | Fotos | Vista |
@@ -141,6 +143,31 @@ Toda la base de fotos en crudo de V.YA: **278 fotos de 94 prendas**, tomadas en 
 | [[Prenda 92]] | camisa crop denim + culotte | short, parte-superior | 9 oct | 4 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-92-01.jpg|60]] |
 | [[Prenda 93]] | halter cafe + jean degradado | jean, parte-superior | 9 oct | 4 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-93-01.jpg|60]] |
 | [[Prenda 94]] | set rosado | set | 9 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-94-01.jpg|60]] |
+| [[Prenda 95]] | set corset amarillo pastel + pantalon con cinturon | set | 19 oct | 4 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-95-01.jpg|60]] |
+| [[Prenda 96]] | corset denim estampado + jean blanco | jean, parte-superior | 19 oct | 4 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-96-01.jpg|60]] |
+| [[Prenda 97]] | chaleco blanco botones dorados + pantalon blanco | pantalon, parte-superior | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-97-01.jpg|60]] |
+| [[Prenda 98]] | set chaleco negro cremallera + pantalon negro | set | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-98-01.jpg|60]] |
+| [[Prenda 99]] | corset blanco + jean cafe lunares | jean, parte-superior | 19 oct | 4 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-99-01.jpg|60]] |
+| [[Prenda 100]] | chaleco denim amarrado + jean rayas claro | jean, parte-superior | 19 oct | 2 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-100-01.jpg|60]] |
+| [[Prenda 101]] | vestido largo blanco espalda cruzada | vestido | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-101-01.jpg|60]] |
+| [[Prenda 102]] | halter animal print + jean cargo claro | jean, parte-superior | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-102-01.jpg|60]] |
+| [[Prenda 103]] | enterizo denim largo con abertura | enterizo | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-103-01.jpg|60]] |
+| [[Prenda 104]] | top strapless negro + jean claro | jean, parte-superior | 19 oct | 2 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-104-01.jpg|60]] |
+| [[Prenda 105]] | body negro halter + culotte floral | pantalon, parte-superior | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-105-01.jpg|60]] |
+| [[Prenda 106]] | corset vino brillos + pantalon cuero negro | pantalon, parte-superior | 19 oct | 4 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-106-01.jpg|60]] |
+| [[Prenda 107]] | halter blanco anudado + bermuda blanca | short, parte-superior | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-107-01.jpg|60]] |
+| [[Prenda 108]] | vestido largo amarillo pastel fruncido | vestido | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-108-01.jpg|60]] |
+| [[Prenda 109]] | vestido denim camisero midi | vestido | 19 oct | 2 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-109-01.jpg|60]] |
+| [[Prenda 110]] | top vino tejido + pantalon rayas | pantalon, parte-superior | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-110-01.jpg|60]] |
+| [[Prenda 111]] | top lunares + jean gris | jean, parte-superior | 19 oct | 2 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-111-01.jpg|60]] |
+| [[Prenda 112]] | set encaje blanco crop + falda volantes | set, falda | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-112-01.jpg|60]] |
+| [[Prenda 113]] | top beige cuello alto + pantalon beige | pantalon, parte-superior | 19 oct | 2 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-113-01.jpg|60]] |
+| [[Prenda 114]] | top blanco volantes + jean oscuro desflecado | jean, parte-superior | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-114-01.jpg|60]] |
+| [[Prenda 115]] | halter blanco + jean roto claro | jean, parte-superior | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-115-01.jpg|60]] |
+| [[Prenda 116]] | set rojo blusa + falda larga con cinturon | set, falda | 19 oct | 2 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-116-01.jpg|60]] |
+| [[Prenda 117]] | set blanco halter + minifalda tableada | set, falda | 19 oct | 2 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-117-01.jpg|60]] |
+| [[Prenda 118]] | top drapeado cafe + jean roto oscuro | jean, parte-superior | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-118-01.jpg|60]] |
+| [[Prenda 119]] | top vino asimetrico + pantalon blanco cruzado | pantalon, parte-superior | 19 oct | 3 | ![[Edicion de imagenes/Adjuntos/crudo/prenda-119-01.jpg|60]] |
 
 ## Consultas (si instalas el plugin Dataview)
 ```dataview
@@ -149,3 +176,6 @@ FROM "Edicion de imagenes/Base de datos/Prendas"
 WHERE estado_edicion = "pendiente"
 SORT grupo ASC
 ```
+
+## Registro de cambios
+- 2026-10-30: agregada la sesión 19 oct desde `Documents\almacen fotos\192026 FOTOS ALMACEN` → [[Prenda 95]] a [[Prenda 119]] (72 fotos). Esas fotos no se renombraron en disco: el CSV guarda el nombre `prenda_XX_YY` y el original de WhatsApp, y cada nota enlaza al archivo original.

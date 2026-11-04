@@ -1,0 +1,319 @@
+{
+	"nodes": [
+		{
+			"id": "g1",
+			"type": "group",
+			"x": -40,
+			"y": -80,
+			"width": 2240,
+			"height": 880,
+			"color": "4",
+			"label": "Día a día: llegó mercancía"
+		},
+		{
+			"id": "g2",
+			"type": "group",
+			"x": -40,
+			"y": 880,
+			"width": 2240,
+			"height": 420,
+			"color": "6",
+			"label": "Primera vez: inventario inicial (arrancar el Kardex)"
+		},
+		{
+			"id": "titulo",
+			"type": "text",
+			"text": "# CRS: cómo cargar stock (31 oct 2026)\nCRS separa **crear el producto** de **cargar las unidades**. La ficha nace con Existencias 0 y la cantidad entra siempre con un documento, que queda en el Kardex.\n\nFlechas = orden de los pasos. Verde = crear · azul = cargar stock · naranja = ajuste · morado = comprobar.",
+			"x": -40,
+			"y": -460,
+			"width": 1500,
+			"height": 300,
+			"color": "5"
+		},
+		{
+			"id": "leyenda",
+			"type": "text",
+			"text": "**Regla de oro**\nNunca cambiar la cantidad sin documento. Cada unidad que entra o sale debe tener su entrada, venta, devolución o ajuste.",
+			"x": 1500,
+			"y": -460,
+			"width": 700,
+			"height": 300
+		},
+		{
+			"id": "llega",
+			"type": "text",
+			"text": "## Llegó mercancía\nTienes la factura o remisión del proveedor y las prendas.",
+			"x": 0,
+			"y": 0,
+			"width": 320,
+			"height": 180
+		},
+		{
+			"id": "existe",
+			"type": "text",
+			"text": "## ¿La prenda ya existe en CRS?\nInventario → **Búsqueda de Productos** → buscar o escanear la referencia.",
+			"x": 400,
+			"y": 0,
+			"width": 360,
+			"height": 200,
+			"color": "3"
+		},
+		{
+			"id": "crear",
+			"type": "text",
+			"text": "## 1. Crear la ficha\nInventario → **Productos** → **Adicionar**\n- Descripción, Proveedor (V.ya), Categoría, Marca, Línea\n- IVA 19 %, Costo, Vlr. Detal, Vlr. Mayor\n- Referencia (código de barras)\n- **Guardar**\n\nQueda con **Existencias = 0** (normal).",
+			"x": 400,
+			"y": 320,
+			"width": 360,
+			"height": 380,
+			"color": "4"
+		},
+		{
+			"id": "entrada",
+			"type": "text",
+			"text": "## 2. Cargar las unidades\nInventario → **Entrada de Mercancía**\n- Proveedor y bodega **BP**\n- N.º de factura del proveedor\n- Escanear la referencia → **cantidad** y **costo**\n- Repetir con cada prenda de la factura\n- **Grabar**\n\nVarias prendas nuevas de la misma factura: crearlas todas primero y hacer **una sola** entrada.",
+			"x": 880,
+			"y": 0,
+			"width": 400,
+			"height": 420,
+			"color": "1"
+		},
+		{
+			"id": "verif",
+			"type": "text",
+			"text": "## 3. Comprobar\n- Ficha de Productos → **Buscar** → campo **Existencias**\n- o Inventario → **Kardex de Productos**: debe aparecer la entrada y el saldo nuevo.",
+			"x": 1400,
+			"y": 0,
+			"width": 360,
+			"height": 260,
+			"color": "2"
+		},
+		{
+			"id": "yaestaba",
+			"type": "text",
+			"text": "## ¿Mercancía que ya estaba en la tienda?\n(stock inicial, o el conteo no cuadra)",
+			"x": 880,
+			"y": 500,
+			"width": 400,
+			"height": 160
+		},
+		{
+			"id": "ajuste",
+			"type": "text",
+			"text": "## Ajuste\nVarios → **Ajustes de Inventario** → tipo **Conteo** → producto + cantidad contada → **Grabar**.\n\nOjo: el Conteo **reemplaza** la cantidad, no la suma.",
+			"x": 1400,
+			"y": 380,
+			"width": 360,
+			"height": 280,
+			"color": "6"
+		},
+		{
+			"id": "kardex",
+			"type": "text",
+			"text": "## Kardex\nHistorial de cada producto: fecha · documento · entra · sale · saldo.\nNo se configura: se llena solo con entradas, ventas, devoluciones y ajustes.",
+			"x": 1840,
+			"y": 0,
+			"width": 320,
+			"height": 300,
+			"color": "2"
+		},
+		{
+			"id": "noson",
+			"type": "text",
+			"text": "## Campos de la ficha que NO son stock\n- **Existencias**: solo lectura, CRS la calcula.\n- **Cant Detal / Mayor / Esp. A / Esp. B**: a cuántas unidades aplica cada precio. Dejar en 1.\n- **Stock Mínimo / Máximo**: límites para alertas. No es lo que hay.",
+			"x": 0,
+			"y": 320,
+			"width": 340,
+			"height": 380
+		},
+		{
+			"id": "p1",
+			"type": "text",
+			"text": "**1.** Elegir un momento **sin ventas** (antes de abrir o después de cerrar).",
+			"x": 0,
+			"y": 940,
+			"width": 330,
+			"height": 300,
+			"color": "6"
+		},
+		{
+			"id": "p2",
+			"type": "text",
+			"text": "**2.** Contar toda la mercancía. Anotar en Excel: `Codigo` · `Existencias`.",
+			"x": 365,
+			"y": 940,
+			"width": 330,
+			"height": 300,
+			"color": "6"
+		},
+		{
+			"id": "p3",
+			"type": "text",
+			"text": "**3.** Revisar que todo lo contado exista en CRS. Si falta, crearlo en Productos.",
+			"x": 730,
+			"y": 940,
+			"width": 330,
+			"height": 300,
+			"color": "6"
+		},
+		{
+			"id": "p4",
+			"type": "text",
+			"text": "**4.** Varios → **Ajustes de Inventario** → tipo **Conteo** → **Importar** el archivo → Grabar.\nProbar antes con 2 o 3 productos.",
+			"x": 1095,
+			"y": 940,
+			"width": 330,
+			"height": 300,
+			"color": "6"
+		},
+		{
+			"id": "p5",
+			"type": "text",
+			"text": "**5.** Verificar en Varios → **Informe de Inventario** y en el Kardex.",
+			"x": 1460,
+			"y": 940,
+			"width": 330,
+			"height": 300,
+			"color": "6"
+		},
+		{
+			"id": "p6",
+			"type": "text",
+			"text": "**6.** Desde ahí, todo por documento (flujo de arriba).",
+			"x": 1825,
+			"y": 940,
+			"width": 330,
+			"height": 300,
+			"color": "6"
+		},
+		{
+			"id": "nota",
+			"type": "file",
+			"file": "Tienda/CRS/CRS - cargar stock e inventario inicial.md",
+			"x": 2280,
+			"y": -80,
+			"width": 480,
+			"height": 620
+		},
+		{
+			"id": "nota2",
+			"type": "file",
+			"file": "Tienda/CRS/CRS - cómo funciona el código.md",
+			"x": 2280,
+			"y": 600,
+			"width": 480,
+			"height": 400
+		}
+	],
+	"edges": [
+		{
+			"id": "llega-existe",
+			"fromNode": "llega",
+			"fromSide": "right",
+			"toNode": "existe",
+			"toSide": "left"
+		},
+		{
+			"id": "existe-crear",
+			"fromNode": "existe",
+			"fromSide": "bottom",
+			"toNode": "crear",
+			"toSide": "top",
+			"label": "No"
+		},
+		{
+			"id": "existe-entrada",
+			"fromNode": "existe",
+			"fromSide": "right",
+			"toNode": "entrada",
+			"toSide": "left",
+			"label": "Sí"
+		},
+		{
+			"id": "crear-entrada",
+			"fromNode": "crear",
+			"fromSide": "right",
+			"toNode": "entrada",
+			"toSide": "left"
+		},
+		{
+			"id": "entrada-verif",
+			"fromNode": "entrada",
+			"fromSide": "right",
+			"toNode": "verif",
+			"toSide": "left"
+		},
+		{
+			"id": "yaestaba-ajuste",
+			"fromNode": "yaestaba",
+			"fromSide": "right",
+			"toNode": "ajuste",
+			"toSide": "left"
+		},
+		{
+			"id": "ajuste-verif",
+			"fromNode": "ajuste",
+			"fromSide": "top",
+			"toNode": "verif",
+			"toSide": "bottom"
+		},
+		{
+			"id": "verif-kardex",
+			"fromNode": "verif",
+			"fromSide": "right",
+			"toNode": "kardex",
+			"toSide": "left"
+		},
+		{
+			"id": "noson-crear",
+			"fromNode": "noson",
+			"fromSide": "right",
+			"toNode": "crear",
+			"toSide": "left",
+			"color": "4"
+		},
+		{
+			"id": "p1-p2",
+			"fromNode": "p1",
+			"fromSide": "right",
+			"toNode": "p2",
+			"toSide": "left"
+		},
+		{
+			"id": "p2-p3",
+			"fromNode": "p2",
+			"fromSide": "right",
+			"toNode": "p3",
+			"toSide": "left"
+		},
+		{
+			"id": "p3-p4",
+			"fromNode": "p3",
+			"fromSide": "right",
+			"toNode": "p4",
+			"toSide": "left"
+		},
+		{
+			"id": "p4-p5",
+			"fromNode": "p4",
+			"fromSide": "right",
+			"toNode": "p5",
+			"toSide": "left"
+		},
+		{
+			"id": "p5-p6",
+			"fromNode": "p5",
+			"fromSide": "right",
+			"toNode": "p6",
+			"toSide": "left"
+		},
+		{
+			"id": "p6-llega",
+			"fromNode": "p6",
+			"fromSide": "top",
+			"toNode": "llega",
+			"toSide": "bottom",
+			"label": "día a día"
+		}
+	]
+}

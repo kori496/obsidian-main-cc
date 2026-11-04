@@ -15,7 +15,7 @@ fotos:
 
 # Prenda 94 · set rosado
 
-← [[Prenda 93]] · [[Base de datos fotos en crudo|Índice]]
+← [[Prenda 93]] · [[Prenda 95]] · [[Base de datos fotos en crudo|Índice]]
 
 **Sesión:** [[Sesiones de fotos#9 oct|9 oct 2026]] · **Fotos:** 3 · **Tipo:** set
 

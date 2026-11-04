@@ -24,9 +24,11 @@ Proyecto para producir las **stories de Instagram y TikTok** de V.YA, una tienda
 - 🗃️ [[Base de datos fotos en crudo]]: todas las prendas con miniaturas y enlaces a los originales
 - 📸 [[Sesiones de fotos]]: las 5 sesiones, del 15 ago al 9 oct
 - 🖼️ [[Referencias de estilo]]: análisis de las piezas ya hechas y galerías por semana
+- 📲 [[Referencias de stories de otras tiendas]]: análisis de stories de dyaboo, maemi y skarcha, y cómo llevarlo a V.YA
 - 🎨 [[Preferencias de estilo]]: lo que sí y lo que no
 - 📁 [[Material y carpetas]]: Drive, PC y estructura de carpetas
 - 🔁 [[Flujo de trabajo]] · 🗓️ [[Calendario de contenido]] · 👖 [[Referencias de jeans]]
+- 🎞️ [[Video de stories (receta)]]: cómo se edita el video de la sesión (planos, color, logo, ritmo)
 - 🎬 [[Guía de grabación]] · 🧰 [[Herramientas]] · ✅ [[Pendientes]]
 - 🧩 [[Skills]]: skills de Claude que sirven para este proyecto
 

@@ -1,26 +1,25 @@
 ---
 tags: [programacion, indice]
-actualizado: 2026-10-27
+actualizado: 2026-11-03
 ---
 
-Mapa general: [[Inicio]]
+Volver a [[Inicio]]
 
-# Programación
+# 🟢 Programación
 
-Índice de notas de código. Reglas en `CLAUDE.md`.
+Índice de proyectos de código y aprendizaje. Reglas en `CLAUDE.md`.
 
 ## Proyectos y aprendizaje
 - [[Descargador de YouTube con Node y yt-dlp]]: app local con Express y yt-dlp, explicada paso a paso (npm, Express, formularios, GET/POST, spawn).
 - [[Descargador de redes - motores, diseño y panel]]: continuación (23 oct). Arreglos del código, 6 motores con redes por motor, botón «Ver descarga», diseño y animaciones, e integración como pestaña de [[Panel web lagrim-stats]].
-
-- [[Alta de productos - herramienta portable para Siigo]]: herramienta HTML con base SQLite para dar de alta productos (reemplazo de CRS), con IVA/DIAN, códigos de barras propios y etiquetas BarTender, para importar a Siigo (23 oct). Pendiente: plantilla de Siigo.
-- [[Prompt - seguir Alta de productos con Claude Code]]: prompt para continuar el proyecto en VS Code.
-- [[Mapa Alta de productos.canvas|Mapa Alta de productos]]: canvas con cómo funciona la versión 2 (arranque, interfaz, servidor, disco, flujos y reglas) (24 oct).
-
-- [[Navegador propio - fork de Zen Browser]]: fork de Zen (MPL-2.0) con marca propia; bloqueado porque el PC no tiene disco ni RAM para compilar Firefox (24 oct).
-- [[Análisis de apps con REA]]: índice de apps analizadas con REA y Ghidra (inventario de opciones y efectos en el sistema). Primera: [[FabFilter Pro-Q 4]] (25 oct).
 - [[LKV EQ - plugin VST3 propio (JUCE)]]: ecualizador VST3 propio en C++/JUCE, base para añadir herramientas; compila y pasa los tests (25 oct).
 - [[Idea juego de ritmo tipo ADOFAI]]: idea de juego de ritmo para celular estilo ADOFAI + modelo Geometry Dash (sets con mis beats, niveles generados desde el MIDI, mapas de la comunidad). Solo idea, plan por fases (27 oct).
+- [[Navegador propio - fork de Zen Browser]]: fork de Zen (MPL-2.0) con marca propia; bloqueado porque el PC no tiene disco ni RAM para compilar Firefox (24 oct).
+
+## En otras carpetas
+- **Tienda** ([[Tienda y negocio]]): ALTA, la herramienta de alta de productos ([[ALTA - Inicio]]), y el análisis de CRS ([[CRS - cómo funciona el código]]).
+- **Herramientas y IA** ([[Herramientas y IA]]): [[Análisis de apps con REA]] · [[FabFilter Pro-Q 4]].
+- **Webs** ([[Webs]]): código del panel lagrim-stats en `Webs/analitica/`.
 
 ## Conceptos rápidos
 - npm: `package.json` es la lista; `node_modules` no se sube a Git y se regenera con `npm install`.

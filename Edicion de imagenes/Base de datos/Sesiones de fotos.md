@@ -6,7 +6,7 @@ tags: [vya, sesiones]
 
 Volver a [[Base de datos fotos en crudo]] · [[Edición de imágenes]]
 
-Cada sesión es una carpeta de fotos de WhatsApp dentro de `drive vya septiembre`. El nombre de la carpeta es la fecha en formato MMDDAA.
+Cada sesión es una carpeta de fotos de WhatsApp dentro de `drive vya septiembre` (desde el 19 oct, en `Documents\almacen fotos`). El nombre de la carpeta es la fecha en formato MMDDAA.
 
 ## 15 ago
 - Fecha: 2026-08-15 · Carpeta: `081526 CONTENIDO ALMACÉN` · 16 prendas, 43 fotos
@@ -116,3 +116,32 @@ Cada sesión es una carpeta de fotos de WhatsApp dentro de `drive vya septiembre
 - [[Prenda 92]]: camisa crop denim + culotte
 - [[Prenda 93]]: halter cafe + jean degradado
 - [[Prenda 94]]: set rosado
+
+## 19 oct
+- Fecha: 2026-10-19 · Carpeta: `192026 FOTOS ALMACEN` (en `Documents\almacen fotos`) · 25 prendas, 72 fotos
+- Ojo: la carpeta no sigue el formato MMDDAA (sería `101926`). Tiene 74 archivos, pero 2 son copias exactas y no se cuentan: `6.17.08 PM (1)` = `5.28.48 PM (1)` y `6.17.09 PM` = `5.28.48 PM` (ambas de [[Prenda 105]]).
+- [[Prenda 95]]: set corset amarillo pastel + pantalon con cinturon
+- [[Prenda 96]]: corset denim estampado + jean blanco
+- [[Prenda 97]]: chaleco blanco botones dorados + pantalon blanco
+- [[Prenda 98]]: set chaleco negro cremallera + pantalon negro
+- [[Prenda 99]]: corset blanco + jean cafe lunares
+- [[Prenda 100]]: chaleco denim amarrado + jean rayas claro
+- [[Prenda 101]]: vestido largo blanco espalda cruzada
+- [[Prenda 102]]: halter animal print + jean cargo claro
+- [[Prenda 103]]: enterizo denim largo con abertura
+- [[Prenda 104]]: top strapless negro + jean claro
+- [[Prenda 105]]: body negro halter + culotte floral
+- [[Prenda 106]]: corset vino brillos + pantalon cuero negro
+- [[Prenda 107]]: halter blanco anudado + bermuda blanca
+- [[Prenda 108]]: vestido largo amarillo pastel fruncido
+- [[Prenda 109]]: vestido denim camisero midi
+- [[Prenda 110]]: top vino tejido + pantalon rayas
+- [[Prenda 111]]: top lunares + jean gris
+- [[Prenda 112]]: set encaje blanco crop + falda volantes
+- [[Prenda 113]]: top beige cuello alto + pantalon beige
+- [[Prenda 114]]: top blanco volantes + jean oscuro desflecado
+- [[Prenda 115]]: halter blanco + jean roto claro
+- [[Prenda 116]]: set rojo blusa + falda larga con cinturon
+- [[Prenda 117]]: set blanco halter + minifalda tableada
+- [[Prenda 118]]: top drapeado cafe + jean roto oscuro
+- [[Prenda 119]]: top vino asimetrico + pantalon blanco cruzado

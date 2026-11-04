@@ -11,7 +11,7 @@ Continuación de [[Descargador de YouTube con Node y yt-dlp]]. Esta vez el códi
 
 ## Dónde está cada cosa
 - **Versión Node:** `Documentos\lagrima dlp\` → `server.js`, `public/index.html`, `yt-dlp.exe`, carpeta `descargas/`. Se abre con `node server.js` en `http://localhost:3000`.
-- **Versión integrada en el panel:** `Videos beats\analitica\` → `motores_descargas.py`, `web/descargas.php`, `web/descargas_api.php`, carpeta `descargas/`. Es la que se va a usar; el servidor Node ya no hace falta (no se borró).
+- **Versión integrada en el panel:** `Webs\analitica\` → `motores_descargas.py`, `web/descargas.php`, `web/descargas_api.php`, carpeta `descargas/`. Es la que se va a usar; el servidor Node ya no hace falta (no se borró).
 
 ## Errores del código original y arreglos
 - `spawn` sin importar; la descarga se lanzaba dos veces (`yt-dlp` y `./yt-dlp.exe`); `res.send` llamado dos veces ("headers already sent"); `app.use(...)` dentro de la ruta; `"-o --no-playlist"` como un solo argumento; `express.urlencoded` después de las rutas.

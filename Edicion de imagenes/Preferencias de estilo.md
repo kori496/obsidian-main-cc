@@ -21,6 +21,7 @@ Volver a [[Edición de imágenes]]
 - Estilo antiguo
 - Estilo muy glitchy (desfase RGB, doble exposición)
 - Mucho texto en la pieza
+- Video de **fotos fijas en movimiento** (fotos a sangre que pasan rápido con acercamiento lento, `VYA_IA_video4_fotos_en_movimiento`, 3 nov): no le gustó, no repetir ese formato
 
 ## Relacionado
 - [[Material y carpetas]]: la carpeta `VYA FOTOS SEPTIEMBRE` tiene las referencias de estilo

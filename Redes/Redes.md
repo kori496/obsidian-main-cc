@@ -1,6 +1,6 @@
 ---
 tags: [mapa, redes, metricas]
-actualizado: 2026-11-03
+actualizado: 2026-11-13
 ---
 
 Volver a [[Inicio]]
@@ -11,6 +11,7 @@ Volver a [[Inicio]]
 - [[Métricas y revisiones]]: números y aprendizajes
 - [[Herramienta analitica YouTube]] → [[Panel web lagrim-stats]] (YouTube + TikTok + Instagram juntos, metas de agosto 2027)
 - [[API de Instagram (Meta) - configuración y errores]]
+- [[Público objetivo de v.yafashion (Instagram)]]: público objetivo inferido de la cuenta de V.YA y cómo repetirlo con otras cuentas (13 nov 2026)
 - Código de la analítica: `Webs/analitica/` (ver [[Webs]])
 - TikTok: API oficial (Display API + Login Kit), app de desarrollador en creación. Ver [[Resumen reciente 21-25 oct 2026]].
 

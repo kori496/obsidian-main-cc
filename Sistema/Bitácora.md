@@ -1,11 +1,60 @@
 ---
 tags: [bitacora]
-actualizado: 2026-11-03
+actualizado: 2026-11-14
 ---
 
 # 📓 Bitácora
 
 Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reglas en `CLAUDE.md`.
+
+## 2026-11-14 (enlace lagrim-stats con Metricool)
+- Pedido: que el panel lea las estadísticas desde Metricool. Antes de programarlo se revisó qué tiene Metricool: TikTok solo hasta el 22 oct, Instagram hasta el 24 oct (y corrido un día), YouTube al día pero ya cubierto por la API propia. No se construyó nada todavía; falta decidir si se reconecta TikTok/Instagram en Metricool.
+- Tocada: [[Publicar y conectar con Metricool]] (sección "Revisión del enlace con lagrim-stats").
+- Después, con el visto bueno del usuario (va a reconectar las redes en Metricool): hecho `importar_metricool.py`, tarjeta Metricool en Conexiones, Resumen sin conteo doble en TikTok y comando `/actualiza-metricool`. Probado en copia y real: totales iguales; entraron 3 datos. Metricool sigue sin datos después del 24 oct. Tocadas: [[Publicar y conectar con Metricool]] ("Enlace hecho") y [[Panel web lagrim-stats]].
+- Creada la tarea programada diaria `actualiza-metricool-diario` (~12:30, modo Auto). Sin probar: «Run now» desde la sesión fue denegado.
+
+## 2026-11-13 (tanda 0 de videos)
+- 3 recortes de woeklifeee (13,71 s, gancho de texto distinto en cada uno) en `Documentos\marketing\tanda0\`. Clean Eyes y eyesofdirty van sin cambios. kill4meeee no se encontró en `marketing`. Detalle en [[Plan de prueba nov 2026]].
+
+## 2026-11-13 (plan de videos)
+- Listados los beats de la carpeta `vidal` en Drive (unos 35) y planteado el plan de prueba: recortes de lo existente, escenario + boom bap, "but make it" y vorty. Nota nueva: [[Plan de prueba nov 2026]], enlazada desde [[Videos beats]].
+
+## 2026-11-13 (revisión de formatos de video)
+- Leídos `reporte_youtube.md` y el CSV de TikTok; analizado qué formatos funcionaron y cómo resubir los videos. Resumen y plan en [[Métricas y revisiones]] (sección "Revisión 13 nov 2026").
+- Dato clave: TikTok está en cero desde el 25 oct (no se publicó); el Instagram del vault solo llega al 23 oct.
+
+## 2026-11-13 (rediseño del panel lagrim-stats)
+- Panel rediseñado: barra lateral con estado de fuentes, periodos 7/28/90 días con comparación vs. periodo anterior, pestaña nueva Conexiones (CSV con detección automática de red, token de Instagram, autorizar YouTube) y menos información repetida.
+- Probado en el navegador con datos reales; los botones que ejecutan Python no se probaron. Copia del anterior en `analitica/web_antes/`.
+- Tocada: [[Panel web lagrim-stats]] (sección "Rediseño").
+
+## 2026-11-13 (análisis del público objetivo de @v.yafashion)
+- Prueba: deducir el público objetivo de una cuenta de Instagram desde su perfil público. Se abrió `@v.yafashion` (la cuenta de V.YA) en Claude in Chrome y se leyó el perfil y el feed. Resultado: jeans para mujer, mayor y al detal, Bucaramanga con envíos nacionales; público principal mujeres de ~18 a 40 años y secundario revendedoras. Es inferencia, no datos reales.
+- No funcionó: `get_page_text` vacío en Instagram (leer con capturas); `browser_batch` falló con "input couldn't be safely checked". Claude trató primero la cuenta como competencia; corregido en la nota.
+- Nota nueva: [[Público objetivo de v.yafashion (Instagram)]]. Tocada: [[Redes]] (enlace en el índice). También guardada en Notion, dentro de la página V.YA.
+- Añadida a la misma nota la sección "Ideas para mejorar el alcance" (7 propuestas: gancho con texto, contenido para guardar, búsqueda local, serie de la nueva tienda, llamado a comentar, separar mayorista, variar caras y fondo). Son hipótesis, falta medir. Esta parte no se pasó a Notion.
+
+## 2026-11-12 (curso de Python: cierre de M17 pytest)
+- Ejercicio de test primero: `mas_caro` ahora ignora productos con `stock: 0`. Se descubrió que pasaba por suerte (comparaba contra el stock del mejor). Arreglo: `p['stock'] > 0`. Terminó en 15 passed.
+- Errores del camino: cambiar la fixture rompió `test_valor_total` (685000 vs 445000); el signo `<= 0` elegía el agotado.
+- Empezado M13 Clases: ejercicios 1 y 2 hechos (`clases.py`). Errores anotados: orden de argumentos, `-=` con `return`, `assert` en vez de `raise`, método sin `return` (`None`).
+- Tocada: [[Curso de Python - progreso]] (M17 listo, M13 en curso).
+
+## 2026-11-07 (idea: hub de periféricos)
+- Investigado si se puede hacer un hub propio para el teclado Ajazz AK820 Max y el mouse Attack Shark X11. Sí se puede: hay drivers abiertos para los dos (`attack-shark-x11-driver`, `ak820ctl`, `openajazz`). Falta confirmar si el teclado es el Max HE o el Max Plus.
+- Nota nueva: [[Hub de periféricos (AK820 Max y X11)]]. Tocada: [[Programacion]] (enlace en el índice).
+- IDs confirmados: teclado `1A2C:A036`, mouse `1D57:FA60`. Hecho **ATKHUB v0.1** en Python (`Programacion/ATKHUB/`): detectar, teclado (estado, luz, suspensión), mouse (info, polling, DPI), con `--simular`. 11 pruebas pasan; falta probar con el hardware.
+- Primera prueba real: `teclado luz` congelaba la terminal por `read(n, 0)` (en hidapi bloquea para siempre). Arreglado con `vaciar()` en `hidutil.py`, también en el mouse; 14 pruebas pasan. Después del arreglo, **el teclado funcionó** con el hardware real.
+- Mouse: `mouse info` dio "no dio permiso para leer 0x06". Se agregaron 3 intentos con espera creciente y bytes en el error (16 pruebas pasan). Con eso `mouse info` funcionó, y también `mouse polling` y `mouse dpi`. ATKHUB v0.1 probado completo.
+- **ATKHUB v0.2**: luz y suspensión del mouse (`mouse modos`, `mouse luz`, `mouse suspension`; `mouse info` las muestra). La base de carga no se controla. 21 pruebas pasan y funciona en el hardware. En PowerShell el color va sin `#` (es comentario); README y ayuda corregidos. Orden acordado: luces → botones/macros → interfaz gráfica.
+- La luz de la base de carga no se puede controlar (ni el software oficial; solo un botón físico). Descartada.
+- **ATKHUB v0.3**: botones y macros del mouse (`mouse_botones.py`; `mouse acciones/botones/boton/macro`). Evita un error del driver de referencia que meteria la tecla de modo `0x3C` en el botón adelante. 31 pruebas pasan; falta probar en el hardware.
+- **ATKHUB v0.4: interfaz gráfica** estilo SteelSeries (HTML/CSS/JS en ventana nativa con pywebview; Python de núcleo). Mouse: rendimiento, iluminación, botones+macros con grabadora, energía. Teclado: iluminación con vista previa animada, energía. Vista previa en vivo / Revertir / Guardar. Probada con Chrome+Playwright en modo simulado (60 fps, sin errores); 36 pruebas pasan. Lanzador `ATKHUB GUI.bat`. Después, con fotos del usuario: siluetas reales del teclado (crema/salvia/naranja, perilla, sin pantalla) y del mouse X11 blanco (DPI debajo); fotos guardadas en `ATKHUB/referencias/`. El 8 nov la silueta del mouse se rehízo exacta desde un PNG con fondo transparente del usuario (el SVG trazado no tenía el contorno). Se habló de un modelo 3D (Three.js): posible, no pedido aún. Notas tocadas: [[Hub de periféricos (AK820 Max y X11)]], [[Programacion]]. Notas tocadas: [[Hub de periféricos (AK820 Max y X11)]], [[Programacion]].
+
+## 2026-11-05 (curso de Python: M17 pytest)
+- Revisado el progreso del curso en Notion: la Etapa 1 va en M17 pytest (M8, M16, M7 y M12 listos).
+- Resuelto el error `fixture 'productos' not found` en `practica_git` (faltaba la `@`, las funciones se llamaban `test_` y se importaban tests). Terminó en 14 passed.
+- Nota nueva: [[Curso de Python - progreso]]. Tocada: [[Programacion]] (enlace en el índice).
 
 ## 2026-11-03 (unión de los dos vaults y carpetas por tema)
 - Se unió el vault de Documentos con la copia de GitHub que estaba en Descargas (`obsidian-main-cc-main`). Las dos versiones se habían separado desde el 22 oct.
@@ -320,3 +369,6 @@ Registro corto de lo que Claude hace en este vault. Lo más reciente arriba. Reg
 - Cambio de marca: "prod. p4m" pasó a **prod. lagrimankv** en [[Marca y textos]], [[Pipeline visualizer Remotion]], [[Plan de funcionamiento]] y [[Videos beats]] (alias). También en el prompt de Cuerda en Notion.
 - Pendiente: el archivo `beat_glitch_p4m.mp4` conserva el nombre antiguo (es el nombre real del archivo).
 - Se creó `CLAUDE.md` en la raíz con la regla de usar siempre el vault y anotar novedades aquí y en notas.
+
+## 2026-11-14
+- Creado conversor imagen→ASCII (HTML). Notas: [[Conversor imagen a ASCII]], [[Programacion]].

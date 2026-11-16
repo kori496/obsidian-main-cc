@@ -1,6 +1,6 @@
 ---
 tags: [beats, metricas]
-actualizado: 2026-10-21
+actualizado: 2026-11-13
 ---
 
 # 📊 Métricas y revisiones
@@ -117,6 +117,24 @@ Fuente más reciente: `analitica/reporte_youtube.md` (24 jul a 21 oct) y `Overvi
 - Instagram (CSV de Meta, 4 reels): mejor el del 19/10 "full beat on youtube" con 51 vistas; woeklifeee (21/10) 2 y el del 20/10 3, aún muy recientes.
 - Type beats largos con artistas en el título: 12-155 vistas y solo 13-14 % visto.
 - YouTube: 829 de 1.195 vistas vienen de Shorts.
+
+## Revisión 13 nov 2026 (Claude): ¿sirvieron los formatos?
+Fuente: `reporte_youtube.md` (15 ago a 12 nov) y CSV de TikTok hasta el 12 nov. Instagram: solo hay CSV hasta el 23 oct, sin datos nuevos. Muestras pequeñas: tendencia, no prueba.
+
+- **YouTube:** 2.030 vistas en el periodo, 1.619 totales del canal, 2 suscriptores (+2, los del 18 oct). Shorts = 1.360 vistas; videos relacionados = 299 vistas pero 145 min (la fuente que más tiempo aporta).
+- **Sí sirvieron:** Short "cooking boom bap at the skatepark" (696 vistas, 37 % visto); vorty "kill4meeee" (541 vistas, 50,8 % visto, la mejor retención con muestra decente; en TikTok 127 y 162); "boombap but make it ps2" (164, 31 %).
+- **Prometedor, poca muestra:** woeklifeee largo "trap but make it happy" (44 vistas, 96 s de media, 60,6 % visto, 66 min vistos). "how to sound like eyesofdirty": 12 vistas, 162 % visto (se ve en bucle), el problema es alcance, no retención.
+- **No sirvieron como gancho:** type beats largos con artistas en el título (13-155 vistas, 13-16 % visto). Sí aportan búsqueda y relacionados.
+- **TikTok:** pico 19-24 oct (401 vistas el 20); desde el 25 oct casi cero (1-3 vistas/día, 0 desde el 2 nov). Parece falta de publicación, no fallo del formato.
+- **Conversión:** 2 suscriptores en ~2.000 vistas.
+
+**Cómo resubir:**
+1. Reutilizar lo ganador: skatepark/ps2 (fórmula "... but make it ...") y vorty breakdown, 12-15 s, el momento fuerte en los primeros 2 s.
+2. Subir los vorty ya hechos (kill4meeee, woeklifeee v1-v3, eyesofdirty) a TikTok y Reels, donde apenas se han probado; en YouTube no repetir el mismo video, rehacer el corte/gancho.
+3. Un Short por día en las 3 redes durante 2 semanas; cambiar una sola variable por video.
+4. Enlazar cada Short a su type beat (comentario fijado) y cerrar con "follow".
+5. Type beats largos: catálogo, no gancho; probar título sin "free for non profit" al inicio.
+6. Revisar a 48 h, 7 y 28 días; un formato gana si supera ~164 vistas en YouTube.
 
 ## Cómo se decide
 Ver [[Plan de funcionamiento#6. Decidir]].

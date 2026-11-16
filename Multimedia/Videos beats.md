@@ -14,6 +14,7 @@ Proyecto personal de música, aparte de V.YA. Hago beats en **FL Studio**, sobre
 > **En una frase:** producir beat → convertirlo en video → publicar en Shorts/TikTok/Reels → medir → repetir lo que funciona y cambiar lo que no.
 
 ## Mapa
+- 🧪 [[Plan de prueba nov 2026]]: tandas de videos a probar (13 nov)
 - 📍 [[Qué estamos haciendo]]: estado actual, al 21 oct 2026
 - ⚙️ [[Plan de funcionamiento]]: el ciclo completo, paso a paso
 - 🎨 [[Estilos y formatos]]: los formatos probados y por probar

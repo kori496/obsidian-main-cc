@@ -1,6 +1,6 @@
 ---
 tags: [beats, metricas, herramienta, web, descargas]
-actualizado: 2026-10-24
+actualizado: 2026-11-13
 ---
 
 Volver a [[Herramienta analitica YouTube]] · Skills en [[Skills]] · Instagram: [[API de Instagram (Meta) - configuración y errores]] · Descargas: [[Descargador de redes - motores, diseño y panel]]
@@ -23,6 +23,19 @@ Panel de lectura de la base de datos `datos/youtube.db`, en `Webs/analitica/web/
 - **Global · Todas las plataformas (24 oct 2026):** panel arriba con la suma de las tres redes (seguidores + suscriptores, vistas, interacciones, interacciones por 100 vistas), indicando qué redes entran en cada suma. La tasa solo usa redes con vistas e interacciones.
 - **Global (22 oct 2026):** resumen por red (seguidores o suscriptores, vistas y interacciones de los últimos 28 días, con los días que tienen dato), gráfico de vistas por día de las tres redes, tabla comparativa y barras de progreso hacia las metas de agosto 2027 (10.000 suscriptores en YouTube; 30.000 seguidores sumando TikTok e Instagram) con el ritmo diario necesario. Instagram usa el alcance mientras la API no dé vistas por día. Un «—» significa que no hay dato, no cero.
 - **Descargas (23 oct 2026):** pestaña `web/descargas.php` con el descargador: barra de motores (Automático, yt-dlp, gallery-dl, Instaloader, you-get, Streamlink), redes compatibles por motor y botón «Ver descarga» que abre el Explorador con el archivo seleccionado. Usa `web/descargas_api.php` y `motores_descargas.py` (en `analitica/`), igual que el botón de subir CSV usa Python con `LAGRIM_PYTHON`. Guarda en `analitica/descargas/` y deja `ultimo_log.txt`. Instalar una vez: `pip install yt-dlp gallery-dl instaloader you-get streamlink`. Contenido con sesión: `cookies.txt` junto a `motores_descargas.py` (no compartirlo). Instaloader: `LAGRIM_IG_USUARIO` + `instaloader --login`. **Sin probar en el PC** (solo `php -l` y `py_compile`). Se agregó el enlace «Descargas» al menú de las otras cuatro páginas. Historia completa en [[Descargador de redes - motores, diseño y panel]].
+
+## Rediseño (13 nov 2026)
+- **Barra lateral** con secciones (Resumen, YouTube, TikTok, Instagram, Conexiones, Descargas) y abajo el estado de cada fuente (verde = al día, ámbar = necesita algo). En móvil pasa a barra superior.
+- **Selector de periodo 7 / 28 / 90 días** en todas las pestañas. Cada cifra se compara con el periodo anterior (flecha verde/roja). El periodo termina en el **último día con datos**, no hoy, para que no salgan semanas vacías si no se actualizó.
+- **Pestaña nueva Conexiones** (`web/conexiones.php`): zona para arrastrar CSV que **detecta sola la red** (los de Meta empiezan con `sep=` o terminan en `_<número largo>.csv` → Instagram; el resto → TikTok). Probada con los 8 CSV reales: todos bien, incluido el de Instagram que antes acabó en TikTok. También: botón «Actualizar todo ahora», YouTube «Actualizar ahora» / «Volver a autorizar» (abre el navegador para elegir el canal), Instagram «Pegar token» (guarda `meta_config.json` y prueba la API).
+- Las pestañas TikTok e Instagram tienen un botón compacto de subir CSV; soltar un CSV en cualquier parte de la página también lo sube.
+- **Menos ruido:** fuera la tabla comparativa y las notas largas de Global; tablas con 10 filas y botón «Ver todas»; historial de importaciones plegado; no se dibujan gráficos que están todo en cero; en YouTube la tabla de videos pasó de 11 a 8 columnas.
+- Seguridad: las acciones (subir, conectar, actualizar, descargar) solo se aceptan desde este PC (`soloLocal()` en `comun.php`, también en `descargas_api.php`).
+- Copia del panel anterior en `analitica/web_antes/` (se puede borrar cuando el nuevo convenza).
+- Probado en el navegador con los datos reales (escritorio y móvil, sin errores de JavaScript). **Sin probar:** los botones que ejecutan Python (subir de verdad, actualizar, autorizar YouTube, pegar token) para no tocar la base de datos.
+
+## Metricool (14 nov 2026)
+- `importar_metricool.py` + tarjeta en Conexiones: Claude trae TikTok e Instagram de Metricool y solo rellena huecos. Detalle en [[Publicar y conectar con Metricool]].
 
 ## Notas técnicas
 - **Código común (24 oct 2026):** todo lo compartido vive en `web/comun.php` (`h`, `n`, `num`, `aNum`, `abrirDb`, `cabecera` con el menú, `manejarSubida`, `cargarRed`, `pintarBloques`, `pintarTablas`) y `web/comun.js` (tablas `table.ord`, `col()`, `graficosSerie`). Para añadir una pestaña al menú se cambia solo `cabecera()`. Si se crea otra red con CSV, basta con tablas `<red>_serie/_archivo/_fila` y un `importar_<red>.py`.

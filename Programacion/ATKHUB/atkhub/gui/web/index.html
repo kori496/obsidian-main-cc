@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="atkhub-token" content="__TOKEN__">
+  <title>ATKHUB</title>
+  <link rel="icon" href="icono.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="lateral">
+      <div class="marca">
+        <div class="marca-logo">A</div>
+        <div class="marca-texto">ATK<span>HUB</span></div>
+      </div>
+      <div class="titulo-seccion">Dispositivos</div>
+      <nav id="lista-disp"></nav>
+      <div class="lateral-pie"><span id="version"></span></div>
+    </aside>
+
+    <main class="principal">
+      <header class="cabecera">
+        <div>
+          <h1 id="titulo">ATKHUB</h1>
+          <div class="sub" id="subtitulo"></div>
+        </div>
+        <div class="cab-der">
+          <div class="bateria" id="bateria" hidden>
+            <div class="bateria-barra"><i></i></div><b></b><span></span>
+          </div>
+        </div>
+      </header>
+      <div id="pestanas"></div>
+      <div class="contenido" id="contenido"></div>
+    </main>
+
+    <footer class="barra">
+      <div class="barra-estado"><span class="punto" id="estado-punto"></span><span id="estado-texto">Cargando…</span></div>
+      <div class="barra-centro" id="barra-centro"></div>
+      <div class="barra-der">
+        <button class="boton" id="revertir" disabled>Revertir</button>
+        <button class="boton primario" id="guardar" disabled>Guardar</button>
+      </div>
+    </footer>
+  </div>
+  <div class="avisos" aria-live="polite"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
